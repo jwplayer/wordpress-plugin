@@ -204,7 +204,7 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 	if ( $timeout > 0 ) {
 		$api_secret = get_option( 'jwplayer_api_secret' );
 		$expires = time() + 60 * $timeout;
-		$signature = md5( $path . ':' . $expires . ':' . $api_secret );
+		$signature = md5( "jw6/$media_hash.xml:" . $expires . ':' . $api_secret );
 		$xml = "$xml?exp=$expires&sig=$signature";
 	}
 
