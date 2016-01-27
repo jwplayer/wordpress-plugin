@@ -161,7 +161,9 @@ function jwplayer_media_page() {
 	?>
 	<form class="media-upload-form type-form validate" id="video-form" enctype="multipart/form-data" method="post"
 				action="">
-		<h3 class="media-title jwplayer-media-title">Embed videos from JW Player</h3>
+		<h3 class="media-title jwplayer-media-title">
+			Choose a <strong>player</strong> and a <strong>video</strong>
+		</h3>
 
 		<div class="media-items">
 			<div id="jwplayer-video-box" class="media-item">
@@ -190,7 +192,7 @@ function jwplayer_media_add_video_box() {
 // The body of the widget
 function jwplayer_media_widget_body() {
 	?>
-	<div class="jwplayer-widget-div">
+	<div class="jwplayer-widget-div" id="jwplayer-player-div">
 		<h4>Player</h4>
 		<div>
 			<input type="hidden" name="_wpnonce-widget" value="<?php echo esc_attr( wp_create_nonce( 'jwplayer-widget-nonce' ) ); ?>">
@@ -199,8 +201,9 @@ function jwplayer_media_widget_body() {
 			</select>
 		</div>
 	</div>
-	<div class="jwplayer-widget-div">
+	<div class="jwplayer-widget-div" id="jwplayer-video-div">
 		<h4>Video</h4>
+		<p id="jwplayer-account-login-link">Add content to your <a href="<?php echo JWPLAYER_DASHBOARD; ?>" title="open your dashboard">JW Player Account</a>
 		<ul class="jwplayer-tab-select">
 			<li id="jwplayer-tab-select-choose">Choose</li>
 			<li id="jwplayer-tab-select-add" class="jwplayer-off">Add New</li>
@@ -221,24 +224,6 @@ function jwplayer_media_widget_body() {
 				<a class="jwplayer-button button-primary" id="jwplayer-button-url">url</a>
 			</div>
 		</div>
-	</div>
-	<?php
-}
-
-// The body of the widget
-function jwplayer_media_widget_body_old() {
-	?>
-	<div id="jwplayer-list-wrapper">
-		<input type="text" value="" placeholder="Search for videos or with 'pl:' for playlists" id="jwplayer-search-box"/>
-		<ul id="jwplayer-video-list"></ul>
-	</div>
-	<select id="jwplayer-player-select">
-		<option value="">Default Player</option>
-	</select>
-	<div class="jwplayer-addmedia-links">
-		<a id="jwplayer-upload-link" href="#">Upload media directly</a> or
-		<a id="jwplayer-addmedia-link" href="#">add the url</a> of your self-hosted media.
-		<input type="hidden" name="_wpnonce-widget" value="<?php echo esc_attr( wp_create_nonce( 'jwplayer-widget-nonce' ) ); ?>">
 	</div>
 	<?php
 }

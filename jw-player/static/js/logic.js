@@ -20,6 +20,8 @@
 		search_timer_id:null,
 		thumb_timer_id:null,
 
+		use_button_html: '<p class="button-primary"><span class="jwplayer-narrow">Use</span><span class="jwplayer-wide">Click to use this video</span></p>',
+
 		// File extensions.
 		accepted_extensions: {
 			'aac': ['aac','m4a','f4a'],
@@ -113,12 +115,12 @@
 			// Create the list item
 			var elt = $( '<li>' ).attr( 'id', 'jwplayer-video-' + video.key );
 			elt.addClass( css_class );
-			elt.css( 'background-image', 'url(' + thumb_url + ')' );
-			elt.html(video.title + '<span class="button-primary">Use</span>');
+			elt.html( '<div>' + video.title + jwplayer.use_button_html + '</div>' );
+			$( 'div', elt ).css( 'background-image', 'url(' + thumb_url + ')' );
 
 			if( make_quicktag ){
 				// If we can embed, add the functionality to the item
-				$('span.button-primary', elt).click( make_quicktag );
+				$( 'span.button-primary', elt ).click( make_quicktag );
 			}
 
 			return elt;
@@ -137,12 +139,12 @@
 			// Create the list item
 			var elt = $( '<li>' ).attr( 'id', 'jwplayer-channel-' + channel.key );
 			elt.addClass( css_class );
-			elt.css( 'background-image', 'url(' + thumb_url + ')' );
-			elt.html(channel.title + ' <em>(playlist)</em><span class="button-primary">Use</span>');
+			elt.html( '<div>' + channel.title + ' <em>(playlist)</em>' + jwplayer.use_button_html + '</div>' );
+			$( 'div', elt ).css( 'background-image', 'url(' + thumb_url + ')' );
 
 			if( make_quicktag ){
 				// If we can embed, add the functionality to the item
-				$('span.button-primary', elt).click( make_quicktag );
+				$( 'span.button-primary', elt ).click( make_quicktag );
 			}
 
 			return elt;
