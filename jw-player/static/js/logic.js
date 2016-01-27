@@ -120,7 +120,7 @@
 
 			if( make_quicktag ){
 				// If we can embed, add the functionality to the item
-				$( 'span.button-primary', elt ).click( make_quicktag );
+				$( 'p.button-primary', elt ).click( make_quicktag );
 			}
 
 			return elt;
@@ -144,7 +144,7 @@
 
 			if( make_quicktag ){
 				// If we can embed, add the functionality to the item
-				$( 'span.button-primary', elt ).click( make_quicktag );
+				$( 'p.button-primary', elt ).click( make_quicktag );
 			}
 
 			return elt;
