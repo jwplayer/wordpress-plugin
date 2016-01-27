@@ -8,14 +8,14 @@ div.jwplayer-dimmer {
 	padding: 0;
 	background: #444;
 	z-index: 999998;
-	opacity: .2;
+	opacity: .33;
 }
 
 .jwplayer-error {
 	color: red;
 }
 
-h3.jwplayer-media-title {
+/*h3.jwplayer-media-title {
 	padding: 0 15px;
 }
 
@@ -30,18 +30,6 @@ h3.jwplayer-media-title {
 #media-upload #jwplayer-video-box #jwplayer-list-wrapper {
 	padding: 15px;
 	max-width: 500px;
-}
-
-#jwplayer-search-box {
-	width: 99%;
-	margin-bottom: 5px;
-	color: lightgray;
-	background: url('../img/search.png') no-repeat right center;
-	padding-right: 20px;
-}
-
-#jwplayer-search-box:focus {
-	color: black;
 }
 
 #jwplayer-video-list {
@@ -84,34 +72,10 @@ h3.jwplayer-media-title {
 	padding-right: 7px;
 }
 
-#jwplayer-video-list button {
-	float: right;
-	margin: 2px;
-}
-
-#jwplayer-player-select {
-	width: 100%;
-}
-
-#media-upload #jwplayer-player-select {
-	max-width: 500px;
-	margin: 0 15px;
-}
-
-#jwplayer-upload-button {
-	margin: 11px;
-}
+*/
 
 .jwplayer-busy * {
 	cursor: wait;
-}
-
-div.jwplayer-addmedia-links {
-	padding: 10px 2px;
-}
-
-#media-upload div.jwplayer-addmedia-links {
-	padding: 10px 15px;
 }
 
 .jwplayer-upload-window {
@@ -206,4 +170,135 @@ div.jwplayer-addmedia-links {
 table.compat-attachment-fields tr.compat-field-jwplayer_media_sync th.label {
 	vertical-align: top;
 	padding-top: 1px;
+}
+
+
+/* Widget */
+div.jwplayer-widget-div {
+	margin: 10px 0;
+}
+
+div.jwplayer-widget-div h4 {
+	font-size: 105%;
+	padding: 0;
+	margin: 8px 0;
+}
+
+select#jwplayer-player-select {
+	width: 100%;
+}
+
+ul.jwplayer-tab-select {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+ul.jwplayer-tab-select li {
+	display: inline-block;
+	padding: 5px 8px 6px 8px;
+	margin-bottom: 0;
+	border: solid 1px #dedede;
+	border-bottom: none;
+	background: #f5f5f5;
+}
+
+ul.jwplayer-tab-select li.jwplayer-off {
+	background: #ebebeb;
+	border: solid 1px #dedede;
+	padding: 5px 8px;
+}
+
+ul.jwplayer-tab-select  li.jwplayer-off:hover {
+	cursor: pointer;
+	background: #dedede;
+}
+
+div.jwplayer-tab {
+	margin: 0;
+	padding: 0;
+	margin-top: -1px;
+	border: solid 1px #dedede;
+}
+
+div#jwplayer-tab-choose {
+	background: #fff;
+}
+
+div#jwplayer-tab-add {
+	background: #f5f5f5;
+}
+
+div.jwplayer-tab.jwplayer-off {
+	display: none;
+}
+
+div.jwplayer-tab div.jwplayer-tab-search {
+	margin: 0;
+	padding: 8px;
+	background: #f5f5f5;
+	border-bottom: solid 1px #dedede;
+}
+
+div.jwplayer-tab div.jwplayer-tab-search input {
+	width: 99%;
+	background: #fff url('../img/search.png') no-repeat right center;
+	padding-right: 20px;
+}
+
+div.jwplayer-tab ul {
+	margin: 0;
+	padding: 8px;
+	background: #fff;
+}
+
+div.jwplayer-tab ul li {
+	background-position: left top;
+	background-repeat: no-repeat;
+	/*cursor: pointer;*/
+	display: block;
+	height: 24px;
+	margin-bottom: 1px;
+	padding: 6px 0 0 50px;
+	position: relative;
+}
+
+div.jwplayer-tab ul li.jwplayer-failed {
+	cursor: default;
+}
+
+div.jwplayer-tab ul li.jwplayer-odd {
+	background-color: #fff;
+}
+
+div.jwplayer-tab ul li.jwplayer-even {
+	background-color: #e9f2f8;
+}
+
+div.jwplayer-tab ul li span.button-primary {
+	display: none;
+	font-size: 11px;
+	height: 23px;
+	line-height: 21px;
+	position: absolute;
+	top: 3px;
+	right: 3px;
+}
+
+div.jwplayer-tab ul li:hover span.button-primary {
+	display: block;
+}
+
+
+div#jwplayer-tab-add p {
+	margin: 20px 30px;
+	padding: 0;
+	font-style: italic;
+	text-align: center;
+	color: #666;
+}
+
+div#jwplayer-tab-add div {
+	margin: 20px 30px;
+	text-align: center;
 }

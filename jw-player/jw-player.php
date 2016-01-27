@@ -4,7 +4,7 @@ Plugin Name: JW Player Plugin
 Plugin URI: http://www.jwplayer.com/
 Description: This plugin allows you to easily upload and embed videos using the JW Player. The embedded video links can be signed, making it harder for viewers to steal your content.
 Author: JW Player
-Version: 0.9.1 beta
+Version: 1.0.0
 */
 
 define( 'JWPLAYER_PLUGIN_DIR', dirname( __FILE__ ) );

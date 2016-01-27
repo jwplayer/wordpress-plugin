@@ -3,7 +3,7 @@ Contributors: LongTail Video
 Tags: jwplayer, jw, player, jwplatform, video, media, html5
 Requires at least: 4.3
 Tested up to: 4.4.1
-Stable tag: 0.9.1 beta
+Stable tag: 1.0.0
 License: GPLv3
 
 Upload and embed videos with your JW Player account to seamlessly integrate video into your Wordpress website.

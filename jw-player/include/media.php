@@ -190,6 +190,44 @@ function jwplayer_media_add_video_box() {
 // The body of the widget
 function jwplayer_media_widget_body() {
 	?>
+	<div class="jwplayer-widget-div">
+		<h4>Player</h4>
+		<div>
+			<input type="hidden" name="_wpnonce-widget" value="<?php echo esc_attr( wp_create_nonce( 'jwplayer-widget-nonce' ) ); ?>">
+			<select id="jwplayer-player-select">
+				<option value="">Default Player</option>
+			</select>
+		</div>
+	</div>
+	<div class="jwplayer-widget-div">
+		<h4>Video</h4>
+		<ul class="jwplayer-tab-select">
+			<li id="jwplayer-tab-select-choose">Choose</li>
+			<li id="jwplayer-tab-select-add" class="jwplayer-off">Add New</li>
+		</ul>
+		<div class="jwplayer-tab" id="jwplayer-tab-choose">
+			<div class="jwplayer-tab-search">
+				<input type="text" value="" placeholder="Search videos (use 'pl:' for playlists)" id="jwplayer-search-box"/>
+			</div>
+			<ul id="jwplayer-video-list"></ul>
+		</div>
+		<div class="jwplayer-tab jwplayer-off" id="jwplayer-tab-add">
+			<p>
+				Which type of content would you like to add?
+			</p>
+			<div>
+				<a class="jwplayer-button button-primary" id="jwplayer-button-upload">upload</a>
+				or
+				<a class="jwplayer-button button-primary" id="jwplayer-button-url">url</a>
+			</div>
+		</div>
+	</div>
+	<?php
+}
+
+// The body of the widget
+function jwplayer_media_widget_body_old() {
+	?>
 	<div id="jwplayer-list-wrapper">
 		<input type="text" value="" placeholder="Search for videos or with 'pl:' for playlists" id="jwplayer-search-box"/>
 		<ul id="jwplayer-video-list"></ul>

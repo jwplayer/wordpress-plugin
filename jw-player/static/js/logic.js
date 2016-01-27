@@ -97,7 +97,7 @@
 				}( video.key );
 			}
 			else if( video.status === 'processing' ){
-				thumb_url = encodeURI( jwplayer.plugin_url + '/static/img/processing-' + jwplayer.thumb_width + '.gif' );
+				thumb_url = encodeURI( jwplayer.plugin_url + '/../static/img/processing-' + jwplayer.thumb_width + '.gif' );
 				make_quicktag = function( video_key ){
 					return function(){
 						jwplayer.insert_quicktag( video_key );
@@ -106,7 +106,7 @@
 				css_class += ' jwplayer-processing';
 			}
 			else if( video.status === 'failed' ){
-				thumb_url = encodeURI( jwplayer.plugin_url + '/static/img/video-error-' + jwplayer.thumb_width + '.gif' );
+				thumb_url = encodeURI( jwplayer.plugin_url + '/../static/img/video-error-' + jwplayer.thumb_width + '.gif' );
 				make_quicktag = null;
 				css_class += ' jwplayer-failed';
 			}
@@ -114,11 +114,12 @@
 			var elt = $( '<li>' ).attr( 'id', 'jwplayer-video-' + video.key );
 			elt.addClass( css_class );
 			elt.css( 'background-image', 'url(' + thumb_url + ')' );
+			elt.html(video.title + '<span class="button-primary">Use</span>');
+
 			if( make_quicktag ){
 				// If we can embed, add the functionality to the item
-				elt.click( make_quicktag );
+				$('span.button-primary', elt).click( make_quicktag );
 			}
-			$( '<p>' ).text( video.title ).appendTo( elt );
 
 			return elt;
 		},
@@ -126,7 +127,7 @@
 		make_channel_list_item:function( channel ){
 			var thumb_url, js, make_quicktag;
 			var css_class = jwplayer.widgets.list.children().length % 2 ? 'jwplayer-odd' : 'jwplayer-even';
-			thumb_url = encodeURI( jwplayer.plugin_url + '/static/img/channel-' + jwplayer.thumb_width + '.png' );
+			thumb_url = encodeURI( jwplayer.plugin_url + '/../static/img/channel-' + jwplayer.thumb_width + '.png' );
 			make_quicktag = function( video_key ){
 				return function(){
 					jwplayer.insert_quicktag( video_key );
@@ -137,11 +138,12 @@
 			var elt = $( '<li>' ).attr( 'id', 'jwplayer-channel-' + channel.key );
 			elt.addClass( css_class );
 			elt.css( 'background-image', 'url(' + thumb_url + ')' );
+			elt.html(channel.title + ' <em>(playlist)</em><span class="button-primary">Use</span>');
+
 			if( make_quicktag ){
 				// If we can embed, add the functionality to the item
-				elt.click( make_quicktag );
+				$('span.button-primary', elt).click( make_quicktag );
 			}
-			$( '<p>' ).text( channel.title + ' ' ).append( $( '<em>' ).text( '(playlist)' ) ).appendTo( elt );
 
 			return elt;
 		},
@@ -205,7 +207,7 @@
 					}
 					else{
 						var msg = data ? 'API error: ' + data.message : 'No response from API.';
-						jwplayer.widgets.list.html( jwplayer.tag( 'p', msg ) );
+						jwplayer.widgets.list.html( jwplayer.tag( 'li', msg ) );
 					}
 
 					jwplayer.show_normal_cursor();
@@ -385,7 +387,7 @@
 										break;
 
 									case 'failed':
-										thumb_url = encodeURI( jwplayer.plugin_url + '/static/img/thumb-error-' + jwplayer.thumb_width + '.gif' );
+										thumb_url = encodeURI( jwplayer.plugin_url + '/../static/img/thumb-error-' + jwplayer.thumb_width + '.gif' );
 										break;
 
 									case 'not build':
@@ -731,9 +733,10 @@
 			box:$( '#jwplayer-video-box' ),
 			search:$( '#jwplayer-search-box' ),
 			list:$( '#jwplayer-video-list' ),
-			uploadlink:$( '#jwplayer-upload-link' ),
-			addmedialink:$( '#jwplayer-addmedia-link' ),
-			playerselect:$( '#jwplayer-player-select' )
+			uploadlink:$( '#jwplayer-button-upload' ),
+			addmedialink:$( '#jwplayer-button-url' ),
+			playerselect:$( '#jwplayer-player-select' ),
+			tabs:$( '.jwplayer-tab-select li' ),
 		};
 		// Check whether we are on the insert page or on the media page.
 		jwplayer.mediaPage = jwplayer.widgets.box.hasClass( 'media-item' );
@@ -776,6 +779,20 @@
 
 		jwplayer.widgets.search.blur( function(){
 			var query = $.trim( $( this ).val() );
+		} );
+
+		jwplayer.widgets.tabs.each( function () {
+			var tab = this;
+			$( tab ).click( function () {
+				if ( $( tab ).hasClass( 'jwplayer-off' ) ) {
+					jwplayer.widgets.tabs.each( function () {
+						$( '#' + this.id.replace( '-select', '' ) ).addClass( 'jwplayer-off' );
+						$( this ).addClass( 'jwplayer-off' );
+					});
+					$( tab ).removeClass( 'jwplayer-off' );
+					$( '#' + tab.id.replace( '-select', '' ) ).removeClass( 'jwplayer-off' );
+				}
+			} );
 		} );
 
 		jwplayer.widgets.uploadlink.click( jwplayer.open_upload_window );
