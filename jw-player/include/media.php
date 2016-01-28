@@ -203,7 +203,7 @@ function jwplayer_media_widget_body() {
 	</div>
 	<div class="jwplayer-widget-div" id="jwplayer-video-div">
 		<h4>Video</h4>
-		<p id="jwplayer-account-login-link">Add content to your <a href="<?php echo JWPLAYER_DASHBOARD; ?>" title="open your dashboard">JW Player Account</a>
+		<p id="jwplayer-account-login-link"><span>Choose content from</span> your <a href="<?php echo JWPLAYER_DASHBOARD; ?>" title="open your dashboard">JW Player Account</a>
 		<ul class="jwplayer-tab-select">
 			<li id="jwplayer-tab-select-choose">Choose</li>
 			<li id="jwplayer-tab-select-add" class="jwplayer-off">Add New</li>
@@ -212,7 +212,7 @@ function jwplayer_media_widget_body() {
 			<div class="jwplayer-tab-search">
 				<input type="text" value="" placeholder="Search videos (use 'pl:' for playlists)" id="jwplayer-search-box"/>
 			</div>
-			<ul id="jwplayer-video-list"></ul>
+			<ul id="jwplayer-video-list" class="jwplayer-loading"></ul>
 		</div>
 		<div class="jwplayer-tab jwplayer-off" id="jwplayer-tab-add">
 			<p>
@@ -220,7 +220,7 @@ function jwplayer_media_widget_body() {
 			</p>
 			<div>
 				<a class="jwplayer-button button-primary" id="jwplayer-button-upload">upload</a>
-				or
+				<span>or</span>
 				<a class="jwplayer-button button-primary" id="jwplayer-button-url">url</a>
 			</div>
 		</div>

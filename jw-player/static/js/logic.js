@@ -99,7 +99,7 @@
 				}( video.key );
 			}
 			else if( video.status === 'processing' ){
-				thumb_url = encodeURI( jwplayer.plugin_url + '/../static/img/processing-' + jwplayer.thumb_width + '.gif' );
+				thumb_url = encodeURI( jwplayer.plugin_url + '/../static/img/processing.gif' );
 				make_quicktag = function( video_key ){
 					return function(){
 						jwplayer.insert_quicktag( video_key );
@@ -191,6 +191,7 @@
 				data:params,
 				dataType:'json',
 				success:function( data ){
+					jwplayer.widgets.list.removeClass( 'jwplayer-loading' );
 					if( data && data.status === 'ok' ){
 						if( data.videos.length ){
 							for( var i = 0; i < data.videos.length; i += 1 ){
@@ -250,6 +251,7 @@
 				data:params,
 				dataType:'json',
 				success:function( data ){
+					jwplayer.widgets.list.removeClass( 'jwplayer-loading' );
 					if( data && data.status === 'ok' ){
 						if( data.channels.length ){
 							for( var i = 0; i < data.channels.length; i += 1 ){
@@ -264,7 +266,7 @@
 					}
 					else{
 						var msg = data ? 'API error: ' + data.message : 'No response from API.';
-						jwplayer.widgets.list.html( jwplayer.tag( 'p', msg ) );
+						jwplayer.widgets.list.html( jwplayer.tag( 'li', msg ) );
 					}
 
 					jwplayer.show_normal_cursor();
@@ -297,7 +299,7 @@
 				query = m[2];
 			}
 
-			jwplayer.widgets.list.empty();
+			jwplayer.widgets.list.empty().addClass( 'jwplayer-loading' );
 
 			var doDescribeEmpty = function(){
 				if( jwplayer.widgets.list.children().length === 0 ){
@@ -620,6 +622,7 @@
 							win.remove();
 							win.dim.remove();
 							jwplayer.list();
+							$( '#jwplayer-tab-select-choose' ).click();
 						};
 						win.find( '.jwplayer-message' ).text( 'Uploading...' ).show();
 						win.find( '.jwplayer-progress-bar' ).show();
@@ -713,7 +716,10 @@
 					if( data && data.status === 'ok' ){
 						// win.remove();
 						win.dim.close();
-						setTimeout( function () { jwplayer.list(); }, 1000 );
+						setTimeout( function () {
+							jwplayer.list();
+							$( '#jwplayer-tab-select-choose' ).click();
+						}, 1000 );
 					}
 					else{
 						var msg = data ? 'API error: ' + data.message : 'No response from API.';
@@ -784,15 +790,19 @@
 		} );
 
 		jwplayer.widgets.tabs.each( function () {
-			var tab = this;
+			var tab, id, accountText;
+			tab = this;
 			$( tab ).click( function () {
 				if ( $( tab ).hasClass( 'jwplayer-off' ) ) {
 					jwplayer.widgets.tabs.each( function () {
 						$( '#' + this.id.replace( '-select', '' ) ).addClass( 'jwplayer-off' );
 						$( this ).addClass( 'jwplayer-off' );
 					});
+					id = tab.id.replace( '-select', '' );
 					$( tab ).removeClass( 'jwplayer-off' );
-					$( '#' + tab.id.replace( '-select', '' ) ).removeClass( 'jwplayer-off' );
+					$( '#' + id ).removeClass( 'jwplayer-off' );
+					accountText = ( 'jwplayer-tab-add' == id ) ? 'Add content to' : 'Choose content from';
+					$( '#jwplayer-account-login-link span' ).text(accountText);
 				}
 			} );
 		} );

@@ -197,8 +197,11 @@ div.jwplayer-tab ul {
 	margin: 0;
 	padding: 5px;
 	background: #fff;
+}
+
+div.jwplayer-tab ul.jwplayer-loading {
 	min-height: 30px;
-	background: transparent url('../img/processing-40.gif') no-repeat center center;
+	background: transparent url('../img/loading.gif') no-repeat center center;
 }
 
 div.jwplayer-tab ul li {
@@ -263,6 +266,11 @@ div#jwplayer-tab-add div {
 	margin: 20px 30px;
 	text-align: center;
 }
+
+div#jwplayer-tab-add div span {
+	margin: 0 5px;
+}
+
 
 /* Media Library widget */
 
