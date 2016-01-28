@@ -3,7 +3,7 @@ Contributors: LongTail Video
 Tags: jwplayer, jw, player, jwplatform, video, media, html5
 Requires at least: 4.3
 Tested up to: 4.4.1
-Stable tag: 0.10.0 beta
+Stable tag: 0.10.1 beta
 License: GPLv3
 
 Upload and embed videos with your JW Player account to seamlessly integrate video into your Wordpress website.
@@ -62,7 +62,9 @@ This plugin is open source and we strongly encourage users to contribute to the 
 
 == Screenshots ==
 
-1. Overview of available plugin settings.
+1. Insert media from your JW Player Account via the media library overlay or ...
+2. ... use the sidebar widget.
+2. You can enable the sidebar widget and edit other settings on the plugin's settings page.
 
 
 == Frequently Asked Questions ==
@@ -90,6 +92,11 @@ We're sorry that you've found an issue. Could you [report the issue in the plugi
 That's great. Tell us about it and open a pull request on [our GitHub mirror of the plugin](https://github.com/jwplayer/wordpress-plugin/).
 
 == Changelog ==
+
+= 0.10.1 beta =
+
+* Issue: Fixed overflow of long video titles.
+* Update: Added new screenshots
 
 = 0.10.0 beta =
 

@@ -216,9 +216,12 @@ div.jwplayer-tab ul li div {
 	background-repeat: no-repeat;
 	background-image: url( '../img/no-thumb.jpg' );
 	display: block;
-	height: 24px;
-	padding: 6px 0 0 50px;
+	height: 18px;
+	padding: 6px 8px 6px 50px;
 	position: relative;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 div.jwplayer-tab ul li.jwplayer-failed {
@@ -246,6 +249,11 @@ div.jwplayer-tab ul li p.button-primary {
 div.jwplayer-tab ul li:hover {
 	border: solid 2px #0085ba;
 }
+
+div.jwplayer-tab ul li:hover div {
+	padding: 6px 50px 6px 50px;
+}
+
 div.jwplayer-tab ul li:hover p.button-primary {
 	display: block;
 }
@@ -315,6 +323,10 @@ div.media-items p#jwplayer-account-login-link {
   font-size: 12px;
   color: #666;
   font-style: italic;
+}
+
+div.media-items div.jwplayer-tab ul li:hover div {
+	padding: 6px 140px 6px 50px;
 }
 
 div.media-items div.jwplayer-tab ul li p.button-primary span.jwplayer-wide {
