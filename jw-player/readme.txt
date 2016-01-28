@@ -102,6 +102,10 @@ That's great. Tell us about it and open a pull request on [our GitHub mirror of 
 
 * Feature: Improved and redesigned media selection widgets.
 
+= 0.9.2 beta =
+
+* Issue: Fixed bug with an undefined constant
+
 = 0.9.1 beta =
 
 * Issue: Fixed bug with content signing
