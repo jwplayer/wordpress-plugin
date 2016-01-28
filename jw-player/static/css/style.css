@@ -214,7 +214,7 @@ div.jwplayer-tab ul li {
 div.jwplayer-tab ul li div {
 	background-position: left top;
 	background-repeat: no-repeat;
-	/*cursor: pointer;*/
+	background-image: url( '../img/no-thumb.jpg' );
 	display: block;
 	height: 24px;
 	padding: 6px 0 0 50px;

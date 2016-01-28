@@ -404,7 +404,7 @@
 
 								if( thumb_url ){
 									item.removeClass( 'jwplayer-processing' );
-									item.css( 'background-image', 'url(' + thumb_url + ')' );
+									$( 'div', item ).css( 'background-image', 'url(' + thumb_url + ')' );
 								}
 							}
 						},
