@@ -20,6 +20,8 @@
 		search_timer_id:null,
 		thumb_timer_id:null,
 
+		use_button_html: '<p class="button-primary"><span class="jwplayer-narrow">Use</span><span class="jwplayer-wide">Click to use this video</span></p>',
+
 		// File extensions.
 		accepted_extensions: {
 			'aac': ['aac','m4a','f4a'],
@@ -97,7 +99,7 @@
 				}( video.key );
 			}
 			else if( video.status === 'processing' ){
-				thumb_url = encodeURI( jwplayer.plugin_url + '/static/img/processing-' + jwplayer.thumb_width + '.gif' );
+				thumb_url = encodeURI( jwplayer.plugin_url + '/../static/img/processing.gif' );
 				make_quicktag = function( video_key ){
 					return function(){
 						jwplayer.insert_quicktag( video_key );
@@ -106,19 +108,20 @@
 				css_class += ' jwplayer-processing';
 			}
 			else if( video.status === 'failed' ){
-				thumb_url = encodeURI( jwplayer.plugin_url + '/static/img/video-error-' + jwplayer.thumb_width + '.gif' );
+				thumb_url = encodeURI( jwplayer.plugin_url + '/../static/img/video-error-' + jwplayer.thumb_width + '.gif' );
 				make_quicktag = null;
 				css_class += ' jwplayer-failed';
 			}
 			// Create the list item
 			var elt = $( '<li>' ).attr( 'id', 'jwplayer-video-' + video.key );
 			elt.addClass( css_class );
-			elt.css( 'background-image', 'url(' + thumb_url + ')' );
+			elt.html( '<div>' + video.title + jwplayer.use_button_html + '</div>' );
+			$( 'div', elt ).css( 'background-image', 'url(' + thumb_url + ')' );
+
 			if( make_quicktag ){
 				// If we can embed, add the functionality to the item
-				elt.click( make_quicktag );
+				$( 'p.button-primary', elt ).click( make_quicktag );
 			}
-			$( '<p>' ).text( video.title ).appendTo( elt );
 
 			return elt;
 		},
@@ -126,7 +129,7 @@
 		make_channel_list_item:function( channel ){
 			var thumb_url, js, make_quicktag;
 			var css_class = jwplayer.widgets.list.children().length % 2 ? 'jwplayer-odd' : 'jwplayer-even';
-			thumb_url = encodeURI( jwplayer.plugin_url + '/static/img/channel-' + jwplayer.thumb_width + '.png' );
+			thumb_url = encodeURI( jwplayer.plugin_url + '/../static/img/channel-' + jwplayer.thumb_width + '.png' );
 			make_quicktag = function( video_key ){
 				return function(){
 					jwplayer.insert_quicktag( video_key );
@@ -136,12 +139,13 @@
 			// Create the list item
 			var elt = $( '<li>' ).attr( 'id', 'jwplayer-channel-' + channel.key );
 			elt.addClass( css_class );
-			elt.css( 'background-image', 'url(' + thumb_url + ')' );
+			elt.html( '<div>' + channel.title + ' <em>(playlist)</em>' + jwplayer.use_button_html + '</div>' );
+			$( 'div', elt ).css( 'background-image', 'url(' + thumb_url + ')' );
+
 			if( make_quicktag ){
 				// If we can embed, add the functionality to the item
-				elt.click( make_quicktag );
+				$( 'p.button-primary', elt ).click( make_quicktag );
 			}
-			$( '<p>' ).text( channel.title + ' ' ).append( $( '<em>' ).text( '(playlist)' ) ).appendTo( elt );
 
 			return elt;
 		},
@@ -187,6 +191,7 @@
 				data:params,
 				dataType:'json',
 				success:function( data ){
+					jwplayer.widgets.list.removeClass( 'jwplayer-loading' );
 					if( data && data.status === 'ok' ){
 						if( data.videos.length ){
 							for( var i = 0; i < data.videos.length; i += 1 ){
@@ -205,7 +210,7 @@
 					}
 					else{
 						var msg = data ? 'API error: ' + data.message : 'No response from API.';
-						jwplayer.widgets.list.html( jwplayer.tag( 'p', msg ) );
+						jwplayer.widgets.list.html( jwplayer.tag( 'li', msg ) );
 					}
 
 					jwplayer.show_normal_cursor();
@@ -246,6 +251,7 @@
 				data:params,
 				dataType:'json',
 				success:function( data ){
+					jwplayer.widgets.list.removeClass( 'jwplayer-loading' );
 					if( data && data.status === 'ok' ){
 						if( data.channels.length ){
 							for( var i = 0; i < data.channels.length; i += 1 ){
@@ -260,7 +266,7 @@
 					}
 					else{
 						var msg = data ? 'API error: ' + data.message : 'No response from API.';
-						jwplayer.widgets.list.html( jwplayer.tag( 'p', msg ) );
+						jwplayer.widgets.list.html( jwplayer.tag( 'li', msg ) );
 					}
 
 					jwplayer.show_normal_cursor();
@@ -293,7 +299,7 @@
 				query = m[2];
 			}
 
-			jwplayer.widgets.list.empty();
+			jwplayer.widgets.list.empty().addClass( 'jwplayer-loading' );
 
 			var doDescribeEmpty = function(){
 				if( jwplayer.widgets.list.children().length === 0 ){
@@ -385,7 +391,7 @@
 										break;
 
 									case 'failed':
-										thumb_url = encodeURI( jwplayer.plugin_url + '/static/img/thumb-error-' + jwplayer.thumb_width + '.gif' );
+										thumb_url = encodeURI( jwplayer.plugin_url + '/../static/img/thumb-error-' + jwplayer.thumb_width + '.gif' );
 										break;
 
 									case 'not build':
@@ -398,7 +404,7 @@
 
 								if( thumb_url ){
 									item.removeClass( 'jwplayer-processing' );
-									item.css( 'background-image', 'url(' + thumb_url + ')' );
+									$( 'div', item ).css( 'background-image', 'url(' + thumb_url + ')' );
 								}
 							}
 						},
@@ -616,6 +622,7 @@
 							win.remove();
 							win.dim.remove();
 							jwplayer.list();
+							$( '#jwplayer-tab-select-choose' ).click();
 						};
 						win.find( '.jwplayer-message' ).text( 'Uploading...' ).show();
 						win.find( '.jwplayer-progress-bar' ).show();
@@ -709,7 +716,10 @@
 					if( data && data.status === 'ok' ){
 						// win.remove();
 						win.dim.close();
-						setTimeout( function () { jwplayer.list(); }, 1000 );
+						setTimeout( function () {
+							jwplayer.list();
+							$( '#jwplayer-tab-select-choose' ).click();
+						}, 1000 );
 					}
 					else{
 						var msg = data ? 'API error: ' + data.message : 'No response from API.';
@@ -731,9 +741,10 @@
 			box:$( '#jwplayer-video-box' ),
 			search:$( '#jwplayer-search-box' ),
 			list:$( '#jwplayer-video-list' ),
-			uploadlink:$( '#jwplayer-upload-link' ),
-			addmedialink:$( '#jwplayer-addmedia-link' ),
-			playerselect:$( '#jwplayer-player-select' )
+			uploadlink:$( '#jwplayer-button-upload' ),
+			addmedialink:$( '#jwplayer-button-url' ),
+			playerselect:$( '#jwplayer-player-select' ),
+			tabs:$( '.jwplayer-tab-select li' ),
 		};
 		// Check whether we are on the insert page or on the media page.
 		jwplayer.mediaPage = jwplayer.widgets.box.hasClass( 'media-item' );
@@ -776,6 +787,24 @@
 
 		jwplayer.widgets.search.blur( function(){
 			var query = $.trim( $( this ).val() );
+		} );
+
+		jwplayer.widgets.tabs.each( function () {
+			var tab, id, accountText;
+			tab = this;
+			$( tab ).click( function () {
+				if ( $( tab ).hasClass( 'jwplayer-off' ) ) {
+					jwplayer.widgets.tabs.each( function () {
+						$( '#' + this.id.replace( '-select', '' ) ).addClass( 'jwplayer-off' );
+						$( this ).addClass( 'jwplayer-off' );
+					});
+					id = tab.id.replace( '-select', '' );
+					$( tab ).removeClass( 'jwplayer-off' );
+					$( '#' + id ).removeClass( 'jwplayer-off' );
+					accountText = ( 'jwplayer-tab-add' == id ) ? 'Add content to' : 'Choose content from';
+					$( '#jwplayer-account-login-link span' ).text(accountText);
+				}
+			} );
 		} );
 
 		jwplayer.widgets.uploadlink.click( jwplayer.open_upload_window );
