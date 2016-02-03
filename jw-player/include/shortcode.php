@@ -35,15 +35,15 @@ function jwplayer_shortcode_handle( $atts ) {
 	}
 }
 
-function jwplayer_shortcode_content_filter( $content = "" ) {
+function jwplayer_shortcode_content_filter( $content = '' ) {
 	return jwplayer_shortcode_filter( 'content', $content );
 }
 
-function jwplayer_shortcode_excerpt_filter( $content = "" ) {
+function jwplayer_shortcode_excerpt_filter( $content = '' ) {
 	return jwplayer_shortcode_filter( 'excerpt', $content );
 }
 
-function jwplayer_shortcode_filter( $filter_type = "content", $content = "" ) {
+function jwplayer_shortcode_filter( $filter_type = 'content', $content = '' ) {
 	$option_name = false;
 	if ( is_archive() ) {
 		$option_name = 'jwplayer_shortcode_category_filter';
@@ -56,7 +56,7 @@ function jwplayer_shortcode_filter( $filter_type = "content", $content = "" ) {
 	}
 	if ( $option_name ) {
 		$action = get_option( $option_name );
-	} elseif ( "content" === $filter_type ) {
+	} elseif ( 'content' === $filter_type ) {
 		$action = $filter_type;
 	}
 	$tag_regex = '/(.?)\[(jwplayer|jwplatform)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s';
@@ -69,7 +69,7 @@ function jwplayer_shortcode_filter( $filter_type = "content", $content = "" ) {
 }
 
 function jwplayer_shortcode_parser( $matches ) {
-	if ( "[" === $matches[1] && "]" === $matches[6] ) {
+	if ( '[' === $matches[1] && ']' === $matches[6] ) {
 		return substr( $matches[0], 1, -1 );
 	}
 	$param_regex = '/([\w.]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w.]+)\s*=\s*\'([^\']*)\'(?:\s|$)|([\w.]+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
@@ -97,7 +97,7 @@ function jwplayer_shortcode_parser( $matches ) {
 }
 
 function jwplayer_shortcode_stripper( $matches ) {
-	if ( "[" === $matches[1] && "]" === $matches[6] ) {
+	if ( '[' === $matches[1] && ']' === $matches[6] ) {
 		return substr( $matches[0], 1, -1 );
 	}
 	return $matches[1] . $matches[6];
@@ -117,11 +117,11 @@ function jwplayer_shortcode_handle_legacy( $atts ) {
 		}
 		unset( $atts['mediaid'] );
 		// };
-	} elseif ( isset ( $atts['file'] ) ) {
-		$title = ( isset ( $atts['title'] ) ) ? $atts['title'] : null;
+	} elseif ( isset( $atts['file'] ) ) {
+		$title = ( isset( $atts['title'] ) ) ? $atts['title'] : null;
 		$hash = jwplayer_media_legacy_external_source( $atts['file'], $title );
 		unset( $atts['file'] );
-	} elseif ( isset ( $atts['playlistid'] ) ) {
+	} elseif ( isset( $atts['playlistid'] ) ) {
 		$imported_playlists = get_option( 'jwplayer_imported_playlists' );
 		if ( $imported_playlists && array_key_exists( $atts['playlistid'], $imported_playlists ) ) {
 			$hash = $imported_playlists[ $atts['playlistid'] ];
@@ -130,7 +130,7 @@ function jwplayer_shortcode_handle_legacy( $atts ) {
 	}
 	// Try to get player
 	$player_hash = null;
-	if ( isset ( $atts['player'] ) ) {
+	if ( isset( $atts['player'] ) ) {
 		$imported_players = get_option( 'jwplayer_imported_players' );
 		if ( $imported_players && array_key_exists( $atts['player'], $imported_players ) ) {
 			$player_hash = $imported_players[ $atts['player'] ];
@@ -150,32 +150,33 @@ function jwplayer_shortcode_filter_player_params( $atts ) {
 		'true'  => true,
 		'false' => false,
 		'NULL'  => null,
-		'null'  => null
+		'null'  => null,
 	);
-	foreach ($atts as $param => $value) {
+
+	foreach ( $atts as $param => $value ) {
 		if ( is_numeric( $param ) ) {
 			continue;
 		}
 		if ( in_array( $param, $strip ) ) {
 			continue;
 		}
-		$value = ( array_key_exists( strval( $value ), $translate ) ) ? $translate[$value] : $value;
-		if ( strpos($param, '__') ) {
-			$parts = explode( '__', $param);
-			$last_part = end($parts);
+		$value = ( array_key_exists( strval( $value ), $translate ) ) ? $translate[ $value ] : $value;
+		if ( strpos( $param, '__' ) ) {
+			$parts = explode( '__', $param );
+			$last_part = end( $parts );
 			$a = &$params;
 			foreach ( $parts as $part ) {
 				if ( $part === $last_part ) {
-					$a[$part] = $value;
+					$a[ $part ] = $value;
 				} else {
 					if ( ! array_key_exists( $part, $a ) ) {
-						$a[$part] = array();
+						$a[ $part ] = array();
 					}
-					$a = &$a[$part];
+					$a = &$a[ $part ];
 				}
 			}
 		} else {
-			$params[$param] = $value;
+			$params[ $param ] = $value;
 		}
 	}
 	return $params;
@@ -208,25 +209,25 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 		$xml = "$xml?exp=$expires&sig=$signature";
 	}
 
-	$params = jwplayer_shortcode_filter_player_params($params);
+	$params = jwplayer_shortcode_filter_player_params( $params );
 	if ( count( $params ) ) {
 		// Support for player tracks.
-		foreach (array( 'sources', 'tracks') as $option) {
-			if ( isset($params[$option]) ) {
-				$json = '[' . $params[$option] . ']';
-				$obj = json_decode(preg_replace( '/[{, ]{1}(\w+):/i', '"\1":', $json));
+		foreach ( array( 'sources', 'tracks' ) as $option ) {
+			if ( isset( $params[ $option ] ) ) {
+				$json = '[' . $params[ $option ] . ']';
+				$obj = json_decode( preg_replace( '/[{, ]{1}(\w+):/i', '"\1":', $json ) );
 				if ( null === $obj ) {
-					$json = str_replace(array( '"',  "'"), array( '\"', '"'), $json);
-					$obj = json_decode(preg_replace( '/[{, ]{1}(\w+):/i', '"\1":', $json));
+					$json = str_replace( array( '"',  "'" ), array( '\"', '"' ), $json );
+					$obj = json_decode( preg_replace( '/[{, ]{1}(\w+):/i', '"\1":', $json ) );
 				}
-				$params[$option] = $obj;
+				$params[ $option ] = $obj;
 			}
 		}
 	}
-	if ( ! isset ( $params['source'] ) ) {
+	if ( ! isset( $params['source'] ) ) {
 		$params['playlist'] = $xml;
 	}
-	$paramstring = json_encode($params);
+	$paramstring = json_encode( $params );
 	foreach (  array( '&amp;' => '&', '&#038;' => '&', '\/' => '/' ) as $from => $to ) {
 		$paramstring = str_replace($from, $to, $paramstring);
 	}

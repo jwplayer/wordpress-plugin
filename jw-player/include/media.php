@@ -40,7 +40,7 @@ function jwplayer_media_sync_form_html( $media ) {
 	} else {
 		$html .= "<label for='attachments[$media->ID][jwplayer_media_sync]'>";
 		$html .= "<input type='checkbox' value='sync' name='attachments[$media->ID][jwplayer_media_sync]' />";
-		$html .= "&nbsp;&nbsp;Sync to JW Player";
+		$html .= '&nbsp;&nbsp;Sync to JW Player';
 		$html .= '</label>';
 		$html .= '<p class="description">';
 		$html .= 'Enabling sync to JW Player adds this media file to your JW Player ';

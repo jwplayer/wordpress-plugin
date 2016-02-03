@@ -43,11 +43,11 @@ function jwplayer_login_page() {
 		}
 	}
 
-	if ( isset($_POST['apikey']) ) {
+	if ( isset( $_POST['apikey'] ) ) {
 		$api_key = sanitize_text_field( $_POST['apikey'] );//input var okay
 	}
 
-	if ( isset($_POST['apisecret']) ) {
+	if ( isset( $_POST['apisecret'] ) ) {
 		$api_secret = sanitize_text_field( $_POST['apisecret'] );//input var okay
 	}
 

@@ -186,10 +186,10 @@ function jwplayer_import_playlists_check( $input ) {
 
 function jwplayer_import_legacy_playlists() {
 	$query_params = array(
-		"post_type" => 'jw_playlist',
-		"post_status" => null,
-		"post_parent" => null,
-		"nopaging" => true,
+		'post_type' => 'jw_playlist',
+		'post_status' => null,
+		'post_parent' => null,
+		'nopaging' => true
 	);
 	return query_posts( $query_params );
 }
@@ -202,7 +202,7 @@ function jwplayer_import_skin_list() {
 	$skins = array();
 	$response = jwplayer_api_call( '/accounts/skins/list', $params );
 	if ( jwplayer_api_response_ok( $response ) ) {
-		foreach ($response['skins'] as $skin) {
+		foreach ( $response['skins'] as $skin ) {
 			$skins[ strtolower( $skin['name'] ) ] = $skin['key'];
 		}
 	}
@@ -266,7 +266,7 @@ function jwplayer_import_players() {
 		if ( $params['aspectratio'] ) {
 			$params['responsive'] = true;
 		} else {
-			unset ( $params['aspectratio'] );
+			unset( $params['aspectratio'] );
 		}
 		if ( $params['skin'] && array_key_exists( $params['skin'], $skins ) ) {
 			$params['skin_key'] = $skins[ $params['skin'] ];
@@ -280,8 +280,15 @@ function jwplayer_import_players() {
 			$params['advertising_tag'] = $params['advertising__tag'];
 		}
 		$delete_params = array(
-			'skin', 'logo__file', 'logo__link', 'logo__position', 'logo__margin',
-			'logo__hide', 'advertising__tag', 'advertising__client', 'description',
+			'skin',
+			'logo__file',
+			'logo__link',
+			'logo__position',
+			'logo__margin',
+			'logo__hide',
+			'advertising__tag',
+			'advertising__client',
+			'description',
 		);
 		foreach ( $delete_params as $delete_param ) {
 			unset( $params[ $delete_param ] );
