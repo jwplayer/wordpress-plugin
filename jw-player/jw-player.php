@@ -95,7 +95,7 @@ if ( 'wpvip' == $jwplayer_which_env ) {
 	if ( ! get_option( 'jwplayer_player' ) ) {
 			jwplayer_add_options();
 	}
-} else if ( 'wp' == $jwplayer_which_env ) {
+} elseif ( 'wp' == $jwplayer_which_env ) {
 	register_activation_hook( __FILE__, 'jwplayer_add_options' );
 }
 

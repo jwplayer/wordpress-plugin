@@ -6,21 +6,21 @@ function jwplayer_import_check_and_init() {
 		$nr_of_playlists = jwplayer_import_nr_of_playlists();
 		$botr_active = is_plugin_active( 'bits-on-the-run/bitsontherun.php' );
 		$jwp_active = is_plugin_active( 'jw-player-plugin-for-wordpress/jwplayermodule.php' );
-		$vip_active = false;  // is_plugin_active('????????');
+		$vip_active = false;  // is_plugin_active( '????????' );
 		if ( $nr_of_players || $nr_of_playlists ) {
 			add_action( 'admin_notices', 'jwplayer_import_legacy_notice' );
 			add_submenu_page( null, 'JW Player Legacy Plugin Import', 'JW Player Import', 'manage_options', 'jwplayer_import', 'jwplayer_import_page' );
 			// add_options_page( null, 'JW Player Import', 'JW Player Import', 'manage_options', 'jwplayer_import_page', 'jwplayer_import_page' );
 			add_settings_section( 'jwplayer_import_section', null, 'jwplayer_import_section_html', 'jwplayer_import' );
 			if ( $nr_of_players ) {
-				add_settings_field( 'jwplayer_import_include_players', 'Import Players', 'jwplayer_import_include_players', 'jwplayer_import', 'jwplayer_import_section');
+				add_settings_field( 'jwplayer_import_include_players', 'Import Players', 'jwplayer_import_include_players', 'jwplayer_import', 'jwplayer_import_section' );
 				register_setting( 'jwplayer_import', 'jwplayer_import_include_players', 'jwplayer_import_players_check' );
 			}
 			if ( $nr_of_playlists ) {
-				add_settings_field( 'jwplayer_import_include_playlists', 'Import Playlists', 'jwplayer_import_include_playlists', 'jwplayer_import', 'jwplayer_import_section');
+				add_settings_field( 'jwplayer_import_include_playlists', 'Import Playlists', 'jwplayer_import_include_playlists', 'jwplayer_import', 'jwplayer_import_section' );
 				register_setting( 'jwplayer_import', 'jwplayer_import_include_playlists', 'jwplayer_import_playlists_check' );
 			}
-		} else if ( $botr_active || $jwp_active || $vip_active ) {
+		} elseif ( $botr_active || $jwp_active || $vip_active ) {
 			add_action( 'admin_notices', 'jwplayer_import_disable_notice' );
 		} else {
 			delete_option( 'jwplayer_import_include_players' );
@@ -55,12 +55,12 @@ function jwplayer_import_disable_notice() {
 	$screen_info = get_current_screen();
 	if ( isset( $_GET['page'] ) && 'jwplayer_import' === sanitize_text_field( $_GET['page'] ) ) {
 		return;
-	} else if ( 'plugins' === $screen_info->id ) {
+	} elseif ( 'plugins' === $screen_info->id ) {
 		return;
 	} else {
-		$botr_active = is_plugin_active('bits-on-the-run/bitsontherun.php');
-		$jwp_active = is_plugin_active('jw-player-plugin-for-wordpress/jwplayermodule.php');
-		$vip_active = false;  // is_plugin_active('????????');
+		$botr_active = is_plugin_active( 'bits-on-the-run/bitsontherun.php' );
+		$jwp_active = is_plugin_active( 'jw-player-plugin-for-wordpress/jwplayermodule.php' );
+		$vip_active = false;  // is_plugin_active( '????????' );
 		$plugins_url = get_admin_url( null, 'plugins.php' );
 		echo '
 			<div class="update-nag fade">
@@ -72,11 +72,11 @@ function jwplayer_import_disable_notice() {
 					It looks like you have not deactivated the old JW Player and
 					the old JW Platform plugins yet.
 			";
-		} else if ( $botr_active ) {
+		} elseif ( $botr_active ) {
 			echo "
 					It looks like you have not deactivated the old JW Platform plugin yet.
 			";
-		} else if ( $jwp_active ) {
+		} elseif ( $jwp_active ) {
 			echo "
 					It looks like you have not deactivated the old JW Player plugin yet.
 			";
@@ -100,7 +100,7 @@ function jwplayer_import_page() {
 	echo '<form method="post" action="options.php">';
 	settings_fields( 'jwplayer_import' );
 	do_settings_sections( 'jwplayer_import' );
-	submit_button('Start Import');
+	submit_button( 'Start Import' );
 	echo '</form>';
 	echo '</div>';
 }
@@ -291,7 +291,7 @@ function jwplayer_import_players() {
 		if ( jwplayer_api_response_ok( $response ) ) {
 			$imported_players[ $player_id ] = $response['player']['key'];
 		} else {
-			jwplayer_log('ERROR CREATING IMPORTED PLAYER');
+			jwplayer_log( 'ERROR CREATING IMPORTED PLAYER' );
 			jwplayer_log( $params, true );
 			jwplayer_log( $response, true );
 		}
@@ -339,13 +339,13 @@ function jwplayer_import_playlists() {
 				);
 				$response = jwplayer_api_call( '/channels/videos/create', $params );
 				if ( ! jwplayer_api_response_ok( $response ) ) {
-					jwplayer_log('ERROR ADDING VIDEO TO PLAYLIST');
+					jwplayer_log( 'ERROR ADDING VIDEO TO PLAYLIST' );
 					jwplayer_log( $params, true );
 					jwplayer_log( $response, true );
 				}
 			}
 		} else {
-			jwplayer_log('ERROR CREATING NEW PLAYLIST');
+			jwplayer_log( 'ERROR CREATING NEW PLAYLIST' );
 			jwplayer_log( $params, true );
 			jwplayer_log( $response, true );
 		}

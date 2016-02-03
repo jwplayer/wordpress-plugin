@@ -13,7 +13,7 @@ function jwplayer_settings_init() {
 		add_settings_field( 'jwplayer_nr_videos', 'Videos in widget', 'jwplayer_setting_nr_videos', 'jwplayer_settings', 'jwplayer_setting_section' );
 		add_settings_field( 'jwplayer_timeout', 'Timeout for signed links', 'jwplayer_setting_timeout', 'jwplayer_settings', 'jwplayer_setting_section' );
 		add_settings_field( 'jwplayer_content_mask', 'Content DNS mask', 'jwplayer_setting_content_mask', 'jwplayer_settings', 'jwplayer_setting_section' );
-		add_settings_field( 'jwplayer_custom_shortcode_parser', 'Custom shortcode parser', 'jwplayer_setting_custom_shortcode', 'jwplayer_settings', 'jwplayer_setting_section');
+		add_settings_field( 'jwplayer_custom_shortcode_parser', 'Custom shortcode parser', 'jwplayer_setting_custom_shortcode', 'jwplayer_settings', 'jwplayer_setting_section' );
 
 		register_setting( 'jwplayer_settings', 'jwplayer_nr_videos', 'absint' );
 		register_setting( 'jwplayer_settings', 'jwplayer_timeout', 'absint' );
@@ -21,8 +21,7 @@ function jwplayer_settings_init() {
 		register_setting( 'jwplayer_settings', 'jwplayer_player', 'jwplayer_validate_player' );
 		register_setting( 'jwplayer_settings', 'jwplayer_show_widget', 'jwplayer_validate_boolean' );
 		register_setting( 'jwplayer_settings', 'jwplayer_custom_shortcode_parser', 'jwplayer_validate_boolean' );
-	}
-	else {
+	} else {
 		add_settings_field( 'jwplayer_login_link', 'Authorization', 'jwplayer_setting_login_link', 'jwplayer_settings', 'jwplayer_setting_section' );
 	}
 
@@ -41,10 +40,10 @@ function jwplayer_settings_init() {
 	}
 
 	// Legacy redirect
-	$botr_active = is_plugin_active('bits-on-the-run/bitsontherun.php');
+	$botr_active = is_plugin_active( 'bits-on-the-run/bitsontherun.php' );
 	if ( $botr_active || get_option( 'jwplayer_import_done' ) ) {
 		add_settings_section( 'jwplayer_setting_media_section', 'JW Player Plugin', '__return_true', 'media' );
-		add_settings_field( 'jwplayer_setting_media', 'JW Player Plugin Settings', 'jwplayer_setting_media_redirect', 'media', 'jwplayer_setting_media_section');
+		add_settings_field( 'jwplayer_setting_media', 'JW Player Plugin Settings', 'jwplayer_setting_media_redirect', 'media', 'jwplayer_setting_media_section' );
 	}
 }
 
@@ -159,7 +158,7 @@ function jwplayer_setting_custom_shortcode() {
 	echo ' value="true" /> ';
 	echo '<label for="jwplayer_custom_shortcode_parser">Use a custom shortcode parser to support shortcode replacement in different page types.</label>';
 	// TODO: Update URL to point to new docs.
-	echo '<p class="description"><a href="' . esc_url('https://support.jwplayer.com/customer/portal/articles/1403714-jw6-wordpress-plugin-reference')  . '">Learn more.</a></p>';
+	echo '<p class="description"><a href="' . esc_url( 'https://support.jwplayer.com/customer/portal/articles/1403714-jw6-wordpress-plugin-reference')  . '">Learn more.</a></p>';
 }
 
 // The login link on the settings page

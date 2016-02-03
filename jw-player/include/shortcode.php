@@ -47,22 +47,22 @@ function jwplayer_shortcode_filter( $filter_type = "content", $content = "" ) {
 	$option_name = false;
 	if ( is_archive() ) {
 		$option_name = 'jwplayer_shortcode_category_filter';
-	} else if ( is_search() ) {
+	} elseif ( is_search() ) {
 		$option_name = 'jwplayer_shortcode_search_filter';
-	} else if ( is_tag() ) {
+	} elseif ( is_tag() ) {
 		$option_name = 'jwplayer_shortcode_tag_filter';
-	} else if ( is_home() ) {
+	} elseif ( is_home() ) {
 		$option_name = 'jwplayer_shortcode_home_filter';
 	}
 	if ( $option_name ) {
 		$action = get_option( $option_name );
-	} else if ( "content" === $filter_type ) {
+	} elseif ( "content" === $filter_type ) {
 		$action = $filter_type;
 	}
 	$tag_regex = '/(.?)\[(jwplayer|jwplatform)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s';
 	if ( $action === $filter_type ) {
 		$content = preg_replace_callback( $tag_regex, jwplayer_shortcode_parser, $content );
-	} else if ( 'strip' === $action ) {
+	} elseif ( 'strip' === $action ) {
 		$content = preg_replace_callback( $tag_regex, jwplayer_shortcode_stripper, $content );
 	}
 	return $content;
@@ -117,11 +117,11 @@ function jwplayer_shortcode_handle_legacy( $atts ) {
 		}
 		unset( $atts['mediaid'] );
 		// };
-	} else if ( isset ( $atts['file'] ) ) {
+	} elseif ( isset ( $atts['file'] ) ) {
 		$title = ( isset ( $atts['title'] ) ) ? $atts['title'] : null;
 		$hash = jwplayer_media_legacy_external_source( $atts['file'], $title );
 		unset( $atts['file'] );
-	} else if ( isset ( $atts['playlistid'] ) ) {
+	} elseif ( isset ( $atts['playlistid'] ) ) {
 		$imported_playlists = get_option( 'jwplayer_imported_playlists' );
 		if ( $imported_playlists && array_key_exists( $atts['playlistid'], $imported_playlists ) ) {
 			$hash = $imported_playlists[ $atts['playlistid'] ];
@@ -161,7 +161,7 @@ function jwplayer_shortcode_filter_player_params( $atts ) {
 		}
 		$value = ( array_key_exists( strval( $value ), $translate ) ) ? $translate[$value] : $value;
 		if ( strpos($param, '__') ) {
-			$parts = explode('__', $param);
+			$parts = explode( '__', $param);
 			$last_part = end($parts);
 			$a = &$params;
 			foreach ( $parts as $part ) {
@@ -211,13 +211,13 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 	$params = jwplayer_shortcode_filter_player_params($params);
 	if ( count( $params ) ) {
 		// Support for player tracks.
-		foreach (array('sources', 'tracks') as $option) {
+		foreach (array( 'sources', 'tracks') as $option) {
 			if ( isset($params[$option]) ) {
 				$json = '[' . $params[$option] . ']';
-				$obj = json_decode(preg_replace('/[{, ]{1}(\w+):/i', '"\1":', $json));
+				$obj = json_decode(preg_replace( '/[{, ]{1}(\w+):/i', '"\1":', $json));
 				if ( null === $obj ) {
-					$json = str_replace(array('"',  "'"), array('\"', '"'), $json);
-					$obj = json_decode(preg_replace('/[{, ]{1}(\w+):/i', '"\1":', $json));
+					$json = str_replace(array( '"',  "'"), array( '\"', '"'), $json);
+					$obj = json_decode(preg_replace( '/[{, ]{1}(\w+):/i', '"\1":', $json));
 				}
 				$params[$option] = $obj;
 			}
