@@ -94,7 +94,7 @@ class JWPlayer_api {
 
 	// Construct call URL
 	public function call_url( $call, $args = array() ) {
-		$sign = $call != '/accounts/credentials/show';
+		$sign = '/accounts/credentials/show' !== $call;
 		$url = $this->_url . $call . '?' . http_build_query( $this->_args( $args, $sign ), '', '&', PHP_QUERY_RFC3986 );
 		return $url;
 	}

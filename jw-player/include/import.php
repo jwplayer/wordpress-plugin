@@ -308,7 +308,7 @@ function jwplayer_import_players() {
 }
 
 function jwplayer_import_playlists() {
-	if ( ! current_user_can( 'manage_options') ) {
+	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
 	}
 	$imported_playlists = get_option( 'jwplayer_imported_playlists' );
@@ -321,7 +321,7 @@ function jwplayer_import_playlists() {
 		if ( array_key_exists( $playlist->ID, $imported_playlists ) ) {
 			continue;
 		}
-		$media_ids = explode(",", get_post_meta( $playlist->ID, 'jwplayermodule_playlist_items', true ) );
+		$media_ids = explode( ',', get_post_meta( $playlist->ID, 'jwplayermodule_playlist_items', true ) );
 		$media_hashes = array();
 		foreach ( $media_ids as $media_id ) {
 			$media_hash = jwplayer_media_hash( intval( $media_id ) );
