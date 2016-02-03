@@ -25,8 +25,7 @@ class JWPlayer_api {
 		// Determine which HTTP library to use:
 		if ( function_exists( 'vip_safe_wp_remote_get' ) ) {
 			$this->_library = 'wpvip';
-		}
-		else {
+		} else {
 			$this->_library = 'wp';
 		}
 	}
@@ -41,11 +40,9 @@ class JWPlayer_api {
 	private function _urlencode( $input ) {
 		if ( is_array( $input ) ) {
 			return array_map( array( '_urlencode' ), $input );
-		}
-		elseif ( is_scalar( $input ) ) {
+		} elseif ( is_scalar( $input ) ) {
 			return str_replace( '+', ' ', str_replace( '%7E', '~', rawurlencode( $input ) ) );
-		}
-		else {
+		} else {
 			return '';
 		}
 	}
@@ -119,8 +116,7 @@ class JWPlayer_api {
 
 		if ( is_wp_error( $response ) ) {
 			$response = 'Error: call to JW Player API failed';
-		}
-		else {
+		} else {
 			$response = wp_remote_retrieve_body( $response );
 		}
 
@@ -145,8 +141,7 @@ class JWPlayer_api {
 
 		if ( is_wp_error( $response ) ) {
 			return $response->get_error_message();
-		}
-		else {
+		} else {
 			return unserialize( $response );
 		}
 	}

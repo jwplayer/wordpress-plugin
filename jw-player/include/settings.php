@@ -113,8 +113,7 @@ function jwplayer_setting_player() {
 			$key = $p['key'];
 			if ( $p['responsive'] ) {
 				$description = htmlentities( $p['name'] ) . ' (Responsive, ' . $p['aspectratio'] . ')';
-			}
-			else {
+			} else {
 				$description = htmlentities( $p['name'] ) . ' (Fixed size, ' . $p['width'] . 'x' . $p['height'] . ')';
 			}
 			echo '<option value="' . esc_attr( $key ) . '"' . esc_attr( selected( $key === $player, true, false ) ) . '>' . esc_html( $description ) . '</option>';
@@ -133,8 +132,7 @@ function jwplayer_setting_player() {
 				For example: <code>[jwplayer MdkflPz7-35rdi1pO]</code>
 			</p>
 		';
-	}
-	else {
+	} else {
 		echo '<input type="hidden" name="jwplayer_player" value="' . esc_attr( JWPLAYER_PLAYER ) . '" />';
 		echo 'You have to save log in before you can set this option.';
 	}
