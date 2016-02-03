@@ -3,7 +3,7 @@
 
 // Add the JW Player settings to the media page in the admin panel
 function jwplayer_settings_init() {
-	add_options_page ( 'JW Player Plugin Settings', 'JW Player', 'manage_options', 'jwplayer_settings', 'jwplayer_settings_page' );
+	add_options_page( 'JW Player Plugin Settings', 'JW Player', 'manage_options', 'jwplayer_settings', 'jwplayer_settings_page' );
 	add_settings_section( 'jwplayer_setting_section', null, '__return_true', 'jwplayer_settings' );
 
 	if ( get_option( 'jwplayer_api_key' ) ) {

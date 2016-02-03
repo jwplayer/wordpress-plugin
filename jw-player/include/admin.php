@@ -15,7 +15,7 @@ function jwplayer_admin_init() {
 
 // Show the login notice in the admin area if necessary
 function jwplayer_admin_show_login_notice() {
-	if ( isset( $_GET['page'] ) && 'jwplayer_login_page' === sanitize_text_field( $_GET['page'] ) ) {// input var okay
+	if ( isset( $_GET['page'] ) && 'jwplayer_login_page' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) {// input var okay
 		return;
 	} else {
 		$login_url = get_admin_url( null, 'admin.php?page=jwplayer_login_page' );

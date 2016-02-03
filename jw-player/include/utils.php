@@ -13,7 +13,7 @@ function jwplayer_log( $msg, $print_r = false ) {
 		}
 		$prefix = '[' . date( 'H:i:s' ) . '] ';
 		$msg = $prefix . str_replace( "\n", "\n" . $prefix, $msg ) . "\n";
-		file_put_contents( $log_file, $msg, $flags=FILE_APPEND );
+		file_put_contents( $log_file, $msg, $flags = FILE_APPEND );
 	}
 }
 

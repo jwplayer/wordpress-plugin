@@ -31,7 +31,7 @@ function jwplayer_import_check_and_init() {
 }
 
 function jwplayer_import_legacy_notice() {
-	if ( isset( $_GET['page'] ) && 'jwplayer_import' === sanitize_text_field( $_GET['page'] ) ) {
+	if ( isset( $_GET['page'] ) && 'jwplayer_import' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) {
 		return;
 	} elseif ( get_option( 'jwplayer_api_key' ) ) {
 		$import_url = get_admin_url( null, 'admin.php?page=jwplayer_import' );
@@ -53,7 +53,7 @@ function jwplayer_import_legacy_notice() {
 
 function jwplayer_import_disable_notice() {
 	$screen_info = get_current_screen();
-	if ( isset( $_GET['page'] ) && 'jwplayer_import' === sanitize_text_field( $_GET['page'] ) ) {
+	if ( isset( $_GET['page'] ) && 'jwplayer_import' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) {
 		return;
 	} elseif ( 'plugins' === $screen_info->id ) {
 		return;
@@ -68,26 +68,26 @@ function jwplayer_import_disable_notice() {
 					<strong>Note:</strong>
 		';
 		if ( $botr_active && $jwp_active ) {
-			echo "
+			echo '
 					It looks like you have not deactivated the old JW Player and
 					the old JW Platform plugins yet.
-			";
+			';
 		} elseif ( $botr_active ) {
-			echo "
+			echo '
 					It looks like you have not deactivated the old JW Platform plugin yet.
-			";
+			';
 		} elseif ( $jwp_active ) {
-			echo "
+			echo '
 					It looks like you have not deactivated the old JW Player plugin yet.
-			";
+			';
 		}
-		echo "
-						You will need to do that on the <a href='$plugins_url'
-						title='Go to the plugins page'>plugins page</a> (These plugins
+		echo '
+						You will need to do that on the <a href="' . esc_url( $plugins_url ) . '"
+						title="Go to the plugins page">plugins page</a> (These plugins
 						cannot be used at the same time).
 					</p>
 				</div>
-			";
+			';
 	}
 }
 
@@ -189,7 +189,7 @@ function jwplayer_import_legacy_playlists() {
 		'post_type' => 'jw_playlist',
 		'post_status' => null,
 		'post_parent' => null,
-		'nopaging' => true
+		'nopaging' => true,
 	);
 	return query_posts( $query_params );
 }
@@ -210,7 +210,7 @@ function jwplayer_import_skin_list() {
 }
 
 function jwplayer_import_players() {
-	if ( ! current_user_can( 'manage_options') ) {
+	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
 	}
 	$player_ids = get_option( 'jwp6_players' );

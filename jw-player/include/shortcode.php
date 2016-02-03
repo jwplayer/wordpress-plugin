@@ -25,13 +25,13 @@ function jwplayer_shortcode_handle( $atts ) {
 	$keys = array_keys( $atts );
 	$r = '/(?P<media>[0-9a-z]{8})(?:[-_])?(?P<player>[0-9a-z]{8})?/i';
 	$m = array();
-	if (  count( $keys ) > 0 && 0 === $keys[0] && preg_match( $r, $atts[0], $m) ) {
+	if ( count( $keys ) > 0 && 0 === $keys[0] && preg_match( $r, $atts[0], $m ) ) {
 		unset( $atts[0] );
 		$player = ( isset( $m['player'] ) ) ? $m['player'] : null;
 		return jwplayer_shortcode_create_js_embed( $m['media'], $player, $atts );
 	} else {
 		// Legacy shortcode
-		return jwplayer_shortcode_handle_legacy($atts);
+		return jwplayer_shortcode_handle_legacy( $atts );
 	}
 }
 
@@ -187,7 +187,7 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 	global $jwplayer_shortcode_embedded_players;
 	$player_hash = ( null === $player_hash ) ? get_option( 'jwplayer_player' ) : $player_hash;
 	$content_mask = jwplayer_get_content_mask();
-	$protocol = ( is_ssl() && $content_mask === BOTR_CONTENT_MASK ) ? 'https' : 'http';
+	$protocol = ( is_ssl() && BOTR_CONTENT_MASK === $content_mask ) ? 'https' : 'http';
 
 	if ( in_array( $player_hash, $jwplayer_shortcode_embedded_players ) ) {
 		$player_script = '';
@@ -229,7 +229,7 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 	}
 	$paramstring = json_encode( $params );
 	foreach (  array( '&amp;' => '&', '&#038;' => '&', '\/' => '/' ) as $from => $to ) {
-		$paramstring = str_replace($from, $to, $paramstring);
+		$paramstring = str_replace( $from, $to, $paramstring );
 	}
 
 	// Redeclare fitVids to stop it from breaking the JW Player embedding.

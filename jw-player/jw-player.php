@@ -91,11 +91,11 @@ function jwplayer_add_options() {
 	add_option( 'jwplayer_shortcode_home_filter', JWPLAYER_CUSTOM_SHORTCODE_FILTER );
 }
 
-if ( 'wpvip' == $jwplayer_which_env ) {
+if ( 'wpvip' === $jwplayer_which_env ) {
 	if ( ! get_option( 'jwplayer_player' ) ) {
-			jwplayer_add_options();
+		jwplayer_add_options();
 	}
-} elseif ( 'wp' == $jwplayer_which_env ) {
+} elseif ( 'wp' === $jwplayer_which_env ) {
 	register_activation_hook( __FILE__, 'jwplayer_add_options' );
 }
 
@@ -112,6 +112,6 @@ jwplayer_media_init();
 jwplayer_shortcode_init();
 
 // Check for old plugin settings.
-if ( 'wp' == $jwplayer_which_env ) {
+if ( 'wp' === $jwplayer_which_env ) {
 	add_action( 'admin_menu', 'jwplayer_import_check_and_init' );
 }

@@ -35,7 +35,7 @@ function jwplayer_login_page() {
 
 	// Check the nonce (counter XSRF)
 	if ( isset( $_POST['_wpnonce'] ) ) {
-		$nonce = sanitize_text_field( $_POST['_wpnonce'] );//input var okay
+		$nonce = sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) );//input var okay
 		if ( ! wp_verify_nonce( $nonce, 'jwplayer-login-nonce' ) ) {
 			jwplayer_login_print_error( 'Could not verify the form data.' );
 			jwplayer_login_form();
@@ -44,11 +44,11 @@ function jwplayer_login_page() {
 	}
 
 	if ( isset( $_POST['apikey'] ) ) {
-		$api_key = sanitize_text_field( $_POST['apikey'] );//input var okay
+		$api_key = sanitize_text_field( wp_unslash( $_POST['apikey'] ) );//input var okay
 	}
 
 	if ( isset( $_POST['apisecret'] ) ) {
-		$api_secret = sanitize_text_field( $_POST['apisecret'] );//input var okay
+		$api_secret = sanitize_text_field( wp_unslash( $_POST['apisecret'] ) );//input var okay
 	}
 
 	$api_verified = jwplayer_login_verify_api_key_secret( $api_key, $api_secret );
@@ -140,7 +140,7 @@ function jwplayer_login_logout() {
 
 	// Check the nonce (counter XSRF)
 	if ( isset( $_POST['_wpnonce'] ) ) {
-		$nonce = sanitize_text_field( $_POST['_wpnonce'] );//input var okay
+		$nonce = sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) );//input var okay
 		if ( ! wp_verify_nonce( $nonce, 'jwplayer-logout-nonce' ) ) {
 			jwplayer_login_print_error( 'Could not verify the form data.' );
 			jwplayer_login_logout_form();

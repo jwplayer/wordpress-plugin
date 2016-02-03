@@ -23,7 +23,7 @@ function jwplayer_proxy() {
 	$nonce = '';
 
 	if ( ! empty( $_GET['token'] ) ) {
-		$nonce = sanitize_text_field( $_GET['token'] ); // input var okay
+		$nonce = sanitize_text_field( wp_unslash( $_GET['token'] ) ); // input var okay
 	}
 	if ( ! wp_verify_nonce( $nonce, 'jwplayer-widget-nonce' ) ) {
 		return;
@@ -35,7 +35,7 @@ function jwplayer_proxy() {
 	}
 
 	if ( ! empty( $_GET['method'] ) ) {
-		$method = sanitize_text_field( $_GET['method'] ); // input var okay
+		$method = sanitize_text_field( wp_unslash( $_GET['method'] ) ); // input var okay
 	}
 
 	if ( null === $method ) {
@@ -59,7 +59,7 @@ function jwplayer_proxy() {
 
 	foreach ( $_GET as $name => $value ) {
 		if ( 'method' != $name ) {
-			$params[ $name ] = sanitize_text_field( $value ); // input var okay
+			$params[ $name ] = sanitize_text_field( wp_unslash( $value ) ); // input var okay
 		}
 	}
 

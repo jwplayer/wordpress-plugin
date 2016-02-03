@@ -14,10 +14,10 @@ function jwplayer_media_init() {
 
 function jwplayer_media_attachment_fields_to_edit( $form_fields, $media ) {
 	if ( in_array( $media->post_mime_type, unserialize( JWPLAYER_MEDIA_MIME_TYPES ) ) ) {
-		$form_fields["jwplayer_media_sync"] = array(
-			"label" => "JW Player",
-			"input" => "html",
-			"html" => jwplayer_media_sync_form_html( $media )
+		$form_fields['jwplayer_media_sync'] = array(
+			'label' => 'JW Player',
+			'input' => 'html',
+			'html' => jwplayer_media_sync_form_html( $media ),
 		);
 		// $form_fields["jwplayer_media_migrate"] = array (
 		//   "label" => "",
@@ -53,10 +53,10 @@ function jwplayer_media_sync_form_html( $media ) {
 
 
 function jwplayer_media_attachment_fields_to_save( $media, $attachment ) {
-	if ( in_array( $media["post_mime_type"], unserialize( JWPLAYER_MEDIA_MIME_TYPES ) ) ) {
+	if ( in_array( $media['post_mime_type'], unserialize( JWPLAYER_MEDIA_MIME_TYPES ) ) ) {
 		$sync = ( isset( $attachment['jwplayer_media_sync'] ) && $attachment['jwplayer_media_sync'] ) ? true : false;
 		if ( $sync ) {
-			jwplayer_media_init_sync( $media["ID"], $media["post_mime_type"], $media['post_title'], $media['content'] );
+			jwplayer_media_init_sync( $media['ID'], $media['post_mime_type'], $media['post_title'], $media['content'] );
 		}
 	}
 	return $media;
@@ -82,7 +82,7 @@ function jwplayer_media_edit_attachment( $post_id ) {
 }
 
 
-function jwplayer_media_hash( $media_id, $create_if_none=true ) {
+function jwplayer_media_hash( $media_id, $create_if_none = true ) {
 	$hash = get_post_meta( $media_id, 'jwplayer_media_hash', true );
 	if ( ! $hash && $create_if_none ) {
 		$post = get_post( $media_id );
@@ -95,8 +95,8 @@ function jwplayer_media_hash( $media_id, $create_if_none=true ) {
 }
 
 
-function jwplayer_media_init_sync( $media_id, $mime_type, $title, $description) {
-	$sourceformat = ( $mime_type ) ? preg_split( '/\//', $mime_type )[ 1 ] : 'mp4';
+function jwplayer_media_init_sync( $media_id, $mime_type, $title, $description ) {
+	$sourceformat = ( $mime_type ) ? preg_split( '/\//', $mime_type )[1] : 'mp4';
 	$params = array(
 		'sourcetype' => 'url',
 		'sourceurl' => wp_get_attachment_url( $media_id ),
@@ -228,7 +228,7 @@ function jwplayer_media_widget_body() {
 	<?php
 }
 
-function jwplayer_media_legacy_external_source( $url, $title=null ) {
+function jwplayer_media_legacy_external_source( $url, $title = null ) {
 	$external_media = get_option( 'jwplayer_legacy_external_media' );
 	if ( $external_media ) {
 		$external_media = unserialize( $external_media );
@@ -247,7 +247,7 @@ function jwplayer_media_legacy_external_source( $url, $title=null ) {
 	}
 }
 
-function jwplayer_media_add_external_source( $url, $title=null ) {
+function jwplayer_media_add_external_source( $url, $title = null ) {
 	$extension = pathinfo( $url, PATHINFO_EXTENSION );
 	$sourceformat = 'mp4';
 	foreach ( unserialize( JWPLAYER_SOURCE_FORMAT_EXTENSIONS ) as $format => $extensions ) {
