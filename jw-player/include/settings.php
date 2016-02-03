@@ -156,7 +156,7 @@ function jwplayer_setting_custom_shortcode() {
 	echo ' value="true" /> ';
 	echo '<label for="jwplayer_custom_shortcode_parser">Use a custom shortcode parser to support shortcode replacement in different page types.</label>';
 	// TODO: Update URL to point to new docs.
-	echo '<p class="description"><a href="' . esc_url( 'https://support.jwplayer.com/customer/portal/articles/1403714-jw6-wordpress-plugin-reference')  . '">Learn more.</a></p>';
+	echo '<p class="description"><a href="' . esc_url( 'https://support.jwplayer.com/customer/portal/articles/1403714-jw6-wordpress-plugin-reference' )  . '">Learn more.</a></p>';
 }
 
 // The login link on the settings page

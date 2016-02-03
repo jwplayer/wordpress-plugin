@@ -48,7 +48,7 @@ function jwplayer_admin_enqueue_scripts( $hook_suffix ) {
 		'post.php',
 		'post-new.php',
 	);
-	if ( ! in_array( $hook_suffix, $load_on_pages ) ) {
+	if ( ! in_array( $hook_suffix, $load_on_pages, true ) ) {
 		return;
 	}
 

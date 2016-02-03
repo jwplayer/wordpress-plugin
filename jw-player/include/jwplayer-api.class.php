@@ -108,8 +108,8 @@ class JWPlayer_api {
 			case 'wpvip':
 				$response = vip_safe_wp_remote_get( $url );
 				break;
-			case 'wp';
-			default;
+			case 'wp':
+			default:
 				$response = wp_remote_get( $url );
 			break;
 		}

@@ -43,7 +43,7 @@ function jwplayer_proxy() {
 		return;
 	}
 
-	if ( ! in_array( $method, $JWPLAYER_PROXY_METHODS ) ) {
+	if ( ! in_array( $method, $JWPLAYER_PROXY_METHODS, true ) ) {
 		jwplayer_json_error( 'Access denied' );
 		return;
 	}
@@ -58,7 +58,7 @@ function jwplayer_proxy() {
 	$params = array();
 
 	foreach ( $_GET as $name => $value ) {
-		if ( 'method' != $name ) {
+		if ( 'method' !== $name ) {
 			$params[ $name ] = sanitize_text_field( wp_unslash( $value ) ); // input var okay
 		}
 	}

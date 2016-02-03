@@ -33,7 +33,7 @@ function jwplayer_validate_boolean( $value ) {
 }
 
 function jwplayer_validate_custom_shortcode( $value ) {
-	if ( in_array( $value, unserialize( JWPLAYER_CUSTOM_SHORTCODE_OPTIONS ) ) ) {
+	if ( in_array( $value, unserialize( JWPLAYER_CUSTOM_SHORTCODE_OPTIONS ), true ) ) {
 		return $value;
 	}
 	return 'content';

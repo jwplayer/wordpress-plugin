@@ -73,7 +73,7 @@ function jwplayer_shortcode_parser( $matches ) {
 		return substr( $matches[0], 1, -1 );
 	}
 	$param_regex = '/([\w.]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w.]+)\s*=\s*\'([^\']*)\'(?:\s|$)|([\w.]+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
-	$text = preg_replace( "/[\x{00a0}\x{200b}]+/u", " ", $matches[3] );
+	$text = preg_replace( "/[\x{00a0}\x{200b}]+/u", ' ', $matches[3] );
 	$text = preg_replace( "/&#8221;|&#8243;/", "\"", preg_replace( "/&#8217;|&#8242;/", "'", $text ) );
 	$atts = array();
 	if ( preg_match_all( $param_regex, $text, $match, PREG_SET_ORDER ) ) {
@@ -157,7 +157,7 @@ function jwplayer_shortcode_filter_player_params( $atts ) {
 		if ( is_numeric( $param ) ) {
 			continue;
 		}
-		if ( in_array( $param, $strip ) ) {
+		if ( in_array( $param, $strip, true ) ) {
 			continue;
 		}
 		$value = ( array_key_exists( strval( $value ), $translate ) ) ? $translate[ $value ] : $value;
@@ -189,7 +189,7 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 	$content_mask = jwplayer_get_content_mask();
 	$protocol = ( is_ssl() && BOTR_CONTENT_MASK === $content_mask ) ? 'https' : 'http';
 
-	if ( in_array( $player_hash, $jwplayer_shortcode_embedded_players ) ) {
+	if ( in_array( $player_hash, $jwplayer_shortcode_embedded_players, true ) ) {
 		$player_script = '';
 	} else {
 		// Injecting script tag because there's no way to properly enqueue a javascript
