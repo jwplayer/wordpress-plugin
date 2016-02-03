@@ -1,11 +1,11 @@
 <?php
 
 function jwplayer_import_check_and_init() {
-	if ( get_option ( 'jwplayer_api_key' ) && get_option ( 'jwp6_plugin_version' ) && ! get_option ( 'jwplayer_import_done' ) ) {
+	if ( get_option( 'jwplayer_api_key' ) && get_option( 'jwp6_plugin_version' ) && ! get_option( 'jwplayer_import_done' ) ) {
 		$nr_of_players = jwplayer_import_nr_of_players();
 		$nr_of_playlists = jwplayer_import_nr_of_playlists();
-		$botr_active = is_plugin_active('bits-on-the-run/bitsontherun.php');
-		$jwp_active = is_plugin_active('jw-player-plugin-for-wordpress/jwplayermodule.php');
+		$botr_active = is_plugin_active( 'bits-on-the-run/bitsontherun.php' );
+		$jwp_active = is_plugin_active( 'jw-player-plugin-for-wordpress/jwplayermodule.php' );
 		$vip_active = false;  // is_plugin_active('????????');
 		if ( $nr_of_players || $nr_of_playlists ) {
 			add_action( 'admin_notices', 'jwplayer_import_legacy_notice' );
@@ -33,7 +33,7 @@ function jwplayer_import_check_and_init() {
 function jwplayer_import_legacy_notice() {
 	if ( isset( $_GET['page'] ) && 'jwplayer_import' === sanitize_text_field( $_GET['page'] ) ) {
 		return;
-	} elseif ( get_option ( 'jwplayer_api_key' ) ) {
+	} elseif ( get_option( 'jwplayer_api_key' ) ) {
 		$import_url = get_admin_url( null, 'admin.php?page=jwplayer_import' );
 		echo '
 			<div class="update-nag fade">

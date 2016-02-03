@@ -12,7 +12,7 @@ function jwplayer_media_init() {
 	add_action( 'admin_menu', 'jwplayer_media_add_video_box' );
 }
 
-function jwplayer_media_attachment_fields_to_edit( $form_fields, $media) {
+function jwplayer_media_attachment_fields_to_edit( $form_fields, $media ) {
 	if ( in_array( $media->post_mime_type, unserialize( JWPLAYER_MEDIA_MIME_TYPES ) ) ) {
 		$form_fields["jwplayer_media_sync"] = array(
 			"label" => "JW Player",
@@ -148,7 +148,7 @@ function jwplayer_media_sync( $hash, $media_id, $mime_type, $title, $description
 
 // Add the JW Player tab to the menu of the "Add media" window
 function jwplayer_media_menu( $tabs ) {
-	if ( get_option ('jwplayer_api_key' ) ) {
+	if ( get_option( 'jwplayer_api_key' ) ) {
 		$newtab = array( 'jwplayer' => 'JW Player' );
 		return array_merge( $tabs, $newtab );
 	}
@@ -183,7 +183,7 @@ function jwplayer_media_handle() {
 
 // Add the video widget to the authoring page, if enabled in the settings
 function jwplayer_media_add_video_box() {
-	if ( get_option( 'jwplayer_show_widget' ) && get_option ('jwplayer_api_key' ) ) {
+	if ( get_option( 'jwplayer_show_widget' ) && get_option( 'jwplayer_api_key' ) ) {
 		add_meta_box( 'jwplayer-video-box', 'Insert media with JW Player', 'jwplayer_media_widget_body', 'post', 'side', 'high' );
 		add_meta_box( 'jwplayer-video-box', 'Insert media with JW Player', 'jwplayer_media_widget_body', 'page', 'side', 'high' );
 	}
@@ -229,7 +229,7 @@ function jwplayer_media_widget_body() {
 }
 
 function jwplayer_media_legacy_external_source( $url, $title=null ) {
-	$external_media = get_option ('jwplayer_legacy_external_media' );
+	$external_media = get_option( 'jwplayer_legacy_external_media' );
 	if ( $external_media ) {
 		$external_media = unserialize( $external_media );
 	} else {

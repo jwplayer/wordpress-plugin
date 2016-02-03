@@ -4,7 +4,7 @@ $jwplayer_shortcode_embedded_players = array();
 
 function jwplayer_shortcode_init() {
 	// Activate the JW Player shortcode.
-	if ( get_option ( 'jwplayer_custom_shortcode_parser' ) ) {
+	if ( get_option( 'jwplayer_custom_shortcode_parser' ) ) {
 		add_filter( 'the_content', 'jwplayer_shortcode_content_filter', 11 );
 		add_filter( 'the_excerpt', 'jwplayer_shortcode_excerpt_filter', 11 );
 		add_filter( 'widget_text', 'jwplayer_shortcode_text_filter',  11 );
@@ -18,7 +18,7 @@ function jwplayer_shortcode_init() {
 function jwplayer_shortcode_handle( $atts ) {
 	jwplayer_log( $atts, true );
 	// Check for a api key
-	$api_key = get_option ( 'jwplayer_api_key' );
+	$api_key = get_option( 'jwplayer_api_key' );
 	if ( empty( $api_key ) ) {
 		return '';
 	}
@@ -78,11 +78,11 @@ function jwplayer_shortcode_parser( $matches ) {
 	$atts = array();
 	if ( preg_match_all( $param_regex, $text, $match, PREG_SET_ORDER ) ) {
 		foreach ( $match as $p_match ) {
-			if ( !empty( $p_match[1] ) ) {
+			if ( ! empty( $p_match[1] ) ) {
 				$atts[ $p_match[1] ] = stripcslashes( $p_match[2] );
-			} elseif ( !empty( $p_match[3] ) ) {
+			} elseif ( ! empty( $p_match[3] ) ) {
 				$atts[ $p_match[3] ] = stripcslashes( $p_match[4] );
-			} elseif ( !empty( $p_match[5] ) ) {
+			} elseif ( ! empty( $p_match[5] ) ) {
 				$atts[ $p_match[5] ] = stripcslashes( $p_match[6] );
 			} elseif ( isset( $p_match[7] ) && strlen( $p_match[7] ) ) {
 				$atts[] = stripcslashes( $p_match[7] );

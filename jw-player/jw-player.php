@@ -72,8 +72,7 @@ define( 'JWPLAYER_DISABLE_FITVIDS', true );
 $jwplayer_which_env = null;
 if ( function_exists( 'vip_safe_wp_remote_get' ) ) {
 	$jwplayer_which_env = 'wpvip';
-}
-else {
+} else {
 	$jwplayer_which_env = 'wp';
 }
 

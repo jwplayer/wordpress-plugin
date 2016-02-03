@@ -6,7 +6,7 @@ function jwplayer_settings_init() {
 	add_options_page ( 'JW Player Plugin Settings', 'JW Player', 'manage_options', 'jwplayer_settings', 'jwplayer_settings_page' );
 	add_settings_section( 'jwplayer_setting_section', null, '__return_true', 'jwplayer_settings' );
 
-	if ( get_option ( 'jwplayer_api_key' ) ) {
+	if ( get_option( 'jwplayer_api_key' ) ) {
 		add_settings_field( 'jwplayer_logout_link', 'Authorization', 'jwplayer_setting_logout_link', 'jwplayer_settings', 'jwplayer_setting_section' );
 		add_settings_field( 'jwplayer_player', 'Default player', 'jwplayer_setting_player', 'jwplayer_settings', 'jwplayer_setting_section' );
 		add_settings_field( 'jwplayer_show_widget', 'Authoring page widget', 'jwplayer_setting_show_widget', 'jwplayer_settings', 'jwplayer_setting_section' );
@@ -26,7 +26,7 @@ function jwplayer_settings_init() {
 		add_settings_field( 'jwplayer_login_link', 'Authorization', 'jwplayer_setting_login_link', 'jwplayer_settings', 'jwplayer_setting_section' );
 	}
 
-	if ( get_option ( 'jwplayer_api_key' ) && get_option ( 'jwplayer_custom_shortcode_parser' ) ) {
+	if ( get_option( 'jwplayer_api_key' ) && get_option( 'jwplayer_custom_shortcode_parser' ) ) {
 		add_settings_section( 'jwplayer_shortcode_section', 'Shortcode Settings', 'jwplayer_setting_section_shortcode', 'jwplayer_settings' );
 
 		add_settings_field( 'jwplayer_shortcode_category_filter', 'Category pages', 'jwplayer_setting_custom_shortcode_category', 'jwplayer_settings', 'jwplayer_shortcode_section' );
@@ -65,7 +65,7 @@ function jwplayer_settings_page() {
 // The logout link on the settings page
 function jwplayer_setting_logout_link() {
 	$logout_url = get_admin_url( null, 'admin.php?page=jwplayer_logout_page' );
-	$api_key = get_option ('jwplayer_api_key' );
+	$api_key = get_option( 'jwplayer_api_key' );
 	echo 'Authorized with api key <em>' . esc_html( $api_key ) . '</em>. <a href="' . esc_url( $logout_url ) . '">Deauthorize</a>.';
 }
 
@@ -102,7 +102,7 @@ function jwplayer_setting_content_mask() {
 
 // The setting for the default player
 function jwplayer_setting_player() {
-	$api_key = get_option ('jwplayer_api_key' );
+	$api_key = get_option( 'jwplayer_api_key' );
 	$loggedin = ! empty( $api_key );
 	if ( $loggedin ) {
 		$response = jwplayer_api_call( '/players/list' );

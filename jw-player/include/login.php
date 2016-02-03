@@ -4,7 +4,7 @@ function jwplayer_login_init() {
 	add_action( 'admin_menu', 'jwplayer_login_create_pages' );
 }
 
-function jwplayer_login_create_pages(){
+function jwplayer_login_create_pages() {
 	//adds the login page
 	add_submenu_page( null, 'JW Player Authorization', 'JW Player Authorization', 'manage_options', 'jwplayer_login_page', 'jwplayer_login_page' );
 	//adds the logout page
@@ -34,7 +34,7 @@ function jwplayer_login_page() {
 	}
 
 	// Check the nonce (counter XSRF)
-	if ( isset( $_POST['_wpnonce'] ) ){
+	if ( isset( $_POST['_wpnonce'] ) ) {
 		$nonce = sanitize_text_field( $_POST['_wpnonce'] );//input var okay
 		if ( ! wp_verify_nonce( $nonce, 'jwplayer-login-nonce' ) ) {
 			jwplayer_login_print_error( 'Could not verify the form data.' );
@@ -43,11 +43,11 @@ function jwplayer_login_page() {
 		}
 	}
 
-	if ( isset($_POST['apikey']) ){
+	if ( isset($_POST['apikey']) ) {
 		$api_key = sanitize_text_field( $_POST['apikey'] );//input var okay
 	}
 
-	if ( isset($_POST['apisecret']) ){
+	if ( isset($_POST['apisecret']) ) {
 		$api_secret = sanitize_text_field( $_POST['apisecret'] );//input var okay
 	}
 
@@ -56,12 +56,10 @@ function jwplayer_login_page() {
 	if ( null === $api_verified ) {
 		jwplayer_login_print_error( 'Communications with the JW Player API failed. Please try again later.' );
 		jwplayer_login_form();
-	}
-	elseif ( false === $api_verified ) {
+	} elseif ( false === $api_verified ) {
 		jwplayer_login_print_error( 'Your API credentials were not accepted. Please try again.' );
 		jwplayer_login_form();
-	}
-	else {
+	} else {
 		// Perform the login.
 		update_option( 'jwplayer_api_key', $api_key );
 		update_option( 'jwplayer_api_secret', $api_secret );

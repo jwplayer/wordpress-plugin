@@ -2,7 +2,7 @@
 
 // Validate the settings for the default player
 function jwplayer_validate_player( $player_key ) {
-	$api_key = get_option ('jwplayer_api_key' );
+	$api_key = get_option( 'jwplayer_api_key' );
 	$loggedin = ! empty( $api_key );
 	if ( $loggedin ) {
 		$response = jwplayer_api_call( '/players/list' );
