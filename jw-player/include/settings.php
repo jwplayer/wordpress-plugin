@@ -180,14 +180,13 @@ function jwplayer_setting_custom_shortcode_filter( $page_type ) {
 	$current_value = ( $current_value ) ? $current_value : 'content';
 	echo "<fieldset>";
 	foreach ( unserialize( JWPLAYER_CUSTOM_SHORTCODE_OPTIONS ) as $option ) {
-			$checked = ( $current_value === $option ) ? 'checked="checked"' : '';
 			$option_label = ( 'strip' === $option ) ? 'Strip shortcode' : "Use $option";
-			echo "<label title='$option'>";
-			echo "<input type='radio' value='$option' name='$option_name' $checked />";
-			echo "<span>&nbsp;$option_label</span>";
+			echo '<label title="' . esc_attr( $option ) . '">';
+			echo '<input type="radio" value="' . esc_attr( $option ) . '" name="' . esc_attr( $option_name ) . '" '. checked( $current_value, $option ) . '/>';
+			echo '<span>&nbsp;' . esc_html( $option_label ) . '</span>';
 			echo '</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 	}
-	echo "</fieldset>";
+	echo '</fieldset>';
 }
 
 function jwplayer_setting_custom_shortcode_category( $page_type = 'category' ) {
