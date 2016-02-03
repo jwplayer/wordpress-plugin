@@ -136,17 +136,17 @@ function jwplayer_import_check_redirect() {
 function jwplayer_import_include_players() {
 	$nr = jwplayer_import_nr_of_players();
 	echo '<input name="jwplayer_import_include_players" id="jwplayer_import_include_players" type="checkbox" value="true" /> ';
-	echo "
-		<label for='jwplayer_import_include_players'>
-			Import all player configurations. <strong>($nr from old plugin)</strong>
+	echo '
+		<label for="jwplayer_import_include_players">
+			Import all player configurations. <strong>(' . esc_html( $nr ). ' from old plugin)</strong>
 		</label>
-	";
+	';
 	// TODO: Have URL to support doc explaining the custom shortcode parser.
 	echo '
 		<p class="description">
 			You can always decide to edit or delete these players after the import —
 			they will be in your Players list int he JW Player dashboard, with a
-			"Wordpress" name.
+			"WordPress" name.
 		</p>
 	';
 }
@@ -154,12 +154,12 @@ function jwplayer_import_include_players() {
 function jwplayer_import_include_playlists() {
 	$nr = jwplayer_import_nr_of_playlists();
 	echo '<input name="jwplayer_import_include_playlists" id="jwplayer_import_include_playlists" type="checkbox" value="true" /> ';
-	echo "
-		<label for='jwplayer_import_include_playlists'>
+	echo '
+		<label for="jwplayer_import_include_playlists">
 			Import all playlists and content.
-			<strong>($nr from old plugin)</strong>
+			<strong>(' . esc_html( $nr ). ' from old plugin)</strong>
 		</label>
-	";
+	';
 	// TODO: Have URL to support doc explaining the custom shortcode parser.
 	echo '
 		<p class="description">
@@ -226,7 +226,7 @@ function jwplayer_import_players() {
 			continue;
 		}
 		$params = array(
-			'description' => 'Wordpress imported player',
+			'description' => 'WordPress imported player',
 			'width' => 480,
 			'height' => 270,
 			'aspectratio' => null,
@@ -259,9 +259,9 @@ function jwplayer_import_players() {
 		}
 		// Translate these params into parameters that the API accepts.
 		if ( 'Default and fallback player (unremovable).' === $params['description'] ) {
-			$params['name'] = 'Default Wordpress plugin player';
+			$params['name'] = 'Default WordPress plugin player';
 		} else {
-			$params['name'] = $params['description'] . ' (Imported Wordpress player)';
+			$params['name'] = $params['description'] . ' (Imported WordPress player)';
 		}
 		if ( $params['aspectratio'] ) {
 			$params['responsive'] = true;

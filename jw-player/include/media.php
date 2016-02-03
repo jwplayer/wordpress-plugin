@@ -203,7 +203,7 @@ function jwplayer_media_widget_body() {
 	</div>
 	<div class="jwplayer-widget-div" id="jwplayer-video-div">
 		<h4>Video</h4>
-		<p id="jwplayer-account-login-link"><span>Choose content from</span> your <a href="<?php echo JWPLAYER_DASHBOARD; ?>" title="open your dashboard">JW Player Account</a>
+		<p id="jwplayer-account-login-link"><span>Choose content from</span> your <a href="<?php echo esc_url( JWPLAYER_DASHBOARD ); ?>" title="open your dashboard">JW Player Account</a>
 		<ul class="jwplayer-tab-select">
 			<li id="jwplayer-tab-select-choose">Choose</li>
 			<li id="jwplayer-tab-select-add" class="jwplayer-off">Add New</li>

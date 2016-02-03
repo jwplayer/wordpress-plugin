@@ -168,7 +168,7 @@ function jwplayer_setting_login_link() {
 function jwplayer_setting_section_shortcode() {
 	echo '<p>';
 	echo '    You can configure wether you want JW Player to embed in overview pages (home, tags, etc). Depending';
-	echo '    upon your Wordpress theme, the JW Player plugin must render the shortcodes from either ';
+	echo '    upon your WordPress theme, the JW Player plugin must render the shortcodes from either ';
 	echo '    <code>the_excerpt</code> or <code>the_content</code>. The third option is to disable player embeds';
 	echo '    on a specific page type. This will strip out the shortcode.';
 	echo '</p>';

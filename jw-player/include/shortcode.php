@@ -140,7 +140,7 @@ function jwplayer_shortcode_handle_legacy( $atts ) {
 	if ( isset( $hash ) ) {
 		return jwplayer_shortcode_create_js_embed( $hash, $player_hash, $atts );
 	}
-	return "<!-- ERROR PARSING SHORTCODE -->";
+	return '<!-- ERROR PARSING SHORTCODE -->';
 }
 
 function jwplayer_shortcode_filter_player_params( $atts ) {
