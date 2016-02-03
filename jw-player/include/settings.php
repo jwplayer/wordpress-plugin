@@ -208,5 +208,5 @@ function jwplayer_setting_custom_shortcode_home() {
 
 function jwplayer_setting_media_redirect() {
 	$redirect_url = get_admin_url( null, 'options-general.php?page=jwplayer_settings' );
-	echo "JW Player plugin settings have moved. Please <a href='$redirect_url' title='Manage JW Player Plugin'>go here</a> now.";
+	echo 'JW Player plugin settings have moved. Please <a href="' . esc_url( $redirect_url ) . '" title="Manage JW Player Plugin">go here</a> now.';
 }
