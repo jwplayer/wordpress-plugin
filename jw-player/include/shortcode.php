@@ -74,7 +74,7 @@ function jwplayer_shortcode_parser( $matches ) {
 	}
 	$param_regex = '/([\w.]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w.]+)\s*=\s*\'([^\']*)\'(?:\s|$)|([\w.]+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
 	$text = preg_replace( "/[\x{00a0}\x{200b}]+/u", ' ', $matches[3] );
-	$text = preg_replace( "/&#8221;|&#8243;/", "\"", preg_replace( "/&#8217;|&#8242;/", "'", $text ) );
+	$text = preg_replace( '/&#8221;|&#8243;/', '"', preg_replace( '/&#8217;|&#8242;/', "'", $text ) );
 	$atts = array();
 	if ( preg_match_all( $param_regex, $text, $match, PREG_SET_ORDER ) ) {
 		foreach ( $match as $p_match ) {

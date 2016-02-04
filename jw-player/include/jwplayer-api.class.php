@@ -122,7 +122,7 @@ class JWPlayer_api {
 
 		$unserialized_response = unserialize( $response );
 		return $unserialized_response;
-}
+	}
 
 	// Upload a file
 	public function upload( $upload_link = array(), $file_path, $api_format = 'php' ) {

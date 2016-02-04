@@ -22,10 +22,7 @@ function jwplayer_proxy() {
 	global $JWPLAYER_PROXY_METHODS;
 	$nonce = '';
 
-	if ( ! empty( $_GET['token'] ) ) {
-		$nonce = sanitize_text_field( wp_unslash( $_GET['token'] ) ); // input var okay
-	}
-	if ( ! wp_verify_nonce( $nonce, 'jwplayer-widget-nonce' ) ) {
+	if ( ! isset( $_GET['token'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['token'] ) ), 'jwplayer-widget-nonce' ) ) { // Input var okay
 		return;
 	}
 
@@ -34,9 +31,7 @@ function jwplayer_proxy() {
 		return;
 	}
 
-	if ( ! empty( $_GET['method'] ) ) {
-		$method = sanitize_text_field( wp_unslash( $_GET['method'] ) ); // input var okay
-	}
+	$method = ! empty( $_GET['method'] ) ? sanitize_text_field( wp_unslash( $_GET['method'] ) ) : null; // Input var okay
 
 	if ( null === $method ) {
 		jwplayer_json_error( 'Method was not specified' );
@@ -57,9 +52,9 @@ function jwplayer_proxy() {
 
 	$params = array();
 
-	foreach ( $_GET as $name => $value ) {
+	foreach ( $_GET as $name => $value ) { // Input var okay
 		if ( 'method' !== $name ) {
-			$params[ $name ] = sanitize_text_field( wp_unslash( $value ) ); // input var okay
+			$params[ $name ] = sanitize_text_field( wp_unslash( $value ) ); // Input var okay
 		}
 	}
 

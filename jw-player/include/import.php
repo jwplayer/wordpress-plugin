@@ -31,7 +31,7 @@ function jwplayer_import_check_and_init() {
 }
 
 function jwplayer_import_legacy_notice() {
-	if ( isset( $_GET['page'] ) && 'jwplayer_import' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) {
+	if ( isset( $_GET['page'] ) && 'jwplayer_import' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) { // Input var okay
 		return;
 	} elseif ( get_option( 'jwplayer_api_key' ) ) {
 		$import_url = get_admin_url( null, 'admin.php?page=jwplayer_import' );
@@ -53,7 +53,7 @@ function jwplayer_import_legacy_notice() {
 
 function jwplayer_import_disable_notice() {
 	$screen_info = get_current_screen();
-	if ( isset( $_GET['page'] ) && 'jwplayer_import' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) {
+	if ( isset( $_GET['page'] ) && 'jwplayer_import' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) { // Input var okay
 		return;
 	} elseif ( 'plugins' === $screen_info->id ) {
 		return;
