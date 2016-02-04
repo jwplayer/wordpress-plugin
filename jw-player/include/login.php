@@ -34,9 +34,8 @@ function jwplayer_login_page() {
 	}
 
 	// Check the nonce (counter XSRF)
-	if ( isset( $_POST['_wpnonce'] ) ) {
-		$nonce = sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ); // Input var okay
-		if ( ! wp_verify_nonce( $nonce, 'jwplayer-login-nonce' ) ) {
+	if ( isset( $_POST['_wpnonce'] ) ) { // Input var okay
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'jwplayer-login-nonce' ) ) { // Input var okay
 			jwplayer_login_print_error( 'Could not verify the form data.' );
 			jwplayer_login_form();
 			return;
@@ -136,7 +135,7 @@ function jwplayer_login_logout() {
 
 	// Check the nonce (counter XSRF)
 
-	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'jwplayer-logout-nonce' ) ) { // Input var okay
+	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'jwplayer-logout-nonce' ) ) { // Input var okay
 		jwplayer_login_print_error( 'Could not verify the form data.' );
 		jwplayer_login_logout_form();
 		return;
