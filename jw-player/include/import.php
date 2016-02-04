@@ -189,7 +189,6 @@ function jwplayer_import_legacy_playlists() {
 		'post_type' => 'jw_playlist',
 		'post_status' => null,
 		'post_parent' => null,
-		'nopaging' => true,
 	);
 	return query_posts( $query_params );
 }
