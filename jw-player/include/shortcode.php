@@ -227,22 +227,60 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 	if ( ! isset( $params['source'] ) ) {
 		$params['playlist'] = $xml;
 	}
-	$paramstring = json_encode( $params );
-	foreach (  array( '&amp;' => '&', '&#038;' => '&', '\/' => '/' ) as $from => $to ) {
-		$paramstring = str_replace( $from, $to, $paramstring );
-	}
+	
+//	$paramstring = json_encode( $params );
+//	foreach (  array( '&amp;' => '&', '&#038;' => '&', '\/' => '/' ) as $from => $to ) {
+//		$paramstring = str_replace( $from, $to, $paramstring );
+//	}
 
 	// Redeclare fitVids to stop it from breaking the JW Player embedding.
-	$fitbits = ( JWPLAYER_DISABLE_FITVIDS ) ? 'if(typeof(jQuery)=="function"){(function($){$.fn.fitVids=function(){}})(jQuery)};' : '';
+	//$fitbits = ( JWPLAYER_DISABLE_FITVIDS ) ? 'if(typeof(jQuery)=="function"){(function($){$.fn.fitVids=function(){}})(jQuery)};' : '';
 
-	return "
+	if ( JWPLAYER_DISABLE_FITVIDS ) {
+		if ( $player_script ) {
+			return "
 		$player_script
-		<div id='$element_id'></div>
+			<div id='" . esc_js( $element_id ) . "'></div>
 		<script type='text/javascript'>
-			$fitbits
-			jwplayer('$element_id').setup(
-				$paramstring
+			" . 'if(typeof(jQuery)=="function"){(function($){$.fn.fitVids=function(){}})(jQuery)};' . "
+				jwplayer('" . esc_js( $element_id ) . "').setup(
+				" . wp_json_encode( $params ) . "
 			);
 		</script>
 	";
+		} else { // no player script
+			return "
+			<div id='" . esc_js( $element_id ) . "'></div>
+		<script type='text/javascript'>
+			" . 'if(typeof(jQuery)=="function"){(function($){$.fn.fitVids=function(){}})(jQuery)};' . "
+				jwplayer('" . esc_js( $element_id ) . "').setup(
+				" . wp_json_encode( $params ) . "
+			);
+		</script>
+	";
+		}
+	} else {
+
+		// no fitvids script here.
+		if ( $player_script ) {
+			return "
+		$player_script
+			<div id='" . esc_js( $element_id ) . "'></div>
+		<script type='text/javascript'>
+				jwplayer('" . esc_js( $element_id ) . "').setup(
+				" . wp_json_encode( $params ) . "
+			);
+		</script>
+	";
+		} else { // no player script
+			return "
+			<div id='" . esc_js( $element_id ) . "'></div>
+		<script type='text/javascript'>
+				jwplayer('" . esc_js( $element_id ) . "').setup(
+				" . wp_json_encode( $params ) . "
+			);
+		</script>
+	";
+		}
+	}
 }
