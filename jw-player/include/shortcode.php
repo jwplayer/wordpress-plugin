@@ -194,7 +194,7 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 	} else {
 		// Injecting script tag because there's no way to properly enqueue a javascript
 		// at this point in the process :'-(
-		$player_script = "<script type='text/javascript' src='$protocol://$content_mask/libraries/$player_hash.js'></script>";
+		$player_script = true;
 		$jwplayer_shortcode_embedded_players[] = $player_hash;
 	}
 
@@ -227,19 +227,12 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 	if ( ! isset( $params['source'] ) ) {
 		$params['playlist'] = $xml;
 	}
-	
-//	$paramstring = json_encode( $params );
-//	foreach (  array( '&amp;' => '&', '&#038;' => '&', '\/' => '/' ) as $from => $to ) {
-//		$paramstring = str_replace( $from, $to, $paramstring );
-//	}
 
 	// Redeclare fitVids to stop it from breaking the JW Player embedding.
-	//$fitbits = ( JWPLAYER_DISABLE_FITVIDS ) ? 'if(typeof(jQuery)=="function"){(function($){$.fn.fitVids=function(){}})(jQuery)};' : '';
-
 	if ( JWPLAYER_DISABLE_FITVIDS ) {
 		if ( $player_script ) {
 			return "
-		$player_script
+		<script type='text/javascript' src='" . esc_url( "$protocol://$content_mask/libraries/$player_hash.js" ) . "></script>
 			<div id='" . esc_js( $element_id ) . "'></div>
 		<script type='text/javascript'>
 			" . 'if(typeof(jQuery)=="function"){(function($){$.fn.fitVids=function(){}})(jQuery)};' . "
@@ -264,7 +257,7 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 		// no fitvids script here.
 		if ( $player_script ) {
 			return "
-		$player_script
+		<script type='text/javascript' src='" . esc_url( "$protocol://$content_mask/libraries/$player_hash.js" ) . "></script>
 			<div id='" . esc_js( $element_id ) . "'></div>
 		<script type='text/javascript'>
 				jwplayer('" . esc_js( $element_id ) . "').setup(
