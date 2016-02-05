@@ -232,7 +232,7 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 	if ( JWPLAYER_DISABLE_FITVIDS ) {
 		if ( $player_script ) {
 			return "
-		<script type='text/javascript' src='" . esc_url( "$protocol://$content_mask/libraries/$player_hash.js" ) . "></script>
+		<script type='text/javascript' src='" . esc_url( "$protocol://$content_mask/libraries/$player_hash.js" ) . "'></script>
 			<div id='" . esc_js( $element_id ) . "'></div>
 		<script type='text/javascript'>
 			" . 'if(typeof(jQuery)=="function"){(function($){$.fn.fitVids=function(){}})(jQuery)};' . "
