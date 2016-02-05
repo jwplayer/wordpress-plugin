@@ -179,7 +179,7 @@ function jwplayer_setting_custom_shortcode_filter( $page_type ) {
 	$current_value = get_option( $option_name );
 	$current_value = ( $current_value ) ? $current_value : 'content';
 	echo '<fieldset>';
-	foreach ( unserialize( JWPLAYER_CUSTOM_SHORTCODE_OPTIONS ) as $option ) {
+	foreach ( json_decode( JWPLAYER_CUSTOM_SHORTCODE_OPTIONS ) as $option ) {
 			$option_label = ( 'strip' === $option ) ? 'Strip shortcode' : "Use $option";
 			echo '<label title="' . esc_attr( $option ) . '">';
 			echo '<input type="radio" value="' . esc_attr( $option ) . '" name="' . esc_attr( $option_name ) . '" '. checked( $current_value, $option ) . '/>';

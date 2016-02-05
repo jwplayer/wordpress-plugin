@@ -29,12 +29,12 @@ define( 'JWPLAYER_DASHBOARD', 'https://dashboard.jwplayer.com/' );
 define( 'JWPLAYER_TIMEOUT', '0' );
 define( 'JWPLAYER_CONTENT_MASK', 'content.jwplatform.com' );
 define( 'JWPLAYER_NR_VIDEOS', '5' );
-define( 'JWPLAYER_CUSTOM_SHORTCODE_OPTIONS', serialize( array( 'content', 'excerpt', 'strip' ) ) );
+define( 'JWPLAYER_CUSTOM_SHORTCODE_OPTIONS', wp_json_encode( array( 'content', 'excerpt', 'strip' ) ) );
 define( 'JWPLAYER_SHOW_WIDGET', false );
 define( 'JWPLAYER_CUSTOM_SHORTCODE_PARSER', false );
 define( 'JWPLAYER_CUSTOM_SHORTCODE_FILTER', 'content' );
 
-$JWPLAYER_MEDIA_MIME_TYPES = array(
+$jwplayer_media_mime_types = array(
 	'video/mp4',
 	'video/flv',
 	'video/webm',
@@ -42,9 +42,10 @@ $JWPLAYER_MEDIA_MIME_TYPES = array(
 	'audio/mpeg',
 	'audio/ogg',
 );
-define( 'JWPLAYER_MEDIA_MIME_TYPES', serialize( $JWPLAYER_MEDIA_MIME_TYPES ) );
 
-$JWPLAYER_SOURCE_FORMAT_EXTENSIONS = array(
+define( 'JWPLAYER_MEDIA_MIME_TYPES', wp_json_encode( $jwplayer_media_mime_types ) );
+
+$jwplayer_source_format_extensions = array(
 	'aac' => array( 'aac', 'm4a', 'f4a' ),
 	'flv' => array( 'flv' ),
 	'm3u8' => array( 'm3u', 'm3u8' ),
@@ -55,7 +56,7 @@ $JWPLAYER_SOURCE_FORMAT_EXTENSIONS = array(
 	'vorbis' => array( 'ogg', 'oga' ),
 	'webm' => array( 'webm' ),
 );
-define( 'JWPLAYER_SOURCE_FORMAT_EXTENSIONS', serialize( $JWPLAYER_SOURCE_FORMAT_EXTENSIONS ) );
+define( 'JWPLAYER_SOURCE_FORMAT_EXTENSIONS', wp_json_encode( $jwplayer_source_format_extensions ) );
 
 /*
 FitVids.js is not compatible with the JW Player 6 because it breaks the way the player

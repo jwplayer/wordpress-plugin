@@ -13,7 +13,7 @@ function jwplayer_media_init() {
 }
 
 function jwplayer_media_attachment_fields_to_edit( $form_fields, $media ) {
-	if ( in_array( $media->post_mime_type, unserialize( JWPLAYER_MEDIA_MIME_TYPES ), true ) ) {
+	if ( in_array( $media->post_mime_type, json_decode( JWPLAYER_MEDIA_MIME_TYPES ), true ) ) {
 		$form_fields['jwplayer_media_sync'] = array(
 			'label' => 'JW Player',
 			'input' => 'html',
@@ -53,7 +53,7 @@ function jwplayer_media_sync_form_html( $media ) {
 
 
 function jwplayer_media_attachment_fields_to_save( $media, $attachment ) {
-	if ( in_array( $media['post_mime_type'], unserialize( JWPLAYER_MEDIA_MIME_TYPES ), true ) ) {
+	if ( in_array( $media['post_mime_type'], json_decode( JWPLAYER_MEDIA_MIME_TYPES ), true ) ) {
 		$sync = ( isset( $attachment['jwplayer_media_sync'] ) && $attachment['jwplayer_media_sync'] ) ? true : false;
 		if ( $sync ) {
 			jwplayer_media_init_sync( $media['ID'], $media['post_mime_type'], $media['post_title'], $media['content'] );
@@ -250,7 +250,7 @@ function jwplayer_media_legacy_external_source( $url, $title = null ) {
 function jwplayer_media_add_external_source( $url, $title = null ) {
 	$extension = pathinfo( $url, PATHINFO_EXTENSION );
 	$sourceformat = 'mp4';
-	foreach ( unserialize( JWPLAYER_SOURCE_FORMAT_EXTENSIONS ) as $format => $extensions ) {
+	foreach ( json_decode( JWPLAYER_SOURCE_FORMAT_EXTENSIONS ) as $format => $extensions ) {
 		if ( in_array( $extension, $extensions, true ) ) {
 			$sourceformat = $format;
 			break;
