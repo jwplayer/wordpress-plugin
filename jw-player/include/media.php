@@ -231,9 +231,9 @@ function jwplayer_media_widget_body() {
 function jwplayer_media_legacy_external_source( $url, $title = null ) {
 	$external_media = get_option( 'jwplayer_legacy_external_media' );
 	if ( $external_media ) {
-		$external_media = unserialize( $external_media );
+		$external_media = json_decode( $external_media );
 	} else {
-		add_option( 'jwplayer_legacy_external_media', serialize( array() ) );
+		add_option( 'jwplayer_legacy_external_media', wp_json_encode( array() ) );
 		$external_media = array();
 	}
 	$file_hash = md5( $url );
@@ -242,7 +242,7 @@ function jwplayer_media_legacy_external_source( $url, $title = null ) {
 	} else {
 		$hash = jwplayer_media_add_external_source( $url, $title );
 		$external_media[ $file_hash ] = $hash;
-		update_option( 'jwplayer_legacy_external_media', serialize( $external_media ) );
+		update_option( 'jwplayer_legacy_external_media', wp_json_encode( $external_media ) );
 		return $hash;
 	}
 }
