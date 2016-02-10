@@ -12,12 +12,12 @@ function jwplayer_media_init() {
 	add_action( 'admin_menu', 'jwplayer_media_add_video_box' );
 }
 
-function jwplayer_media_attachment_fields_to_edit( $form_fields, $media) {
-	if ( in_array( $media->post_mime_type, unserialize( JWPLAYER_MEDIA_MIME_TYPES ) ) ) {
-		$form_fields["jwplayer_media_sync"] = array(
-			"label" => "JW Player",
-			"input" => "html",
-			"html" => jwplayer_media_sync_form_html( $media )
+function jwplayer_media_attachment_fields_to_edit( $form_fields, $media ) {
+	if ( in_array( $media->post_mime_type, json_decode( JWPLAYER_MEDIA_MIME_TYPES ), true ) ) {
+		$form_fields['jwplayer_media_sync'] = array(
+			'label' => 'JW Player',
+			'input' => 'html',
+			'html' => jwplayer_media_sync_form_html( $media ),
 		);
 		// $form_fields["jwplayer_media_migrate"] = array (
 		//   "label" => "",
@@ -40,7 +40,7 @@ function jwplayer_media_sync_form_html( $media ) {
 	} else {
 		$html .= "<label for='attachments[$media->ID][jwplayer_media_sync]'>";
 		$html .= "<input type='checkbox' value='sync' name='attachments[$media->ID][jwplayer_media_sync]' />";
-		$html .= "&nbsp;&nbsp;Sync to JW Player";
+		$html .= '&nbsp;&nbsp;Sync to JW Player';
 		$html .= '</label>';
 		$html .= '<p class="description">';
 		$html .= 'Enabling sync to JW Player adds this media file to your JW Player ';
@@ -53,10 +53,10 @@ function jwplayer_media_sync_form_html( $media ) {
 
 
 function jwplayer_media_attachment_fields_to_save( $media, $attachment ) {
-	if ( in_array( $media["post_mime_type"], unserialize( JWPLAYER_MEDIA_MIME_TYPES ) ) ) {
+	if ( in_array( $media['post_mime_type'], json_decode( JWPLAYER_MEDIA_MIME_TYPES ), true ) ) {
 		$sync = ( isset( $attachment['jwplayer_media_sync'] ) && $attachment['jwplayer_media_sync'] ) ? true : false;
 		if ( $sync ) {
-			jwplayer_media_init_sync( $media["ID"], $media["post_mime_type"], $media['post_title'], $media['content'] );
+			jwplayer_media_init_sync( $media['ID'], $media['post_mime_type'], $media['post_title'], $media['content'] );
 		}
 	}
 	return $media;
@@ -82,7 +82,7 @@ function jwplayer_media_edit_attachment( $post_id ) {
 }
 
 
-function jwplayer_media_hash( $media_id, $create_if_none=true ) {
+function jwplayer_media_hash( $media_id, $create_if_none = true ) {
 	$hash = get_post_meta( $media_id, 'jwplayer_media_hash', true );
 	if ( ! $hash && $create_if_none ) {
 		$post = get_post( $media_id );
@@ -95,8 +95,8 @@ function jwplayer_media_hash( $media_id, $create_if_none=true ) {
 }
 
 
-function jwplayer_media_init_sync( $media_id, $mime_type, $title, $description) {
-	$sourceformat = ( $mime_type ) ? preg_split( '/\//', $mime_type )[ 1 ] : 'mp4';
+function jwplayer_media_init_sync( $media_id, $mime_type, $title, $description ) {
+	$sourceformat = ( $mime_type ) ? preg_split( '/\//', $mime_type )[1] : 'mp4';
 	$params = array(
 		'sourcetype' => 'url',
 		'sourceurl' => wp_get_attachment_url( $media_id ),
@@ -148,7 +148,7 @@ function jwplayer_media_sync( $hash, $media_id, $mime_type, $title, $description
 
 // Add the JW Player tab to the menu of the "Add media" window
 function jwplayer_media_menu( $tabs ) {
-	if ( get_option ('jwplayer_api_key' ) ) {
+	if ( get_option( 'jwplayer_api_key' ) ) {
 		$newtab = array( 'jwplayer' => 'JW Player' );
 		return array_merge( $tabs, $newtab );
 	}
@@ -183,7 +183,7 @@ function jwplayer_media_handle() {
 
 // Add the video widget to the authoring page, if enabled in the settings
 function jwplayer_media_add_video_box() {
-	if ( get_option( 'jwplayer_show_widget' ) && get_option ('jwplayer_api_key' ) ) {
+	if ( get_option( 'jwplayer_show_widget' ) && get_option( 'jwplayer_api_key' ) ) {
 		add_meta_box( 'jwplayer-video-box', 'Insert media with JW Player', 'jwplayer_media_widget_body', 'post', 'side', 'high' );
 		add_meta_box( 'jwplayer-video-box', 'Insert media with JW Player', 'jwplayer_media_widget_body', 'page', 'side', 'high' );
 	}
@@ -203,7 +203,7 @@ function jwplayer_media_widget_body() {
 	</div>
 	<div class="jwplayer-widget-div" id="jwplayer-video-div">
 		<h4>Video</h4>
-		<p id="jwplayer-account-login-link"><span>Choose content from</span> your <a href="<?php echo JWPLAYER_DASHBOARD; ?>" title="open your dashboard">JW Player Account</a>
+		<p id="jwplayer-account-login-link"><span>Choose content from</span> your <a href="<?php echo esc_url( JWPLAYER_DASHBOARD ); ?>" title="open your dashboard">JW Player Account</a>
 		<ul class="jwplayer-tab-select">
 			<li id="jwplayer-tab-select-choose">Choose</li>
 			<li id="jwplayer-tab-select-add" class="jwplayer-off">Add New</li>
@@ -228,12 +228,12 @@ function jwplayer_media_widget_body() {
 	<?php
 }
 
-function jwplayer_media_legacy_external_source( $url, $title=null ) {
-	$external_media = get_option ('jwplayer_legacy_external_media' );
+function jwplayer_media_legacy_external_source( $url, $title = null ) {
+	$external_media = get_option( 'jwplayer_legacy_external_media' );
 	if ( $external_media ) {
-		$external_media = unserialize( $external_media );
+		$external_media = json_decode( $external_media );
 	} else {
-		add_option( 'jwplayer_legacy_external_media', serialize( array() ) );
+		add_option( 'jwplayer_legacy_external_media', wp_json_encode( array() ) );
 		$external_media = array();
 	}
 	$file_hash = md5( $url );
@@ -242,16 +242,16 @@ function jwplayer_media_legacy_external_source( $url, $title=null ) {
 	} else {
 		$hash = jwplayer_media_add_external_source( $url, $title );
 		$external_media[ $file_hash ] = $hash;
-		update_option( 'jwplayer_legacy_external_media', serialize( $external_media ) );
+		update_option( 'jwplayer_legacy_external_media', wp_json_encode( $external_media ) );
 		return $hash;
 	}
 }
 
-function jwplayer_media_add_external_source( $url, $title=null ) {
+function jwplayer_media_add_external_source( $url, $title = null ) {
 	$extension = pathinfo( $url, PATHINFO_EXTENSION );
 	$sourceformat = 'mp4';
-	foreach ( unserialize( JWPLAYER_SOURCE_FORMAT_EXTENSIONS ) as $format => $extensions ) {
-		if ( in_array( $extension, $extensions ) ) {
+	foreach ( json_decode( JWPLAYER_SOURCE_FORMAT_EXTENSIONS ) as $format => $extensions ) {
+		if ( in_array( $extension, $extensions, true ) ) {
 			$sourceformat = $format;
 			break;
 		}

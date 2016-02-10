@@ -4,7 +4,7 @@ function jwplayer_login_init() {
 	add_action( 'admin_menu', 'jwplayer_login_create_pages' );
 }
 
-function jwplayer_login_create_pages(){
+function jwplayer_login_create_pages() {
 	//adds the login page
 	add_submenu_page( null, 'JW Player Authorization', 'JW Player Authorization', 'manage_options', 'jwplayer_login_page', 'jwplayer_login_page' );
 	//adds the logout page
@@ -28,40 +28,33 @@ function jwplayer_login_page() {
 		return;
 	}
 
-	if ( ! isset( $_POST['apikey'], $_POST['apisecret'] ) ) {//input var okay
+	if ( ! isset( $_POST['apikey'], $_POST['apisecret'] ) ) { // Input var okay
 		jwplayer_login_form();
 		return;
 	}
 
 	// Check the nonce (counter XSRF)
-	if ( isset( $_POST['_wpnonce'] ) ){
-		$nonce = sanitize_text_field( $_POST['_wpnonce'] );//input var okay
-		if ( ! wp_verify_nonce( $nonce, 'jwplayer-login-nonce' ) ) {
+	if ( isset( $_POST['_wpnonce'] ) ) { // Input var okay
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'jwplayer-login-nonce' ) ) { // Input var okay
 			jwplayer_login_print_error( 'Could not verify the form data.' );
 			jwplayer_login_form();
 			return;
 		}
 	}
 
-	if ( isset($_POST['apikey']) ){
-		$api_key = sanitize_text_field( $_POST['apikey'] );//input var okay
-	}
+	$api_key = isset( $_POST['apikey'] ) ? sanitize_text_field( wp_unslash( $_POST['apikey'] ) ) : false; // Input var okay
 
-	if ( isset($_POST['apisecret']) ){
-		$api_secret = sanitize_text_field( $_POST['apisecret'] );//input var okay
-	}
+	$api_secret = isset( $_POST['apisecret'] ) ? sanitize_text_field( wp_unslash( $_POST['apisecret'] ) ) : false; // Input var okay
 
 	$api_verified = jwplayer_login_verify_api_key_secret( $api_key, $api_secret );
 
 	if ( null === $api_verified ) {
 		jwplayer_login_print_error( 'Communications with the JW Player API failed. Please try again later.' );
 		jwplayer_login_form();
-	}
-	elseif ( false === $api_verified ) {
+	} elseif ( false === $api_verified ) {
 		jwplayer_login_print_error( 'Your API credentials were not accepted. Please try again.' );
 		jwplayer_login_form();
-	}
-	else {
+	} else {
 		// Perform the login.
 		update_option( 'jwplayer_api_key', $api_key );
 		update_option( 'jwplayer_api_secret', $api_secret );
@@ -135,19 +128,17 @@ function jwplayer_login_logout() {
 		return;
 	}
 
-	if ( ! isset( $_POST['logout'] ) ) {//input var okay
+	if ( ! isset( $_POST['logout'] ) ) { // Input var okay
 		jwplayer_login_logout_form();
 		return;
 	}
 
 	// Check the nonce (counter XSRF)
-	if ( isset( $_POST['_wpnonce'] ) ) {
-		$nonce = sanitize_text_field( $_POST['_wpnonce'] );//input var okay
-		if ( ! wp_verify_nonce( $nonce, 'jwplayer-logout-nonce' ) ) {
-			jwplayer_login_print_error( 'Could not verify the form data.' );
-			jwplayer_login_logout_form();
-			return;
-		}
+
+	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'jwplayer-logout-nonce' ) ) { // Input var okay
+		jwplayer_login_print_error( 'Could not verify the form data.' );
+		jwplayer_login_logout_form();
+		return;
 	}
 
 	// Perform the logout.

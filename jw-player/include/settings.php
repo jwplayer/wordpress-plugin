@@ -3,17 +3,17 @@
 
 // Add the JW Player settings to the media page in the admin panel
 function jwplayer_settings_init() {
-	add_options_page ( 'JW Player Plugin Settings', 'JW Player', 'manage_options', 'jwplayer_settings', 'jwplayer_settings_page' );
+	add_options_page( 'JW Player Plugin Settings', 'JW Player', 'manage_options', 'jwplayer_settings', 'jwplayer_settings_page' );
 	add_settings_section( 'jwplayer_setting_section', null, '__return_true', 'jwplayer_settings' );
 
-	if ( get_option ( 'jwplayer_api_key' ) ) {
+	if ( get_option( 'jwplayer_api_key' ) ) {
 		add_settings_field( 'jwplayer_logout_link', 'Authorization', 'jwplayer_setting_logout_link', 'jwplayer_settings', 'jwplayer_setting_section' );
 		add_settings_field( 'jwplayer_player', 'Default player', 'jwplayer_setting_player', 'jwplayer_settings', 'jwplayer_setting_section' );
 		add_settings_field( 'jwplayer_show_widget', 'Authoring page widget', 'jwplayer_setting_show_widget', 'jwplayer_settings', 'jwplayer_setting_section' );
 		add_settings_field( 'jwplayer_nr_videos', 'Videos in widget', 'jwplayer_setting_nr_videos', 'jwplayer_settings', 'jwplayer_setting_section' );
 		add_settings_field( 'jwplayer_timeout', 'Timeout for signed links', 'jwplayer_setting_timeout', 'jwplayer_settings', 'jwplayer_setting_section' );
 		add_settings_field( 'jwplayer_content_mask', 'Content DNS mask', 'jwplayer_setting_content_mask', 'jwplayer_settings', 'jwplayer_setting_section' );
-		add_settings_field( 'jwplayer_custom_shortcode_parser', 'Custom shortcode parser', 'jwplayer_setting_custom_shortcode', 'jwplayer_settings', 'jwplayer_setting_section');
+		add_settings_field( 'jwplayer_custom_shortcode_parser', 'Custom shortcode parser', 'jwplayer_setting_custom_shortcode', 'jwplayer_settings', 'jwplayer_setting_section' );
 
 		register_setting( 'jwplayer_settings', 'jwplayer_nr_videos', 'absint' );
 		register_setting( 'jwplayer_settings', 'jwplayer_timeout', 'absint' );
@@ -21,12 +21,11 @@ function jwplayer_settings_init() {
 		register_setting( 'jwplayer_settings', 'jwplayer_player', 'jwplayer_validate_player' );
 		register_setting( 'jwplayer_settings', 'jwplayer_show_widget', 'jwplayer_validate_boolean' );
 		register_setting( 'jwplayer_settings', 'jwplayer_custom_shortcode_parser', 'jwplayer_validate_boolean' );
-	}
-	else {
+	} else {
 		add_settings_field( 'jwplayer_login_link', 'Authorization', 'jwplayer_setting_login_link', 'jwplayer_settings', 'jwplayer_setting_section' );
 	}
 
-	if ( get_option ( 'jwplayer_api_key' ) && get_option ( 'jwplayer_custom_shortcode_parser' ) ) {
+	if ( get_option( 'jwplayer_api_key' ) && get_option( 'jwplayer_custom_shortcode_parser' ) ) {
 		add_settings_section( 'jwplayer_shortcode_section', 'Shortcode Settings', 'jwplayer_setting_section_shortcode', 'jwplayer_settings' );
 
 		add_settings_field( 'jwplayer_shortcode_category_filter', 'Category pages', 'jwplayer_setting_custom_shortcode_category', 'jwplayer_settings', 'jwplayer_shortcode_section' );
@@ -41,10 +40,10 @@ function jwplayer_settings_init() {
 	}
 
 	// Legacy redirect
-	$botr_active = is_plugin_active('bits-on-the-run/bitsontherun.php');
+	$botr_active = is_plugin_active( 'bits-on-the-run/bitsontherun.php' );
 	if ( $botr_active || get_option( 'jwplayer_import_done' ) ) {
 		add_settings_section( 'jwplayer_setting_media_section', 'JW Player Plugin', '__return_true', 'media' );
-		add_settings_field( 'jwplayer_setting_media', 'JW Player Plugin Settings', 'jwplayer_setting_media_redirect', 'media', 'jwplayer_setting_media_section');
+		add_settings_field( 'jwplayer_setting_media', 'JW Player Plugin Settings', 'jwplayer_setting_media_redirect', 'media', 'jwplayer_setting_media_section' );
 	}
 }
 
@@ -65,7 +64,7 @@ function jwplayer_settings_page() {
 // The logout link on the settings page
 function jwplayer_setting_logout_link() {
 	$logout_url = get_admin_url( null, 'admin.php?page=jwplayer_logout_page' );
-	$api_key = get_option ('jwplayer_api_key' );
+	$api_key = get_option( 'jwplayer_api_key' );
 	echo 'Authorized with api key <em>' . esc_html( $api_key ) . '</em>. <a href="' . esc_url( $logout_url ) . '">Deauthorize</a>.';
 }
 
@@ -102,7 +101,7 @@ function jwplayer_setting_content_mask() {
 
 // The setting for the default player
 function jwplayer_setting_player() {
-	$api_key = get_option ('jwplayer_api_key' );
+	$api_key = get_option( 'jwplayer_api_key' );
 	$loggedin = ! empty( $api_key );
 	if ( $loggedin ) {
 		$response = jwplayer_api_call( '/players/list' );
@@ -114,8 +113,7 @@ function jwplayer_setting_player() {
 			$key = $p['key'];
 			if ( $p['responsive'] ) {
 				$description = htmlentities( $p['name'] ) . ' (Responsive, ' . $p['aspectratio'] . ')';
-			}
-			else {
+			} else {
 				$description = htmlentities( $p['name'] ) . ' (Fixed size, ' . $p['width'] . 'x' . $p['height'] . ')';
 			}
 			echo '<option value="' . esc_attr( $key ) . '"' . esc_attr( selected( $key === $player, true, false ) ) . '>' . esc_html( $description ) . '</option>';
@@ -134,8 +132,7 @@ function jwplayer_setting_player() {
 				For example: <code>[jwplayer MdkflPz7-35rdi1pO]</code>
 			</p>
 		';
-	}
-	else {
+	} else {
 		echo '<input type="hidden" name="jwplayer_player" value="' . esc_attr( JWPLAYER_PLAYER ) . '" />';
 		echo 'You have to save log in before you can set this option.';
 	}
@@ -159,7 +156,7 @@ function jwplayer_setting_custom_shortcode() {
 	echo ' value="true" /> ';
 	echo '<label for="jwplayer_custom_shortcode_parser">Use a custom shortcode parser to support shortcode replacement in different page types.</label>';
 	// TODO: Update URL to point to new docs.
-	echo '<p class="description"><a href="' . esc_url('https://support.jwplayer.com/customer/portal/articles/1403714-jw6-wordpress-plugin-reference')  . '">Learn more.</a></p>';
+	echo '<p class="description"><a href="' . esc_url( 'https://support.jwplayer.com/customer/portal/articles/1403714-jw6-wordpress-plugin-reference' )  . '">Learn more.</a></p>';
 }
 
 // The login link on the settings page
@@ -171,7 +168,7 @@ function jwplayer_setting_login_link() {
 function jwplayer_setting_section_shortcode() {
 	echo '<p>';
 	echo '    You can configure wether you want JW Player to embed in overview pages (home, tags, etc). Depending';
-	echo '    upon your Wordpress theme, the JW Player plugin must render the shortcodes from either ';
+	echo '    upon your WordPress theme, the JW Player plugin must render the shortcodes from either ';
 	echo '    <code>the_excerpt</code> or <code>the_content</code>. The third option is to disable player embeds';
 	echo '    on a specific page type. This will strip out the shortcode.';
 	echo '</p>';
@@ -181,16 +178,15 @@ function jwplayer_setting_custom_shortcode_filter( $page_type ) {
 	$option_name = 'jwplayer_shortcode_' . $page_type . '_filter';
 	$current_value = get_option( $option_name );
 	$current_value = ( $current_value ) ? $current_value : 'content';
-	echo "<fieldset>";
-	foreach ( unserialize( JWPLAYER_CUSTOM_SHORTCODE_OPTIONS ) as $option ) {
-			$checked = ( $current_value === $option ) ? 'checked="checked"' : '';
+	echo '<fieldset>';
+	foreach ( json_decode( JWPLAYER_CUSTOM_SHORTCODE_OPTIONS ) as $option ) {
 			$option_label = ( 'strip' === $option ) ? 'Strip shortcode' : "Use $option";
-			echo "<label title='$option'>";
-			echo "<input type='radio' value='$option' name='$option_name' $checked />";
-			echo "<span>&nbsp;$option_label</span>";
+			echo '<label title="' . esc_attr( $option ) . '">';
+			echo '<input type="radio" value="' . esc_attr( $option ) . '" name="' . esc_attr( $option_name ) . '" '. checked( $current_value, $option ) . '/>';
+			echo '<span>&nbsp;' . esc_html( $option_label ) . '</span>';
 			echo '</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 	}
-	echo "</fieldset>";
+	echo '</fieldset>';
 }
 
 function jwplayer_setting_custom_shortcode_category( $page_type = 'category' ) {
@@ -211,5 +207,5 @@ function jwplayer_setting_custom_shortcode_home() {
 
 function jwplayer_setting_media_redirect() {
 	$redirect_url = get_admin_url( null, 'options-general.php?page=jwplayer_settings' );
-	echo "JW Player plugin settings have moved. Please <a href='$redirect_url' title='Manage JW Player Plugin'>go here</a> now.";
+	echo 'JW Player plugin settings have moved. Please <a href="' . esc_url( $redirect_url ) . '" title="Manage JW Player Plugin">go here</a> now.';
 }
