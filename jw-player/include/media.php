@@ -229,10 +229,8 @@ function jwplayer_media_widget_body() {
 }
 
 function jwplayer_media_legacy_external_source( $url, $title = null ) {
-	$external_media = get_option( 'jwplayer_legacy_external_media' );
-	if ( $external_media ) {
-		$external_media = json_decode( $external_media );
-	} else {
+	$external_media = jwplayer_get_json_option( 'jwplayer_legacy_external_media' );
+	if ( !$external_media ) {
 		add_option( 'jwplayer_legacy_external_media', wp_json_encode( array() ) );
 		$external_media = array();
 	}

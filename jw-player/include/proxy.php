@@ -58,7 +58,7 @@ function jwplayer_proxy() {
 		}
 	}
 
-	$params['api_format'] = 'php';
+	$params['api_format'] = 'json';
 	$response = $jwplayer_api->call( $method, $params );
 
 	header( 'Content-Type: application/json' );

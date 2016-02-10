@@ -78,7 +78,7 @@ class JWPlayer_api {
 		if ( ! array_key_exists( 'api_format', $args ) ) {
 			// Use the serialised PHP format,
 			// otherwise use format specified in the call() args.
-			$args['api_format'] = 'php';
+			$args['api_format'] = 'json';
 		}
 
 		// Add API kit version
@@ -120,12 +120,12 @@ class JWPlayer_api {
 			$response = wp_remote_retrieve_body( $response );
 		}
 
-		$unserialized_response = unserialize( $response );
-		return $unserialized_response;
+		$decoded_response = json_decode( $response, $assoc = true );
+		return $decoded_response;
 	}
 
 	// Upload a file
-	public function upload( $upload_link = array(), $file_path, $api_format = 'php' ) {
+	public function upload( $upload_link = array(), $file_path, $api_format = 'json' ) {
 		$url = $upload_link['protocol'] . '://' . $upload_link['address'] . $upload_link['path'] .
 			'?key=' . $upload_link['query']['key'] . '&token=' . $upload_link['query']['token'] .
 			'&api_format=' . $api_format;
@@ -142,7 +142,7 @@ class JWPlayer_api {
 		if ( is_wp_error( $response ) ) {
 			return $response->get_error_message();
 		} else {
-			return unserialize( $response );
+			return json_decode( $response, $assoc = true );
 		}
 	}
 }

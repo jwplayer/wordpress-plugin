@@ -182,7 +182,7 @@ function jwplayer_setting_custom_shortcode_filter( $page_type ) {
 	foreach ( json_decode( JWPLAYER_CUSTOM_SHORTCODE_OPTIONS ) as $option ) {
 			$option_label = ( 'strip' === $option ) ? 'Strip shortcode' : "Use $option";
 			echo '<label title="' . esc_attr( $option ) . '">';
-			echo '<input type="radio" value="' . esc_attr( $option ) . '" name="' . esc_attr( $option_name ) . '" '. checked( $current_value, $option ) . '/>';
+			echo '<input type="radio" value="' . esc_attr( $option ) . '" name="' . esc_attr( $option_name ) . '" '. checked( $current_value, $option, false ) . '/>';
 			echo '<span>&nbsp;' . esc_html( $option_label ) . '</span>';
 			echo '</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 	}

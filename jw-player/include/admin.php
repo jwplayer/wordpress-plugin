@@ -28,6 +28,9 @@ function jwplayer_admin_head() {
 
 	$plugin_url = plugins_url( '', __FILE__ );
 	$content_mask = jwplayer_get_content_mask();
+	if ( $content_mask === JWPLAYER_CONTENT_MASK && is_ssl() ) {
+		$content_mask = 'https://' . $content_mask;
+	}
 	$nr_videos = intval( get_option( 'jwplayer_nr_videos' ) );
 	?>
 

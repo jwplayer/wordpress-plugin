@@ -26,3 +26,17 @@ function jwplayer_get_content_mask() {
 	return $content_mask;
 }
 
+// Function to fetch json formatted options and turn the older serialized
+// values into json.
+function jwplayer_get_json_option( $option_name ) {
+  $raw_json = get_option( $option_name );
+  if ( !$raw_json ) {
+    return null;
+  }
+  $option_value = json_decode( $raw_json );
+  if ( null === $option_value ) {
+    $option_value = unserialize( $raw_json );
+    update_option( $option_name, wp_json_encode( $option_value ) );
+  }
+  return $option_value;
+}
