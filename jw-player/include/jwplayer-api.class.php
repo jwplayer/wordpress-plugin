@@ -12,7 +12,7 @@
  */
 
 class JWPlayer_api {
-	private $_version = 'wordpress-jwp';
+	private $_version = 'jwp-wp-plugin-' . JWPLAYER_PLUGIN_VERSION;
 	private $_url = 'http://api.jwplatform.com/v1';
 	private $_library;
 
