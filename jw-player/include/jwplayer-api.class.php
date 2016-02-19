@@ -12,13 +12,14 @@
  */
 
 class JWPlayer_api {
-	private $_version = 'jwp-wp-plugin-' . JWPLAYER_PLUGIN_VERSION;
 	private $_url = 'http://api.jwplatform.com/v1';
 	private $_library;
 
-	private $_key, $_secret;
+	private $_key, $_secret, $_version;
 
 	public function __construct( $key, $secret ) {
+
+		$this->$_version = 'jwp-wp-plugin-' . JWPLAYER_PLUGIN_VERSION;
 		$this->_key = $key;
 		$this->_secret = $secret;
 
