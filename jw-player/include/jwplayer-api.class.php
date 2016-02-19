@@ -19,7 +19,7 @@ class JWPlayer_api {
 
 	public function __construct( $key, $secret ) {
 
-		$this->$_version = 'jwp-wp-plugin-' . JWPLAYER_PLUGIN_VERSION;
+		$this->_version = 'jwp-wp-plugin-' . JWPLAYER_PLUGIN_VERSION;
 		$this->_key = $key;
 		$this->_secret = $secret;
 
