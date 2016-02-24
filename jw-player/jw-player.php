@@ -4,7 +4,7 @@ Plugin Name: JW Player Plugin
 Plugin URI: http://www.jwplayer.com/
 Description: This plugin allows you to easily upload and embed videos using the JW Player. The embedded video links can be signed, making it harder for viewers to steal your content.
 Author: JW Player
-Version: 1.0.0-beta
+Version: 1.5.0
 */
 
 define( 'JWPLAYER_PLUGIN_DIR', dirname( __FILE__ ) );
@@ -76,6 +76,7 @@ if ( function_exists( 'vip_safe_wp_remote_get' ) ) {
 } else {
 	$jwplayer_which_env = 'wp';
 }
+define( 'JWPLAYER_WHICH_ENV', $jwplayer_which_env );
 
 // Execute when the plugin is enabled
 function jwplayer_add_options() {
@@ -92,11 +93,11 @@ function jwplayer_add_options() {
 	add_option( 'jwplayer_shortcode_home_filter', JWPLAYER_CUSTOM_SHORTCODE_FILTER );
 }
 
-if ( 'wpvip' === $jwplayer_which_env ) {
+if ( 'wpvip' === JWPLAYER_WHICH_ENV ) {
 	if ( ! get_option( 'jwplayer_player' ) ) {
 		jwplayer_add_options();
 	}
-} elseif ( 'wp' === $jwplayer_which_env ) {
+} elseif ( 'wp' === JWPLAYER_WHICH_ENV ) {
 	register_activation_hook( __FILE__, 'jwplayer_add_options' );
 }
 
@@ -113,6 +114,6 @@ jwplayer_media_init();
 jwplayer_shortcode_init();
 
 // Check for old plugin settings.
-if ( 'wp' === $jwplayer_which_env ) {
+if ( 'wp' === JWPLAYER_WHICH_ENV ) {
 	add_action( 'admin_menu', 'jwplayer_import_check_and_init' );
 }
