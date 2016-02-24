@@ -7,7 +7,7 @@ function jwplayer_shortcode_init() {
 	if ( get_option( 'jwplayer_custom_shortcode_parser' ) ) {
 		add_filter( 'the_content', 'jwplayer_shortcode_content_filter', 11 );
 		add_filter( 'the_excerpt', 'jwplayer_shortcode_excerpt_filter', 11 );
-		add_filter( 'widget_text', 'jwplayer_shortcode_text_filter',  11 );
+		add_filter( 'widget_text', 'jwplayer_shortcode_widget_text_filter',  11 );
 	} else {
 		add_shortcode( 'jwplayer', 'jwplayer_shortcode_handle' );
 		add_shortcode( 'jwplatform', 'jwplayer_shortcode_handle' );
@@ -61,11 +61,17 @@ function jwplayer_shortcode_filter( $filter_type = 'content', $content = '' ) {
 	}
 	$tag_regex = '/(.?)\[(jwplayer|jwplatform)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s';
 	if ( $action === $filter_type ) {
-		$content = preg_replace_callback( $tag_regex, jwplayer_shortcode_parser, $content );
+		$content = preg_replace_callback( $tag_regex, 'jwplayer_shortcode_parser', $content );
 	} elseif ( 'strip' === $action ) {
-		$content = preg_replace_callback( $tag_regex, jwplayer_shortcode_stripper, $content );
+		$content = preg_replace_callback( $tag_regex, 'jwplayer_shortcode_stripper', $content );
 	}
 	return $content;
+}
+
+function jwplayer_shortcode_widget_text_filter( $content = '' ) {
+    $tag_regex = '/(.?)\[(jwplayer)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s';
+    $content = preg_replace_callback( $tag_regex, 'jwplayer_shortcode_parser', $content );
+    return $content;
 }
 
 function jwplayer_shortcode_parser( $matches ) {
