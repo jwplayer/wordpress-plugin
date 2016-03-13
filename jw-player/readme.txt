@@ -97,6 +97,7 @@ That's great. Tell us about it and open a pull request on [our GitHub mirror of 
 
 * Issue: Widget text parser was undefined
 * Issue: PHP warning for undefined variable removed
+* Issue: Signing fix for when secure embeds is enabled
 
 = 1.5.0 =
 
