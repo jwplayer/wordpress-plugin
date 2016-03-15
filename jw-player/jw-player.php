@@ -103,6 +103,7 @@ jwplayer_media_init();
 // Initialize the JW Player shortcode.
 jwplayer_shortcode_init();
 
+// WORDPRESS.ORG ONLY =>
 // Check for old plugin settings.
 if  ( ! defined( 'WPCOM_IS_VIP_ENV' ) ) {
 	require_once( JWPLAYER_PLUGIN_DIR . '/include/import.php' );
