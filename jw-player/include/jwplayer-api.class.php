@@ -95,17 +95,19 @@ class JWPlayer_api {
 		}
 
 		if ( is_wp_error( $response ) ) {
-			$response = 'Error: call to JW Player API failed';
-		} else {
-			$response = wp_remote_retrieve_body( $response );
+			return 'Error: call to JW Player API failed';
 		}
 
+		$response = wp_remote_retrieve_body( $response );
 		$decoded_response = json_decode( $response, $assoc = true );
 		return $decoded_response;
 	}
 
 	// Upload a file
 	public function upload( $upload_link = array(), $file_path, $api_format = 'json' ) {
+		if ( ! is_array( $upload_link ) ) {
+			return 'Invalid Upload link array.';
+		}
 		$url = $upload_link['protocol'] . '://' . $upload_link['address'] . $upload_link['path'] .
 			'?key=' . $upload_link['query']['key'] . '&token=' . $upload_link['query']['token'] .
 			'&api_format=' . $api_format;
