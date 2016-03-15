@@ -173,7 +173,7 @@
 			}
 
 			var params = {
-				action:"jwplayer",
+				action:"jwp_api_proxy",
 				method:'/videos/list',
 				result_limit:nr_videos,
 				order_by:'date:desc',
@@ -234,7 +234,7 @@
 			}
 
 			var params = {
-				action:"jwplayer",
+				action:"jwp_api_proxy",
 				method:'/channels/list',
 				result_limit:nr_videos,
 				random:Math.random(),
@@ -304,16 +304,16 @@
 			var doDescribeEmpty = function(){
 				if( jwplayer.widgets.list.children().length === 0 ){
 					if( channels && videos ){
-						jwplayer.widgets.list.html( 'No playlists or videos have been found.' );
+						jwplayer.widgets.list.text( 'No playlists or videos have been found.' );
 					}
 					else if( channels ){
-						jwplayer.widgets.list.html( 'No playlists have been found.' );
+						jwplayer.widgets.list.text( 'No playlists have been found.' );
 					}
 					else if( videos ){
-						jwplayer.widgets.list.html( 'No videos have been found.' );
+						jwplayer.widgets.list.text( 'No videos have been found.' );
 					}
 					else{
-						jwplayer.widgets.list.html( 'Please search for videos or playlists.' );
+						jwplayer.widgets.list.text( 'Please search for videos or playlists.' );
 					}
 				}
 			};
@@ -340,7 +340,7 @@
 
 		list_players:function(){
 			var params = {
-				action:"jwplayer",
+				action:"jwp_api_proxy",
 				method:'/players/list',
 				random:Math.random(),
 				token:( $( 'input[name=_wpnonce-widget]' ).length > 0 ) ? $( 'input[name=_wpnonce-widget]' ).val() : ''
@@ -376,7 +376,7 @@
 						type:'GET',
 						url:ajaxurl,
 						data:{
-							action:"jwplayer",
+							action:"jwp_api_proxy",
 							method:'/videos/thumbnails/show',
 							video_key:video_key,
 							token:( $( 'input[name=_wpnonce-widget]' ).length > 0 ) ? $( 'input[name=_wpnonce-widget]' ).val() : ''
@@ -488,7 +488,7 @@
 				$( 'body' ).unbind( 'keyup.jwplayer-dimmer' );
 				dim.remove();
 				win.fadeOut( 400, function () { win.remove(); } );
-			}
+			};
 			$( 'body' ).bind( 'keyup.jwplayer-dimmer', function ( e ) {
 				if ( e.keyCode == 27 ) dim.close();
 			} );
@@ -575,7 +575,7 @@
 			win.find( '.jwplayer-message' ).text( "" ).hide();
 
 			var data = {
-				action:"jwplayer",
+				action:"jwp_api_proxy",
 				method:'/videos/create',
 				// IE tends to cache too much
 				random:Math.random(),
@@ -683,7 +683,7 @@
 			win.find( '.jwplayer-message' ).text( "" ).hide();
 
 			var data = {
-				action:"jwplayer",
+				action:"jwp_api_proxy",
 				method:'/videos/create',
 				// IE tends to cache too much
 				random:Math.random(),

@@ -109,14 +109,18 @@ function jwplayer_setting_player() {
 
 		echo '<select name="jwplayer_player" id="jwplayer_player" />';
 
-		foreach ( $response['players'] as $i => $p ) {
-			$key = $p['key'];
-			if ( $p['responsive'] ) {
-				$description = htmlentities( $p['name'] ) . ' (Responsive, ' . $p['aspectratio'] . ')';
-			} else {
-				$description = htmlentities( $p['name'] ) . ' (Fixed size, ' . $p['width'] . 'x' . $p['height'] . ')';
+		if ( is_array( $response ) ) {
+			foreach ( $response['players'] as $i => $p ) {
+				if ( is_array( $p ) ) {
+					$key = $p['key'];
+					if ( $p['responsive'] ) {
+						$description = htmlentities( $p['name'] ) . ' (Responsive, ' . $p['aspectratio'] . ')';
+					} else {
+						$description = htmlentities( $p['name'] ) . ' (Fixed size, ' . $p['width'] . 'x' . $p['height'] . ')';
+					}
+					echo '<option value="' . esc_attr( $key ) . '"' . esc_attr( selected( $key === $player, true, false ) ) . '>' . esc_html( $description ) . '</option>';
+				}
 			}
-			echo '<option value="' . esc_attr( $key ) . '"' . esc_attr( selected( $key === $player, true, false ) ) . '>' . esc_html( $description ) . '</option>';
 		}
 
 		echo '</select>';

@@ -19,11 +19,6 @@ function jwplayer_media_attachment_fields_to_edit( $form_fields, $media ) {
 			'input' => 'html',
 			'html' => jwplayer_media_sync_form_html( $media ),
 		);
-		// $form_fields["jwplayer_media_migrate"] = array (
-		//   "label" => "",
-		//   "input" => "html",
-		//   "html" => jwplayer_media_migrate_html( $media )
-		// );
 	}
 	return $form_fields;
 }
@@ -64,12 +59,11 @@ function jwplayer_media_attachment_fields_to_save( $media, $attachment ) {
 
 
 function jwplayer_media_delete_attachment( $media_id ) {
-	$media = get_post( $media_id );
 	$hash = get_post_meta( $media_id, 'jwplayer_media_hash', true );
 	if ( ! $hash ) {
 		return;
 	}
-	$response = jwplayer_api_call( '/videos/delete', array( 'video_key' => $hash ) );
+	jwplayer_api_call( '/videos/delete', array( 'video_key' => $hash ) );
 }
 
 

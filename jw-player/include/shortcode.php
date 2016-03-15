@@ -1,5 +1,8 @@
 <?php
 
+// We use a global variable to keep track of all the players that are embedded
+// on a page. If multiple videos with the same player are embedded on the
+// same page the library only needs to be injected once.
 $jwplayer_shortcode_embedded_players = array();
 
 function jwplayer_shortcode_init() {
@@ -106,8 +109,6 @@ function jwplayer_shortcode_stripper( $matches ) {
 function jwplayer_shortcode_handle_legacy( $atts ) {
 	// Try to get media
 	if ( isset( $atts['mediaid'] ) ) {
-		// $post = get_post( intval( $atts['mediaid'] ) );
-		// if ( $post ) {
 		$hash = jwplayer_media_hash( intval( $atts['mediaid'] ) );
 		if ( ! isset( $atts['image'] ) ) {
 			$thumb = get_post_meta( $atts['mediaid'], 'jwplayermodule_thumbnail', true );
@@ -233,20 +234,20 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 		if ( $player_script ) {
 			return "
 		<script type='text/javascript' src='" . esc_url( "$protocol://$content_mask/libraries/$player_hash.js" ) . "'></script>
-			<div id='" . esc_js( $element_id ) . "'></div>
+			<div id='" . esc_attr( $element_id ) . "'></div>
 		<script type='text/javascript'>
 			" . 'if(typeof(jQuery)=="function"){(function($){$.fn.fitVids=function(){}})(jQuery)};' . "
-				jwplayer('" . esc_js( $element_id ) . "').setup(
+				jwplayer('" . esc_attr( $element_id ) . "').setup(
 				" . wp_json_encode( $params ) . "
 			);
 		</script>
 	";
 		} else { // no player script
 			return "
-			<div id='" . esc_js( $element_id ) . "'></div>
+			<div id='" . esc_attr( $element_id ) . "'></div>
 		<script type='text/javascript'>
 			" . 'if(typeof(jQuery)=="function"){(function($){$.fn.fitVids=function(){}})(jQuery)};' . "
-				jwplayer('" . esc_js( $element_id ) . "').setup(
+				jwplayer('" . esc_attr( $element_id ) . "').setup(
 				" . wp_json_encode( $params ) . "
 			);
 		</script>
@@ -258,18 +259,18 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 		if ( $player_script ) {
 			return "
 		<script type='text/javascript' src='" . esc_url( "$protocol://$content_mask/libraries/$player_hash.js" ) . "></script>
-			<div id='" . esc_js( $element_id ) . "'></div>
+			<div id='" . esc_attr( $element_id ) . "'></div>
 		<script type='text/javascript'>
-				jwplayer('" . esc_js( $element_id ) . "').setup(
+				jwplayer('" . esc_attr( $element_id ) . "').setup(
 				" . wp_json_encode( $params ) . "
 			);
 		</script>
 	";
 		} else { // no player script
 			return "
-			<div id='" . esc_js( $element_id ) . "'></div>
+			<div id='" . esc_attr( $element_id ) . "'></div>
 		<script type='text/javascript'>
-				jwplayer('" . esc_js( $element_id ) . "').setup(
+				jwplayer('" . esc_attr( $element_id ) . "').setup(
 				" . wp_json_encode( $params ) . "
 			);
 		</script>

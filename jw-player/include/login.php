@@ -113,11 +113,9 @@ function jwplayer_login_form() {
  * If the API call failed, return NULL.
  */
 function jwplayer_login_verify_api_key_secret( $key, $secret ) {
-	// require_once 'include/jwplayer-api.class.php';
-
 	// Create an API object with the provided key and secret.
 	$api = new JWPlayer_api( $key, $secret );
-	$response = $api->call( '/accounts/show', $params );
+	$response = $api->call( '/accounts/show' );
 	return jwplayer_api_response_ok( $response );
 }
 

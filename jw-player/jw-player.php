@@ -4,7 +4,7 @@ Plugin Name: JW Player Plugin
 Plugin URI: http://www.jwplayer.com/
 Description: This plugin allows you to easily upload and embed videos using the JW Player. The embedded video links can be signed, making it harder for viewers to steal your content.
 Author: JW Player
-Version: 1.0.0-beta
+Version: 1.5.0
 */
 
 define( 'JWPLAYER_PLUGIN_DIR', dirname( __FILE__ ) );
@@ -13,7 +13,6 @@ require_once( JWPLAYER_PLUGIN_DIR . '/include/jwplayer-api.class.php' );
 require_once( JWPLAYER_PLUGIN_DIR . '/include/admin.php' );
 require_once( JWPLAYER_PLUGIN_DIR . '/include/ajax.php' );
 require_once( JWPLAYER_PLUGIN_DIR . '/include/api.php' );
-require_once( JWPLAYER_PLUGIN_DIR . '/include/import.php' );
 require_once( JWPLAYER_PLUGIN_DIR . '/include/login.php' );
 require_once( JWPLAYER_PLUGIN_DIR . '/include/media.php' );
 require_once( JWPLAYER_PLUGIN_DIR . '/include/proxy.php' );
@@ -69,14 +68,6 @@ you've update the fitVids lib yourself, you can change the setting below to fals
 */
 define( 'JWPLAYER_DISABLE_FITVIDS', true );
 
-// Determine if we are using vip or regular wp
-$jwplayer_which_env = null;
-if ( function_exists( 'vip_safe_wp_remote_get' ) ) {
-	$jwplayer_which_env = 'wpvip';
-} else {
-	$jwplayer_which_env = 'wp';
-}
-
 // Execute when the plugin is enabled
 function jwplayer_add_options() {
 	// Add (but do not override) the settings
@@ -92,11 +83,11 @@ function jwplayer_add_options() {
 	add_option( 'jwplayer_shortcode_home_filter', JWPLAYER_CUSTOM_SHORTCODE_FILTER );
 }
 
-if ( 'wpvip' === $jwplayer_which_env ) {
+if ( defined( 'WPCOM_IS_VIP_ENV' ) && true === WPCOM_IS_VIP_ENV ) {
 	if ( ! get_option( 'jwplayer_player' ) ) {
 		jwplayer_add_options();
 	}
-} elseif ( 'wp' === $jwplayer_which_env ) {
+} else {
 	register_activation_hook( __FILE__, 'jwplayer_add_options' );
 }
 
@@ -113,6 +104,7 @@ jwplayer_media_init();
 jwplayer_shortcode_init();
 
 // Check for old plugin settings.
-if ( 'wp' === $jwplayer_which_env ) {
+if  ( ! defined( 'WPCOM_IS_VIP_ENV' ) ) {
+	require_once( JWPLAYER_PLUGIN_DIR . '/include/import.php' );
 	add_action( 'admin_menu', 'jwplayer_import_check_and_init' );
 }

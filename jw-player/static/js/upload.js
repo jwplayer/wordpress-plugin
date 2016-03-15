@@ -413,11 +413,12 @@ JWPlayerUpload.prototype = {
 	 * Used by default for various pieces of information, as well as the
 	 * display of error messages.
 	 *
-	 * The uploader can be silenced by replacing this with an empty
-	 * function.
+	 * This function will only log if the WP_DEBUG constant is set to True.
+	 * The value for WP_DEBUG is passed through the jwplayer.debug variable set
+	 * in jwplayer_admin_head function in include/admin.php.
 	 */
 	_log:function( msg ){
-		if( typeof(console) !== 'undefined' ){
+		if( jwplayer.debug && typeof(console) !== 'undefined' ){
 			if( console.log ){
 				console.log( msg );
 			}
@@ -550,7 +551,8 @@ JWPlayerUpload.prototype = {
 				if( xhr.status === 200 ){
 					// The file is completely uploaded.
 					// The response is in JSON format.
-					var response = eval( '(' + xhr.responseText + ')' );
+					// var response = eval( '(' + xhr.responseText + ')' );
+					var response = JSON.parse(xhr.responseText)
 					// We do not send the redirect in the API call, because then
 					// the final XHR gets redirected itself.
 					self._running = false;
