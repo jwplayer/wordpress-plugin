@@ -1,7 +1,7 @@
 <?php
 
 function jwplayer_log( $msg, $print_r = false ) {
-	if ( 'wpvip' === JWPLAYER_WHICH_ENV ) {
+	if ( 'wpvip' === $jwplayer_which_env ) {
 		return;
 	}
 	if ( WP_DEBUG ) {
