@@ -92,16 +92,39 @@ if ( defined( 'WPCOM_IS_VIP_ENV' ) && true === WPCOM_IS_VIP_ENV ) {
 }
 
 // Initialize the JW Player Admin
-jwplayer_admin_init();
+add_action( 'admin_menu', 'jwplayer_settings_init' );
+if ( get_option( 'jwplayer_api_key' ) ) {
+	add_action( 'admin_head-post.php', 'jwplayer_admin_head' );
+	add_action( 'admin_head-post-new.php', 'jwplayer_admin_head' );
+	add_action( 'admin_head-media-upload-popup', 'jwplayer_admin_head' );
+	add_action( 'admin_enqueue_scripts', 'jwplayer_admin_enqueue_scripts' );
+} else {
+	add_action( 'admin_notices', 'jwplayer_admin_show_login_notice' );
+}
 
 // Initialize the login and logout pages:
-jwplayer_login_init();
+add_action( 'admin_menu', 'jwplayer_login_create_pages' );
 
 // Initialize the media pages:
-jwplayer_media_init();
+add_filter( 'attachment_fields_to_edit', 'jwplayer_media_attachment_fields_to_edit', 99, 2 );
+add_filter( 'attachment_fields_to_save', 'jwplayer_media_attachment_fields_to_save', 99, 2 );
+// add_filter( 'media_send_to_editor', 'jwplayer_media_send_to_editor', 99, 2 );
+add_filter( 'media_upload_tabs', 'jwplayer_media_menu' );
+
+add_action( 'delete_attachment', 'jwplayer_media_delete_attachment' );
+add_action( 'edit_attachment', 'jwplayer_media_edit_attachment' );
+add_action( 'media_upload_jwplayer', 'jwplayer_media_handle' );
+add_action( 'admin_menu', 'jwplayer_media_add_video_box' );
 
 // Initialize the JW Player shortcode.
-jwplayer_shortcode_init();
+if ( get_option( 'jwplayer_custom_shortcode_parser' ) ) {
+	add_filter( 'the_content', 'jwplayer_shortcode_content_filter', 11 );
+	add_filter( 'the_excerpt', 'jwplayer_shortcode_excerpt_filter', 11 );
+	add_filter( 'widget_text', 'jwplayer_shortcode_text_filter',  11 );
+} else {
+	add_shortcode( 'jwplayer', 'jwplayer_shortcode_handle' );
+	add_shortcode( 'jwplatform', 'jwplayer_shortcode_handle' );
+}
 
 // WORDPRESS.ORG ONLY =>
 // Check for old plugin settings.

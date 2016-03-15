@@ -5,18 +5,6 @@
 // same page the library only needs to be injected once.
 $jwplayer_shortcode_embedded_players = array();
 
-function jwplayer_shortcode_init() {
-	// Activate the JW Player shortcode.
-	if ( get_option( 'jwplayer_custom_shortcode_parser' ) ) {
-		add_filter( 'the_content', 'jwplayer_shortcode_content_filter', 11 );
-		add_filter( 'the_excerpt', 'jwplayer_shortcode_excerpt_filter', 11 );
-		add_filter( 'widget_text', 'jwplayer_shortcode_text_filter',  11 );
-	} else {
-		add_shortcode( 'jwplayer', 'jwplayer_shortcode_handle' );
-		add_shortcode( 'jwplatform', 'jwplayer_shortcode_handle' );
-	}
-}
-
 // Regular shortcode function.
 function jwplayer_shortcode_handle( $atts ) {
 	jwplayer_log( $atts, true );

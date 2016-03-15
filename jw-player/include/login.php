@@ -1,9 +1,5 @@
 <?php
 
-function jwplayer_login_init() {
-	add_action( 'admin_menu', 'jwplayer_login_create_pages' );
-}
-
 function jwplayer_login_create_pages() {
 	//adds the login page
 	add_submenu_page( null, 'JW Player Authorization', 'JW Player Authorization', 'manage_options', 'jwplayer_login_page', 'jwplayer_login_page' );
