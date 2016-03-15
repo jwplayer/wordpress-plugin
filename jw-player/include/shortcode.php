@@ -52,11 +52,17 @@ function jwplayer_shortcode_filter( $filter_type = 'content', $content = '' ) {
 	}
 	$tag_regex = '/(.?)\[(jwplayer|jwplatform)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s';
 	if ( $action === $filter_type ) {
-		$content = preg_replace_callback( $tag_regex, jwplayer_shortcode_parser, $content );
+		$content = preg_replace_callback( $tag_regex, 'jwplayer_shortcode_parser', $content );
 	} elseif ( 'strip' === $action ) {
-		$content = preg_replace_callback( $tag_regex, jwplayer_shortcode_stripper, $content );
+		$content = preg_replace_callback( $tag_regex, 'jwplayer_shortcode_stripper', $content );
 	}
 	return $content;
+}
+
+function jwplayer_shortcode_widget_text_filter( $content = '' ) {
+    $tag_regex = '/(.?)\[(jwplayer)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s';
+    $content = preg_replace_callback( $tag_regex, 'jwplayer_shortcode_parser', $content );
+    return $content;
 }
 
 function jwplayer_shortcode_parser( $matches ) {
@@ -190,12 +196,17 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 	$element_id = "jwplayer_{$media_hash}_{$player_hash}_div";
 
 	$timeout = intval( get_option( 'jwplayer_timeout' ) );
+	$js_lib = "$protocol://$content_mask/libraries/$player_hash.js";
 	$xml = "$protocol://$content_mask/jw6/$media_hash.xml";
 	if ( $timeout > 0 ) {
 		$api_secret = get_option( 'jwplayer_api_secret' );
 		$expires = time() + 60 * $timeout;
-		$signature = md5( "jw6/$media_hash.xml:" . $expires . ':' . $api_secret );
-		$xml = "$xml?exp=$expires&sig=$signature";
+
+		$js_lib_sig = md5( "libraries/$player_hash.js:" . $expires . ':' . $api_secret );
+		$js_lib = "$js_lib?exp=$expires&sig=$js_lib_sig";
+
+		$xml_sig = md5( "jw6/$media_hash.xml:" . $expires . ':' . $api_secret );
+		$xml = "$xml?exp=$expires&sig=$xml_sig";
 	}
 
 	$params = jwplayer_shortcode_filter_player_params( $params );
@@ -221,7 +232,7 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 	if ( JWPLAYER_DISABLE_FITVIDS ) {
 		if ( $player_script ) {
 			return "
-		<script type='text/javascript' src='" . esc_url( "$protocol://$content_mask/libraries/$player_hash.js" ) . "'></script>
+		<script type='text/javascript' src='" . esc_url( $js_lib ) . "'></script>
 			<div id='" . esc_attr( $element_id ) . "'></div>
 		<script type='text/javascript'>
 			" . 'if(typeof(jQuery)=="function"){(function($){$.fn.fitVids=function(){}})(jQuery)};' . "
@@ -246,7 +257,7 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 		// no fitvids script here.
 		if ( $player_script ) {
 			return "
-		<script type='text/javascript' src='" . esc_url( "$protocol://$content_mask/libraries/$player_hash.js" ) . "></script>
+		<script type='text/javascript' src='" . esc_url( $js_lib ) . "></script>
 			<div id='" . esc_attr( $element_id ) . "'></div>
 		<script type='text/javascript'>
 				jwplayer('" . esc_attr( $element_id ) . "').setup(
