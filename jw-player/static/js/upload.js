@@ -282,10 +282,8 @@ JWPlayerUpload.prototype = {
 			// name.
 			var ifr;
 			{
-				var div = document.createElement( 'div' );
-				div.innerHTML = '<iframe name="' + this._id + '_iframe">';
-				ifr = div.firstChild;
-				div.removeChild( ifr );
+				ifr = document.createElement('iframe');
+				ifr.id = this._id;
 			}
 			this._iframe = ifr;
 			ifr.style.display = 'none';

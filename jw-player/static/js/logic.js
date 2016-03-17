@@ -20,7 +20,13 @@
 		search_timer_id:null,
 		thumb_timer_id:null,
 
-		use_button_html: '<p class="button-primary"><span class="jwplayer-narrow">Use</span><span class="jwplayer-wide">Click to use this video</span></p>',
+		use_button_html: function () {
+			return $( '<p>' ).addClass( 'button-primary' ).append(
+				$( '<span>' ).addClass( 'jwplayer-narrow' ).text( 'Use' )
+			).append(
+				$( '<span>' ).addClass( 'jwplayer-wide' ).text( 'Click to use this video' )
+			);
+		},
 
 		// File extensions.
 		accepted_extensions: {
@@ -53,11 +59,6 @@
 			else{
 				return str;
 			}
-		},
-
-		// Simple function for building html tags.
-		tag:function( name, content ){
-			return '<' + name + '>' + jwplayer.html_escape( content ) + '</' + name + '>';
 		},
 
 		// Construct a thumbnail url for a given video.
@@ -113,10 +114,15 @@
 				css_class += ' jwplayer-failed';
 			}
 			// Create the list item
-			var elt = $( '<li>' ).attr( 'id', 'jwplayer-video-' + video.key );
-			elt.addClass( css_class );
-			elt.html( '<div>' + video.title + jwplayer.use_button_html + '</div>' );
-			$( 'div', elt ).css( 'background-image', 'url(' + thumb_url + ')' );
+			var elt = $( '<li>' )
+				.attr( 'id', 'jwplayer-video-' + video.key )
+				.addClass( css_class )
+				.append(
+					$( '<div>' ).text( video.title ).append(
+						jwplayer.use_button_html()
+					).css( 'background-image', 'url(' + thumb_url + ')' )
+				)
+			;
 
 			if( make_quicktag ){
 				// If we can embed, add the functionality to the item
@@ -137,10 +143,16 @@
 			}( channel.key );
 
 			// Create the list item
-			var elt = $( '<li>' ).attr( 'id', 'jwplayer-channel-' + channel.key );
-			elt.addClass( css_class );
-			elt.html( '<div>' + channel.title + ' <em>(playlist)</em>' + jwplayer.use_button_html + '</div>' );
-			$( 'div', elt ).css( 'background-image', 'url(' + thumb_url + ')' );
+			var elt = $( '<li>' )
+				.attr( 'id', 'jwplayer-channel-' + channel.key )
+				.addClass( css_class )
+				.append(
+					$( '<div>' ).text( channel.title )
+						.append( $( '<em>' ).text( '(playlist)' ) )
+						.append( jwplayer.use_button_html() )
+						.css( 'background-image', 'url(' + thumb_url + ')' )
+				)
+			;
 
 			if( make_quicktag ){
 				// If we can embed, add the functionality to the item
@@ -210,13 +222,13 @@
 					}
 					else{
 						var msg = data ? 'API error: ' + data.message : 'No response from API.';
-						jwplayer.widgets.list.html( jwplayer.tag( 'li', msg ) );
+						jwplayer.widgets.list.empty().append( $( '<li>' ).text( msg ) );
 					}
 
 					jwplayer.show_normal_cursor();
 				},
 				error:function( request, message, error ){
-					jwplayer.widgets.list.html( jwplayer.tag( 'p', 'AJAX error: ' + message ) );
+					jwplayer.widgets.list.empty().append( $( '<p>' ).text( 'AJAX error: ' + message ) );
 					jwplayer.show_normal_cursor();
 				}
 			} );
@@ -266,13 +278,13 @@
 					}
 					else{
 						var msg = data ? 'API error: ' + data.message : 'No response from API.';
-						jwplayer.widgets.list.html( jwplayer.tag( 'li', msg ) );
+						jwplayer.widgets.list.empty().append( $( '<li>' ).text( msg ) );
 					}
 
 					jwplayer.show_normal_cursor();
 				},
 				error:function( request, message, error ){
-					jwplayer.widgets.list.html( jwplayer.tag( 'p', 'AJAX error: ' + message ) );
+					jwplayer.widgets.list.empty().append( $( '<p>' ).text( 'AJAX error: ' + message ) );
 					jwplayer.show_normal_cursor();
 				}
 			} );

@@ -54,9 +54,10 @@ function jwplayer_login_page() {
 		// Perform the login.
 		update_option( 'jwplayer_api_key', $api_key );
 		update_option( 'jwplayer_api_secret', $api_secret );
-		echo '<h2>Authorization succesful</h2><p>You have successfully authorized the plugin to access your JW Player account. Returning you to the <a href="options-media.php">media settings</a> page...</p>';
-		// Perform a manual JavaScript redirect
-		echo '<script type="application/x-javascript">document.location.href = "options-general.php?page=jwplayer_settings"</script>';
+		$settings_page = get_admin_url( null, 'options-general.php?page=jwplayer_settings' );
+		echo '<h2>Authorization succesful</h2>';
+		echo '<p>You have successfully authorized the plugin to access your JW Player account.</p>';
+		echo "<p>You can now update <a href='$settings_page'>the settings of the JW Player plugin</a>.</p>";
 	}
 }
 
@@ -139,9 +140,13 @@ function jwplayer_login_logout() {
 	update_option( 'jwplayer_login', null );
 	update_option( 'jwplayer_api_key', '' );
 	update_option( 'jwplayer_api_secret', '' );
-	echo '<h2>Deauthorized</h2><p>Deauthorization successful. Returning you to the <a href="' . esc_url( 'options-media.php' ) . '">media settings</a> page...</p>';
-	// Perform a manual JavaScript redirect
-	echo '<script type="application/x-javascript">document.location.href = "options-media.php"</script>';
+
+	$login_url = get_admin_url( null, 'admin.php?page=jwplayer_login_page' );
+	$plugins_url = get_admin_url( null, 'plugins.php' );
+
+	echo '<h2>Deauthorization successful.</h2>';
+	echo "<p>You can <a href='$login_url'>authorized the plugin with different credentials</a> or ";
+	echo "disable the JW Player plugin on <a href='$plugins_url'>the plugins page</a>.";
 }
 
 // Print the logout page
