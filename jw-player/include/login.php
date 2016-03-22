@@ -55,9 +55,9 @@ function jwplayer_login_page() {
 		update_option( 'jwplayer_api_key', $api_key );
 		update_option( 'jwplayer_api_secret', $api_secret );
 		$settings_page = get_admin_url( null, 'options-general.php?page=jwplayer_settings' );
-		echo '<h2>Authorization succesful</h2>';
-		echo '<p>You have successfully authorized the plugin to access your JW Player account.</p>';
-		echo "<p>You can now update <a href='$settings_page'>the settings of the JW Player plugin</a>.</p>";
+		echo wp_kses_post('<h2>Authorization succesful</h2>');
+		echo wp_kses_post('<p>You have successfully authorized the plugin to access your JW Player account.</p>');
+		echo wp_kses_post("<p>You can now update <a href='$settings_page'>the settings of the JW Player plugin</a>.</p>");
 	}
 }
 
@@ -144,9 +144,9 @@ function jwplayer_login_logout() {
 	$login_url = get_admin_url( null, 'admin.php?page=jwplayer_login_page' );
 	$plugins_url = get_admin_url( null, 'plugins.php' );
 
-	echo '<h2>Deauthorization successful.</h2>';
-	echo "<p>You can <a href='$login_url'>authorized the plugin with different credentials</a> or ";
-	echo "disable the JW Player plugin on <a href='$plugins_url'>the plugins page</a>.";
+	echo wp_kses_post('<h2>Deauthorization successful.</h2>');
+	echo wp_kses_post("<p>You can <a href='$login_url'>authorized the plugin with different credentials</a> or ");
+	echo wp_kses_post("disable the JW Player plugin on <a href='$plugins_url'>the plugins page</a>.");
 }
 
 // Print the logout page
