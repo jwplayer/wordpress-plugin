@@ -108,7 +108,6 @@ add_action( 'admin_menu', 'jwplayer_login_create_pages' );
 // Initialize the media pages:
 add_filter( 'attachment_fields_to_edit', 'jwplayer_media_attachment_fields_to_edit', 99, 2 );
 add_filter( 'attachment_fields_to_save', 'jwplayer_media_attachment_fields_to_save', 99, 2 );
-// add_filter( 'media_send_to_editor', 'jwplayer_media_send_to_editor', 99, 2 );
 add_filter( 'media_upload_tabs', 'jwplayer_media_menu' );
 
 add_action( 'delete_attachment', 'jwplayer_media_delete_attachment' );

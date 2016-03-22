@@ -549,7 +549,6 @@ JWPlayerUpload.prototype = {
 				if( xhr.status === 200 ){
 					// The file is completely uploaded.
 					// The response is in JSON format.
-					// var response = eval( '(' + xhr.responseText + ')' );
 					var response = JSON.parse(xhr.responseText)
 					// We do not send the redirect in the API call, because then
 					// the final XHR gets redirected itself.

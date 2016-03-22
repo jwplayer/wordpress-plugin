@@ -1,17 +1,10 @@
 <?php
 
-// This function is a stub and will only work when you comment out the
-// code inside the function.
 function jwplayer_log( $line, $print_r = false ) {
-	// $msg = ( $print_r ) ? print_r( $msg, true ): $msg;
-	// $upload_dir = wp_upload_dir();
-	// $log_file = $upload_dir['basedir'] . '/.jw-player.log';
-	// if ( ! file_exists( $log_file ) ) {
-	// 	touch( $log_file );
-	// }
-	// $prefix = '[' . date( 'H:i:s' ) . '] ';
-	// $msg = $prefix . str_replace( "\n", "\n" . $prefix, $msg ) . "\n";
-	// file_put_contents( $log_file, $msg, $flags = FILE_APPEND );
+	// Due to Wordpress VIP requirements this function is just a stub.
+	// If you want to make it work, please visit:
+	// https://github.com/jwplayer/wordpress-plugin/wiki/Enable-logging-function
+	return;
 }
 
 // Function to return the jwplayer_content_mask
