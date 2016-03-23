@@ -51,7 +51,7 @@ function jwplayer_ajax_jwp_api_proxy() {
 	$params = array();
 
 	foreach ( $_GET as $name => $value ) { // Input var okay
-		$name = preg_replace( '/[^-a-zA-Z0-9_.]/', '', $name );
+		$name = sanitize_text_field( $name );
 		if ( 'method' !== $name ) {
 			$params[ $name ] = sanitize_text_field( wp_unslash( $value ) ); // Input var okay
 		}
