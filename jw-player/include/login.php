@@ -153,8 +153,8 @@ function jwplayer_login_logout() {
 	?>
 	<h2>Deauthorization successful.</h2>
 	<p>
-		You can <a href="<?php echo esc_url($login_url); ?>">authorized the plugin with different credentials</a> or
-		disable the JW Player plugin on <a href="<?php echo esc_url( $plugins_url); ?>">the plugins page</a>.
+		You can <a href="<?php echo esc_url( $login_url ); ?>">authorized the plugin with different credentials</a> or
+		disable the JW Player plugin on <a href="<?php echo esc_url( $plugins_url ); ?>">the plugins page</a>.
 	</p>
 	<?php
 }
