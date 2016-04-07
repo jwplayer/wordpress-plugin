@@ -1,7 +1,5 @@
 ## Warning!
 
-**This plugin is currently in beta. This means there can and probably will be bugs. If you run into anything, please open an issue.**
-
 This is the GitHub mirror of the official JW Player Plugin for WordPress.
 
 ## Plugin User Information.

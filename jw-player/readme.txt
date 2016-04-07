@@ -10,7 +10,7 @@ Upload and embed videos with your JW Player account to seamlessly integrate vide
 
 == Description ==
 
-**BE AWARE: The plugin is in beta. We've tested it locally, but because of the myriad of different WordPress setups it could be possible that you run into issues. If you do run into an issue we encourage you to [report this issue in the GitHub mirror](https://github.com/jwplayer/wordpress-plugin/issues) of this plugin. Thank you for your help.**
+**If you do run into an issue we encourage you to [report this issue in the GitHub mirror](https://github.com/jwplayer/wordpress-plugin/issues) of this plugin. Thank you for your help.**
 
 This plugin will give you the power to use videos, playlists, and players from your JW Player account within WordPress. You will also be able to track the performance of your content with JW Player’s dashboard analytics.
 
@@ -43,6 +43,9 @@ If you have any questions, comments, problems or suggestions please post on our
 = Issues & Contributions =
 
 This plugin is open source and we strongly encourage users to contribute to the plugin's development. If you find a bug or another issue, please [report it on the plugin's GitHub mirror](https://github.com/jwplayer/wordpress-plugin/issues) and if you would like to suggest improvements feel free to open a pull request.
+
+* Known Issues:
+    - In some cases the posts list in your admin may appear empty after activating this plugin. [Please help us fix this issue](https://github.com/jwplayer/wordpress-plugin/issues/17).
 
 
 == Installation ==
@@ -98,10 +101,11 @@ That's great. Tell us about it and open a pull request on [our GitHub mirror of 
 * Issue: Widget text parser was undefined
 * Issue: PHP warning for undefined variable removed
 * Issue: Signing fix for when secure embeds is enabled
+* Issue: Minor VIP fixes.
 
 = 1.5.0 =
 
-* Change: Version number equals VIP plugin.
+* Change: Strange version number increase to work with previous VIP plugin
 * Update: Wordpress VIP changes.
 * Update: API kit param is includes plugin version.
 
