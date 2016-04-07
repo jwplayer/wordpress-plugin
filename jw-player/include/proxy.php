@@ -1,13 +1,5 @@
 <?php
 
-$JWPLAYER_PROXY_METHODS = array(
-	'/videos/list',
-	'/channels/list',
-	'/videos/create',
-	'/videos/thumbnails/show',
-	'/players/list',
-);
-
 function jwplayer_json_error( $message ) {
 	$error = array(
 		'status' => 'error',
@@ -18,9 +10,15 @@ function jwplayer_json_error( $message ) {
 	echo json_encode( $error );
 }
 
-function jwplayer_proxy() {
-	global $JWPLAYER_PROXY_METHODS;
-	$nonce = '';
+function jwplayer_ajax_jwp_api_proxy() {
+
+	$JWPLAYER_PROXY_METHODS = array(
+		'/videos/list',
+		'/channels/list',
+		'/videos/create',
+		'/videos/thumbnails/show',
+		'/players/list',
+	);
 
 	if ( ! isset( $_GET['token'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['token'] ) ), 'jwplayer-widget-nonce' ) ) { // Input var okay
 		return;
@@ -53,6 +51,7 @@ function jwplayer_proxy() {
 	$params = array();
 
 	foreach ( $_GET as $name => $value ) { // Input var okay
+		$name = sanitize_text_field( $name );
 		if ( 'method' !== $name ) {
 			$params[ $name ] = sanitize_text_field( wp_unslash( $value ) ); // Input var okay
 		}

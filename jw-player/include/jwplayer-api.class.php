@@ -24,7 +24,7 @@ class JWPlayer_api {
 		$this->_secret = $secret;
 
 		// Determine which HTTP library to use:
-		if ( function_exists( 'vip_safe_wp_remote_get' ) ) {
+		if ( defined( 'WPCOM_IS_VIP_ENV' ) && true === WPCOM_IS_VIP_ENV ) {
 			$this->_library = 'wpvip';
 		} else {
 			$this->_library = 'wp';
@@ -35,30 +35,9 @@ class JWPlayer_api {
 		return $this->_version;
 	}
 
-	// RFC 3986 complient rawurlencode()
-	// Only required for phpversion() <= 5.2.7RC1
-	// See http://www.php.net/manual/en/function.rawurlencode.php#86506
-	private function _urlencode( $input ) {
-		if ( is_array( $input ) ) {
-			return array_map( array( '_urlencode' ), $input );
-		} elseif ( is_scalar( $input ) ) {
-			return str_replace( '+', ' ', str_replace( '%7E', '~', rawurlencode( $input ) ) );
-		} else {
-			return '';
-		}
-	}
-
 	// Sign API call arguments
 	private function _sign( $args ) {
 		ksort( $args );
-		// $sbs = '';
-		// foreach ( $args as $key => $value ) {
-		// 	if ( '' != $sbs ) {
-		// 		$sbs .= '&';
-		// 	}
-		// 	// Construct Signature Base String
-		// 	$sbs .= $this->_urlencode( $key ) . '=' . $this->_urlencode( $value );
-		// }
 		// We will use the same function as we use for generating the query
 		$sbs = http_build_query( $args, '', '&', PHP_QUERY_RFC3986 );
 		// Add shared secret to the Signature Base String and generate the signature
@@ -116,17 +95,19 @@ class JWPlayer_api {
 		}
 
 		if ( is_wp_error( $response ) ) {
-			$response = 'Error: call to JW Player API failed';
-		} else {
-			$response = wp_remote_retrieve_body( $response );
+			return 'Error: call to JW Player API failed';
 		}
 
+		$response = wp_remote_retrieve_body( $response );
 		$decoded_response = json_decode( $response, $assoc = true );
 		return $decoded_response;
 	}
 
 	// Upload a file
 	public function upload( $upload_link = array(), $file_path, $api_format = 'json' ) {
+		if ( ! is_array( $upload_link ) ) {
+			return 'Invalid Upload link array.';
+		}
 		$url = $upload_link['protocol'] . '://' . $upload_link['address'] . $upload_link['path'] .
 			'?key=' . $upload_link['query']['key'] . '&token=' . $upload_link['query']['token'] .
 			'&api_format=' . $api_format;

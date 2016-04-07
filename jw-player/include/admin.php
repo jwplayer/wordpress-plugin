@@ -1,18 +1,5 @@
 <?php
 
-// Add the JW Player settings to the media page in the admin panel
-function jwplayer_admin_init() {
-	add_action( 'admin_menu', 'jwplayer_settings_init' );
-	if ( get_option( 'jwplayer_api_key' ) ) {
-		add_action( 'admin_head-post.php', 'jwplayer_admin_head' );
-		add_action( 'admin_head-post-new.php', 'jwplayer_admin_head' );
-		add_action( 'admin_head-media-upload-popup', 'jwplayer_admin_head' );
-		add_action( 'admin_enqueue_scripts', 'jwplayer_admin_enqueue_scripts' );
-	} else {
-		add_action( 'admin_notices', 'jwplayer_admin_show_login_notice' );
-	}
-}
-
 // Show the login notice in the admin area if necessary
 function jwplayer_admin_show_login_notice() {
 	if ( isset( $_GET['page'] ) && 'jwplayer_login_page' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) { // Input var okay
@@ -38,6 +25,7 @@ function jwplayer_admin_head() {
 		jwplayer.plugin_url = '<?php echo esc_url( $plugin_url ); ?>';
 		jwplayer.content_mask = '<?php echo esc_url( $content_mask ); ?>';
 		jwplayer.nr_videos = <?php echo esc_js( $nr_videos ); ?>;
+		jwplayer.debug = <?php echo wp_json_encode( WP_DEBUG ); ?>;
 	</script>
 	<?php
 }

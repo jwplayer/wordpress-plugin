@@ -1,9 +1,5 @@
 <?php
 
-function jwplayer_login_init() {
-	add_action( 'admin_menu', 'jwplayer_login_create_pages' );
-}
-
 function jwplayer_login_create_pages() {
 	//adds the login page
 	add_submenu_page( null, 'JW Player Authorization', 'JW Player Authorization', 'manage_options', 'jwplayer_login_page', 'jwplayer_login_page' );
@@ -58,9 +54,16 @@ function jwplayer_login_page() {
 		// Perform the login.
 		update_option( 'jwplayer_api_key', $api_key );
 		update_option( 'jwplayer_api_secret', $api_secret );
-		echo '<h2>Authorization succesful</h2><p>You have successfully authorized the plugin to access your JW Player account. Returning you to the <a href="options-media.php">media settings</a> page...</p>';
-		// Perform a manual JavaScript redirect
-		echo '<script type="application/x-javascript">document.location.href = "options-general.php?page=jwplayer_settings"</script>';
+		$settings_page = get_admin_url( null, 'options-general.php?page=jwplayer_settings' );
+		?>
+		<h2>Authorization succesful</h2>
+		<p>
+			You have successfully authorized the plugin to access your JW Player account.
+		</p>
+		<p>
+			You can now update <a href="<?php echo esc_url( $settings_page ); ?>">the settings of the JW Player plugin</a>.
+		</p>
+		<?php
 	}
 }
 
@@ -113,11 +116,9 @@ function jwplayer_login_form() {
  * If the API call failed, return NULL.
  */
 function jwplayer_login_verify_api_key_secret( $key, $secret ) {
-	// require_once 'include/jwplayer-api.class.php';
-
 	// Create an API object with the provided key and secret.
 	$api = new JWPlayer_api( $key, $secret );
-	$response = $api->call( '/accounts/show', $params );
+	$response = $api->call( '/accounts/show' );
 	return jwplayer_api_response_ok( $response );
 }
 
@@ -145,9 +146,17 @@ function jwplayer_login_logout() {
 	update_option( 'jwplayer_login', null );
 	update_option( 'jwplayer_api_key', '' );
 	update_option( 'jwplayer_api_secret', '' );
-	echo '<h2>Deauthorized</h2><p>Deauthorization successful. Returning you to the <a href="' . esc_url( 'options-media.php' ) . '">media settings</a> page...</p>';
-	// Perform a manual JavaScript redirect
-	echo '<script type="application/x-javascript">document.location.href = "options-media.php"</script>';
+
+	$login_url = get_admin_url( null, 'admin.php?page=jwplayer_login_page' );
+	$plugins_url = get_admin_url( null, 'plugins.php' );
+
+	?>
+	<h2>Deauthorization successful.</h2>
+	<p>
+		You can <a href="<?php echo esc_url( $login_url ); ?>">authorized the plugin with different credentials</a> or
+		disable the JW Player plugin on <a href="<?php echo esc_url( $plugins_url ); ?>">the plugins page</a>.
+	</p>
+	<?php
 }
 
 // Print the logout page

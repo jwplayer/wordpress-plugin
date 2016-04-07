@@ -1,17 +1,5 @@
 <?php
 
-function jwplayer_media_init() {
-	add_filter( 'attachment_fields_to_edit', 'jwplayer_media_attachment_fields_to_edit', 99, 2 );
-	add_filter( 'attachment_fields_to_save', 'jwplayer_media_attachment_fields_to_save', 99, 2 );
-	// add_filter( 'media_send_to_editor', 'jwplayer_media_send_to_editor', 99, 2 );
-	add_filter( 'media_upload_tabs', 'jwplayer_media_menu' );
-
-	add_action( 'delete_attachment', 'jwplayer_media_delete_attachment' );
-	add_action( 'edit_attachment', 'jwplayer_media_edit_attachment' );
-	add_action( 'media_upload_jwplayer', 'jwplayer_media_handle' );
-	add_action( 'admin_menu', 'jwplayer_media_add_video_box' );
-}
-
 function jwplayer_media_attachment_fields_to_edit( $form_fields, $media ) {
 	if ( in_array( $media->post_mime_type, json_decode( JWPLAYER_MEDIA_MIME_TYPES ), true ) ) {
 		$form_fields['jwplayer_media_sync'] = array(
@@ -19,11 +7,6 @@ function jwplayer_media_attachment_fields_to_edit( $form_fields, $media ) {
 			'input' => 'html',
 			'html' => jwplayer_media_sync_form_html( $media ),
 		);
-		// $form_fields["jwplayer_media_migrate"] = array (
-		//   "label" => "",
-		//   "input" => "html",
-		//   "html" => jwplayer_media_migrate_html( $media )
-		// );
 	}
 	return $form_fields;
 }
@@ -64,12 +47,11 @@ function jwplayer_media_attachment_fields_to_save( $media, $attachment ) {
 
 
 function jwplayer_media_delete_attachment( $media_id ) {
-	$media = get_post( $media_id );
 	$hash = get_post_meta( $media_id, 'jwplayer_media_hash', true );
 	if ( ! $hash ) {
 		return;
 	}
-	$response = jwplayer_api_call( '/videos/delete', array( 'video_key' => $hash ) );
+	jwplayer_api_call( '/videos/delete', array( 'video_key' => $hash ) );
 }
 
 

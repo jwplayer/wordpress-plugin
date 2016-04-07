@@ -1,5 +1,7 @@
 <?php
 
+// ONLY USED BY WORDPRESS.ORG PLUGINS, SEE jw-player.php:107
+
 function jwplayer_import_check_and_init() {
 	if ( get_option( 'jwplayer_api_key' ) && get_option( 'jwp6_plugin_version' ) && ! get_option( 'jwplayer_import_done' ) ) {
 		$nr_of_players = jwplayer_import_nr_of_players();
@@ -10,7 +12,6 @@ function jwplayer_import_check_and_init() {
 		if ( $nr_of_players || $nr_of_playlists ) {
 			add_action( 'admin_notices', 'jwplayer_import_legacy_notice' );
 			add_submenu_page( null, 'JW Player Legacy Plugin Import', 'JW Player Import', 'manage_options', 'jwplayer_import', 'jwplayer_import_page' );
-			// add_options_page( null, 'JW Player Import', 'JW Player Import', 'manage_options', 'jwplayer_import_page', 'jwplayer_import_page' );
 			add_settings_section( 'jwplayer_import_section', null, 'jwplayer_import_section_html', 'jwplayer_import' );
 			if ( $nr_of_players ) {
 				add_settings_field( 'jwplayer_import_include_players', 'Import Players', 'jwplayer_import_include_players', 'jwplayer_import', 'jwplayer_import_section' );
@@ -185,12 +186,17 @@ function jwplayer_import_playlists_check( $input ) {
 }
 
 function jwplayer_import_legacy_playlists() {
-	$query_params = array(
+	$playlist_query = new WP_Query( array(
 		'post_type' => 'jw_playlist',
 		'post_status' => null,
 		'post_parent' => null,
-	);
-	return query_posts( $query_params );
+	));
+	$playlists = array();
+	while( $playlist_query->have_posts() ) {
+		$playlists[] = $playlist_query->the_post();
+	}
+  wp_reset_postdata();
+	return $playlists;
 }
 
 function jwplayer_import_skin_list() {
@@ -233,18 +239,14 @@ function jwplayer_import_players() {
 			'stretching' => 'uniform',
 			'skin' => null,
 			'autostart' => false,
-			// 'fallback' => DEPRECATED in JW7
 			'mute' => false,
 			'primary' => 'flash',
 			'repeat' => false,
-			// 'listbar' => DEPRECATED in JW7
 			'logo__file' => '',
 			'logo__hide' => 'false',
 			'logo__link' => '',
 			'logo__margin' => 8,
 			'logo__position' => 'top-right',
-			// 'aboutlink': => DEPRECATED
-			// 'ga': => IMPOSSIBLE TO IMPORT (Used ga tracker on page)
 			'advertising__client' => null,
 			'advertising__tag' => '',
 		);
