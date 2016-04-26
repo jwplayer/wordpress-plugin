@@ -1,3 +1,5 @@
 _ignore*
 .svnignore
 .svn*
+
+build/*

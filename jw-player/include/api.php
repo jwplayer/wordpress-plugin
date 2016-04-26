@@ -1,8 +1,8 @@
 <?php
 
-function jwplayer_api_call( $method, $params = array() ){
+function jwplayer_api_call( $method, $params = array() ) {
 	$api = jwplayer_api_get_instance();
-	foreach ($params as $key => $value) {
+	foreach ( $params as $key => $value ) {
 		if ( null === $value ) {
 			unset( $params[ $key ] );
 		}
@@ -37,9 +37,8 @@ function jwplayer_api_get_instance() {
 
 	if ( 8 === strlen( $api_key ) && 24 === strlen( $api_secret ) ) {
 		return new JWPlayer_api( $api_key, $api_secret );
-	}
-	else {
-		jwplayer_log( 'API: Could not instantiate.');
+	} else {
+		jwplayer_log( 'API: Could not instantiate.' );
 		return null;
 	}
 }

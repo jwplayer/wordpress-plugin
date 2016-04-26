@@ -20,7 +20,13 @@
 		search_timer_id:null,
 		thumb_timer_id:null,
 
-		use_button_html: '<p class="button-primary"><span class="jwplayer-narrow">Use</span><span class="jwplayer-wide">Click to use this video</span></p>',
+		use_button_html: function () {
+			return $( '<p>' ).addClass( 'button-primary' ).append(
+				$( '<span>' ).addClass( 'jwplayer-narrow' ).text( 'Use' )
+			).append(
+				$( '<span>' ).addClass( 'jwplayer-wide' ).text( 'Click to use this video' )
+			);
+		},
 
 		// File extensions.
 		accepted_extensions: {
@@ -53,11 +59,6 @@
 			else{
 				return str;
 			}
-		},
-
-		// Simple function for building html tags.
-		tag:function( name, content ){
-			return '<' + name + '>' + jwplayer.html_escape( content ) + '</' + name + '>';
 		},
 
 		// Construct a thumbnail url for a given video.
@@ -113,10 +114,15 @@
 				css_class += ' jwplayer-failed';
 			}
 			// Create the list item
-			var elt = $( '<li>' ).attr( 'id', 'jwplayer-video-' + video.key );
-			elt.addClass( css_class );
-			elt.html( '<div>' + video.title + jwplayer.use_button_html + '</div>' );
-			$( 'div', elt ).css( 'background-image', 'url(' + thumb_url + ')' );
+			var elt = $( '<li>' )
+				.attr( 'id', 'jwplayer-video-' + video.key )
+				.addClass( css_class )
+				.append(
+					$( '<div>' ).text( video.title ).append(
+						jwplayer.use_button_html()
+					).css( 'background-image', 'url(' + thumb_url + ')' )
+				)
+			;
 
 			if( make_quicktag ){
 				// If we can embed, add the functionality to the item
@@ -137,10 +143,16 @@
 			}( channel.key );
 
 			// Create the list item
-			var elt = $( '<li>' ).attr( 'id', 'jwplayer-channel-' + channel.key );
-			elt.addClass( css_class );
-			elt.html( '<div>' + channel.title + ' <em>(playlist)</em>' + jwplayer.use_button_html + '</div>' );
-			$( 'div', elt ).css( 'background-image', 'url(' + thumb_url + ')' );
+			var elt = $( '<li>' )
+				.attr( 'id', 'jwplayer-channel-' + channel.key )
+				.addClass( css_class )
+				.append(
+					$( '<div>' ).text( channel.title )
+						.append( $( '<em>' ).text( '(playlist)' ) )
+						.append( jwplayer.use_button_html() )
+						.css( 'background-image', 'url(' + thumb_url + ')' )
+				)
+			;
 
 			if( make_quicktag ){
 				// If we can embed, add the functionality to the item
@@ -173,7 +185,7 @@
 			}
 
 			var params = {
-				action:"jwplayer",
+				action:"jwp_api_proxy",
 				method:'/videos/list',
 				result_limit:nr_videos,
 				order_by:'date:desc',
@@ -210,13 +222,13 @@
 					}
 					else{
 						var msg = data ? 'API error: ' + data.message : 'No response from API.';
-						jwplayer.widgets.list.html( jwplayer.tag( 'li', msg ) );
+						jwplayer.widgets.list.empty().append( $( '<li>' ).text( msg ) );
 					}
 
 					jwplayer.show_normal_cursor();
 				},
 				error:function( request, message, error ){
-					jwplayer.widgets.list.html( jwplayer.tag( 'p', 'AJAX error: ' + message ) );
+					jwplayer.widgets.list.empty().append( $( '<p>' ).text( 'AJAX error: ' + message ) );
 					jwplayer.show_normal_cursor();
 				}
 			} );
@@ -234,7 +246,7 @@
 			}
 
 			var params = {
-				action:"jwplayer",
+				action:"jwp_api_proxy",
 				method:'/channels/list',
 				result_limit:nr_videos,
 				random:Math.random(),
@@ -266,13 +278,13 @@
 					}
 					else{
 						var msg = data ? 'API error: ' + data.message : 'No response from API.';
-						jwplayer.widgets.list.html( jwplayer.tag( 'li', msg ) );
+						jwplayer.widgets.list.empty().append( $( '<li>' ).text( msg ) );
 					}
 
 					jwplayer.show_normal_cursor();
 				},
 				error:function( request, message, error ){
-					jwplayer.widgets.list.html( jwplayer.tag( 'p', 'AJAX error: ' + message ) );
+					jwplayer.widgets.list.empty().append( $( '<p>' ).text( 'AJAX error: ' + message ) );
 					jwplayer.show_normal_cursor();
 				}
 			} );
@@ -304,16 +316,16 @@
 			var doDescribeEmpty = function(){
 				if( jwplayer.widgets.list.children().length === 0 ){
 					if( channels && videos ){
-						jwplayer.widgets.list.html( 'No playlists or videos have been found.' );
+						jwplayer.widgets.list.text( 'No playlists or videos have been found.' );
 					}
 					else if( channels ){
-						jwplayer.widgets.list.html( 'No playlists have been found.' );
+						jwplayer.widgets.list.text( 'No playlists have been found.' );
 					}
 					else if( videos ){
-						jwplayer.widgets.list.html( 'No videos have been found.' );
+						jwplayer.widgets.list.text( 'No videos have been found.' );
 					}
 					else{
-						jwplayer.widgets.list.html( 'Please search for videos or playlists.' );
+						jwplayer.widgets.list.text( 'Please search for videos or playlists.' );
 					}
 				}
 			};
@@ -340,7 +352,7 @@
 
 		list_players:function(){
 			var params = {
-				action:"jwplayer",
+				action:"jwp_api_proxy",
 				method:'/players/list',
 				random:Math.random(),
 				token:( $( 'input[name=_wpnonce-widget]' ).length > 0 ) ? $( 'input[name=_wpnonce-widget]' ).val() : ''
@@ -376,7 +388,7 @@
 						type:'GET',
 						url:ajaxurl,
 						data:{
-							action:"jwplayer",
+							action:"jwp_api_proxy",
 							method:'/videos/thumbnails/show',
 							video_key:video_key,
 							token:( $( 'input[name=_wpnonce-widget]' ).length > 0 ) ? $( 'input[name=_wpnonce-widget]' ).val() : ''
@@ -488,7 +500,7 @@
 				$( 'body' ).unbind( 'keyup.jwplayer-dimmer' );
 				dim.remove();
 				win.fadeOut( 400, function () { win.remove(); } );
-			}
+			};
 			$( 'body' ).bind( 'keyup.jwplayer-dimmer', function ( e ) {
 				if ( e.keyCode == 27 ) dim.close();
 			} );
@@ -575,7 +587,7 @@
 			win.find( '.jwplayer-message' ).text( "" ).hide();
 
 			var data = {
-				action:"jwplayer",
+				action:"jwp_api_proxy",
 				method:'/videos/create',
 				// IE tends to cache too much
 				random:Math.random(),
@@ -683,7 +695,7 @@
 			win.find( '.jwplayer-message' ).text( "" ).hide();
 
 			var data = {
-				action:"jwplayer",
+				action:"jwp_api_proxy",
 				method:'/videos/create',
 				// IE tends to cache too much
 				random:Math.random(),

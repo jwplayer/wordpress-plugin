@@ -1,26 +1,27 @@
 <?php
 
+// ONLY USED BY WORDPRESS.ORG PLUGINS, SEE jw-player.php:107
+
 function jwplayer_import_check_and_init() {
-	if ( get_option ( 'jwplayer_api_key' ) && get_option ( 'jwp6_plugin_version' ) && ! get_option ( 'jwplayer_import_done' ) ) {
+	if ( get_option( 'jwplayer_api_key' ) && get_option( 'jwp6_plugin_version' ) && ! get_option( 'jwplayer_import_done' ) ) {
 		$nr_of_players = jwplayer_import_nr_of_players();
 		$nr_of_playlists = jwplayer_import_nr_of_playlists();
-		$botr_active = is_plugin_active('bits-on-the-run/bitsontherun.php');
-		$jwp_active = is_plugin_active('jw-player-plugin-for-wordpress/jwplayermodule.php');
-		$vip_active = false;  // is_plugin_active('????????');
+		$botr_active = is_plugin_active( 'bits-on-the-run/bitsontherun.php' );
+		$jwp_active = is_plugin_active( 'jw-player-plugin-for-wordpress/jwplayermodule.php' );
+		$vip_active = false;  // is_plugin_active( '????????' );
 		if ( $nr_of_players || $nr_of_playlists ) {
 			add_action( 'admin_notices', 'jwplayer_import_legacy_notice' );
 			add_submenu_page( null, 'JW Player Legacy Plugin Import', 'JW Player Import', 'manage_options', 'jwplayer_import', 'jwplayer_import_page' );
-			// add_options_page( null, 'JW Player Import', 'JW Player Import', 'manage_options', 'jwplayer_import_page', 'jwplayer_import_page' );
 			add_settings_section( 'jwplayer_import_section', null, 'jwplayer_import_section_html', 'jwplayer_import' );
 			if ( $nr_of_players ) {
-				add_settings_field( 'jwplayer_import_include_players', 'Import Players', 'jwplayer_import_include_players', 'jwplayer_import', 'jwplayer_import_section');
+				add_settings_field( 'jwplayer_import_include_players', 'Import Players', 'jwplayer_import_include_players', 'jwplayer_import', 'jwplayer_import_section' );
 				register_setting( 'jwplayer_import', 'jwplayer_import_include_players', 'jwplayer_import_players_check' );
 			}
 			if ( $nr_of_playlists ) {
-				add_settings_field( 'jwplayer_import_include_playlists', 'Import Playlists', 'jwplayer_import_include_playlists', 'jwplayer_import', 'jwplayer_import_section');
+				add_settings_field( 'jwplayer_import_include_playlists', 'Import Playlists', 'jwplayer_import_include_playlists', 'jwplayer_import', 'jwplayer_import_section' );
 				register_setting( 'jwplayer_import', 'jwplayer_import_include_playlists', 'jwplayer_import_playlists_check' );
 			}
-		} else if ( $botr_active || $jwp_active || $vip_active ) {
+		} elseif ( $botr_active || $jwp_active || $vip_active ) {
 			add_action( 'admin_notices', 'jwplayer_import_disable_notice' );
 		} else {
 			delete_option( 'jwplayer_import_include_players' );
@@ -31,9 +32,9 @@ function jwplayer_import_check_and_init() {
 }
 
 function jwplayer_import_legacy_notice() {
-	if ( isset( $_GET['page'] ) && 'jwplayer_import' === sanitize_text_field( $_GET['page'] ) ) {
+	if ( isset( $_GET['page'] ) && 'jwplayer_import' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) { // Input var okay
 		return;
-	} elseif ( get_option ( 'jwplayer_api_key' ) ) {
+	} elseif ( get_option( 'jwplayer_api_key' ) ) {
 		$import_url = get_admin_url( null, 'admin.php?page=jwplayer_import' );
 		echo '
 			<div class="update-nag fade">
@@ -53,14 +54,14 @@ function jwplayer_import_legacy_notice() {
 
 function jwplayer_import_disable_notice() {
 	$screen_info = get_current_screen();
-	if ( isset( $_GET['page'] ) && 'jwplayer_import' === sanitize_text_field( $_GET['page'] ) ) {
+	if ( isset( $_GET['page'] ) && 'jwplayer_import' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) { // Input var okay
 		return;
-	} else if ( 'plugins' === $screen_info->id ) {
+	} elseif ( 'plugins' === $screen_info->id ) {
 		return;
 	} else {
-		$botr_active = is_plugin_active('bits-on-the-run/bitsontherun.php');
-		$jwp_active = is_plugin_active('jw-player-plugin-for-wordpress/jwplayermodule.php');
-		$vip_active = false;  // is_plugin_active('????????');
+		$botr_active = is_plugin_active( 'bits-on-the-run/bitsontherun.php' );
+		$jwp_active = is_plugin_active( 'jw-player-plugin-for-wordpress/jwplayermodule.php' );
+		$vip_active = false;  // is_plugin_active( '????????' );
 		$plugins_url = get_admin_url( null, 'plugins.php' );
 		echo '
 			<div class="update-nag fade">
@@ -68,26 +69,26 @@ function jwplayer_import_disable_notice() {
 					<strong>Note:</strong>
 		';
 		if ( $botr_active && $jwp_active ) {
-			echo "
+			echo '
 					It looks like you have not deactivated the old JW Player and
 					the old JW Platform plugins yet.
-			";
-		} else if ( $botr_active ) {
-			echo "
+			';
+		} elseif ( $botr_active ) {
+			echo '
 					It looks like you have not deactivated the old JW Platform plugin yet.
-			";
-		} else if ( $jwp_active ) {
-			echo "
+			';
+		} elseif ( $jwp_active ) {
+			echo '
 					It looks like you have not deactivated the old JW Player plugin yet.
-			";
+			';
 		}
-		echo "
-						You will need to do that on the <a href='$plugins_url'
-						title='Go to the plugins page'>plugins page</a> (These plugins
+		echo '
+						You will need to do that on the <a href="' . esc_url( $plugins_url ) . '"
+						title="Go to the plugins page">plugins page</a> (These plugins
 						cannot be used at the same time).
 					</p>
 				</div>
-			";
+			';
 	}
 }
 
@@ -100,7 +101,7 @@ function jwplayer_import_page() {
 	echo '<form method="post" action="options.php">';
 	settings_fields( 'jwplayer_import' );
 	do_settings_sections( 'jwplayer_import' );
-	submit_button('Start Import');
+	submit_button( 'Start Import' );
 	echo '</form>';
 	echo '</div>';
 }
@@ -136,17 +137,17 @@ function jwplayer_import_check_redirect() {
 function jwplayer_import_include_players() {
 	$nr = jwplayer_import_nr_of_players();
 	echo '<input name="jwplayer_import_include_players" id="jwplayer_import_include_players" type="checkbox" value="true" /> ';
-	echo "
-		<label for='jwplayer_import_include_players'>
-			Import all player configurations. <strong>($nr from old plugin)</strong>
+	echo '
+		<label for="jwplayer_import_include_players">
+			Import all player configurations. <strong>(' . esc_html( $nr ). ' from old plugin)</strong>
 		</label>
-	";
+	';
 	// TODO: Have URL to support doc explaining the custom shortcode parser.
 	echo '
 		<p class="description">
 			You can always decide to edit or delete these players after the import —
 			they will be in your Players list int he JW Player dashboard, with a
-			"Wordpress" name.
+			"WordPress" name.
 		</p>
 	';
 }
@@ -154,12 +155,12 @@ function jwplayer_import_include_players() {
 function jwplayer_import_include_playlists() {
 	$nr = jwplayer_import_nr_of_playlists();
 	echo '<input name="jwplayer_import_include_playlists" id="jwplayer_import_include_playlists" type="checkbox" value="true" /> ';
-	echo "
-		<label for='jwplayer_import_include_playlists'>
+	echo '
+		<label for="jwplayer_import_include_playlists">
 			Import all playlists and content.
-			<strong>($nr from old plugin)</strong>
+			<strong>(' . esc_html( $nr ). ' from old plugin)</strong>
 		</label>
-	";
+	';
 	// TODO: Have URL to support doc explaining the custom shortcode parser.
 	echo '
 		<p class="description">
@@ -185,13 +186,17 @@ function jwplayer_import_playlists_check( $input ) {
 }
 
 function jwplayer_import_legacy_playlists() {
-	$query_params = array(
-		"post_type" => 'jw_playlist',
-		"post_status" => null,
-		"post_parent" => null,
-		"nopaging" => true,
-	);
-	return query_posts( $query_params );
+	$playlist_query = new WP_Query( array(
+		'post_type' => 'jw_playlist',
+		'post_status' => null,
+		'post_parent' => null,
+	));
+	$playlists = array();
+	while( $playlist_query->have_posts() ) {
+		$playlists[] = $playlist_query->the_post();
+	}
+  wp_reset_postdata();
+	return $playlists;
 }
 
 function jwplayer_import_skin_list() {
@@ -202,7 +207,7 @@ function jwplayer_import_skin_list() {
 	$skins = array();
 	$response = jwplayer_api_call( '/accounts/skins/list', $params );
 	if ( jwplayer_api_response_ok( $response ) ) {
-		foreach ($response['skins'] as $skin) {
+		foreach ( $response['skins'] as $skin ) {
 			$skins[ strtolower( $skin['name'] ) ] = $skin['key'];
 		}
 	}
@@ -210,7 +215,7 @@ function jwplayer_import_skin_list() {
 }
 
 function jwplayer_import_players() {
-	if ( ! current_user_can( 'manage_options') ) {
+	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
 	}
 	$player_ids = get_option( 'jwp6_players' );
@@ -226,7 +231,7 @@ function jwplayer_import_players() {
 			continue;
 		}
 		$params = array(
-			'description' => 'Wordpress imported player',
+			'description' => 'WordPress imported player',
 			'width' => 480,
 			'height' => 270,
 			'aspectratio' => null,
@@ -234,18 +239,14 @@ function jwplayer_import_players() {
 			'stretching' => 'uniform',
 			'skin' => null,
 			'autostart' => false,
-			// 'fallback' => DEPRECATED in JW7
 			'mute' => false,
 			'primary' => 'flash',
 			'repeat' => false,
-			// 'listbar' => DEPRECATED in JW7
 			'logo__file' => '',
 			'logo__hide' => 'false',
 			'logo__link' => '',
 			'logo__margin' => 8,
 			'logo__position' => 'top-right',
-			// 'aboutlink': => DEPRECATED
-			// 'ga': => IMPOSSIBLE TO IMPORT (Used ga tracker on page)
 			'advertising__client' => null,
 			'advertising__tag' => '',
 		);
@@ -259,14 +260,14 @@ function jwplayer_import_players() {
 		}
 		// Translate these params into parameters that the API accepts.
 		if ( 'Default and fallback player (unremovable).' === $params['description'] ) {
-			$params['name'] = 'Default Wordpress plugin player';
+			$params['name'] = 'Default WordPress plugin player';
 		} else {
-			$params['name'] = $params['description'] . ' (Imported Wordpress player)';
+			$params['name'] = $params['description'] . ' (Imported WordPress player)';
 		}
 		if ( $params['aspectratio'] ) {
 			$params['responsive'] = true;
 		} else {
-			unset ( $params['aspectratio'] );
+			unset( $params['aspectratio'] );
 		}
 		if ( $params['skin'] && array_key_exists( $params['skin'], $skins ) ) {
 			$params['skin_key'] = $skins[ $params['skin'] ];
@@ -280,8 +281,15 @@ function jwplayer_import_players() {
 			$params['advertising_tag'] = $params['advertising__tag'];
 		}
 		$delete_params = array(
-			'skin', 'logo__file', 'logo__link', 'logo__position', 'logo__margin',
-			'logo__hide', 'advertising__tag', 'advertising__client', 'description',
+			'skin',
+			'logo__file',
+			'logo__link',
+			'logo__position',
+			'logo__margin',
+			'logo__hide',
+			'advertising__tag',
+			'advertising__client',
+			'description',
 		);
 		foreach ( $delete_params as $delete_param ) {
 			unset( $params[ $delete_param ] );
@@ -291,7 +299,7 @@ function jwplayer_import_players() {
 		if ( jwplayer_api_response_ok( $response ) ) {
 			$imported_players[ $player_id ] = $response['player']['key'];
 		} else {
-			jwplayer_log('ERROR CREATING IMPORTED PLAYER');
+			jwplayer_log( 'ERROR CREATING IMPORTED PLAYER' );
 			jwplayer_log( $params, true );
 			jwplayer_log( $response, true );
 		}
@@ -301,7 +309,7 @@ function jwplayer_import_players() {
 }
 
 function jwplayer_import_playlists() {
-	if ( ! current_user_can( 'manage_options') ) {
+	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
 	}
 	$imported_playlists = get_option( 'jwplayer_imported_playlists' );
@@ -314,7 +322,7 @@ function jwplayer_import_playlists() {
 		if ( array_key_exists( $playlist->ID, $imported_playlists ) ) {
 			continue;
 		}
-		$media_ids = explode(",", get_post_meta( $playlist->ID, 'jwplayermodule_playlist_items', true ) );
+		$media_ids = explode( ',', get_post_meta( $playlist->ID, 'jwplayermodule_playlist_items', true ) );
 		$media_hashes = array();
 		foreach ( $media_ids as $media_id ) {
 			$media_hash = jwplayer_media_hash( intval( $media_id ) );
@@ -339,13 +347,13 @@ function jwplayer_import_playlists() {
 				);
 				$response = jwplayer_api_call( '/channels/videos/create', $params );
 				if ( ! jwplayer_api_response_ok( $response ) ) {
-					jwplayer_log('ERROR ADDING VIDEO TO PLAYLIST');
+					jwplayer_log( 'ERROR ADDING VIDEO TO PLAYLIST' );
 					jwplayer_log( $params, true );
 					jwplayer_log( $response, true );
 				}
 			}
 		} else {
-			jwplayer_log('ERROR CREATING NEW PLAYLIST');
+			jwplayer_log( 'ERROR CREATING NEW PLAYLIST' );
 			jwplayer_log( $params, true );
 			jwplayer_log( $response, true );
 		}

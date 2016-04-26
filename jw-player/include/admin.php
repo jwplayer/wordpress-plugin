@@ -1,21 +1,8 @@
 <?php
 
-// Add the JW Player settings to the media page in the admin panel
-function jwplayer_admin_init() {
-	add_action( 'admin_menu', 'jwplayer_settings_init' );
-	if ( get_option ( 'jwplayer_api_key' ) ) {
-		add_action( 'admin_head-post.php', 'jwplayer_admin_head' );
-		add_action( 'admin_head-post-new.php', 'jwplayer_admin_head' );
-		add_action( 'admin_head-media-upload-popup', 'jwplayer_admin_head' );
-		add_action( 'admin_enqueue_scripts', 'jwplayer_admin_enqueue_scripts' );
-	} else {
-		add_action( 'admin_notices', 'jwplayer_admin_show_login_notice' );
-	}
-}
-
 // Show the login notice in the admin area if necessary
 function jwplayer_admin_show_login_notice() {
-	if ( isset( $_GET['page'] ) && 'jwplayer_login_page' === sanitize_text_field( $_GET['page'] ) ) {// input var okay
+	if ( isset( $_GET['page'] ) && 'jwplayer_login_page' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) { // Input var okay
 		return;
 	} else {
 		$login_url = get_admin_url( null, 'admin.php?page=jwplayer_login_page' );
@@ -28,6 +15,9 @@ function jwplayer_admin_head() {
 
 	$plugin_url = plugins_url( '', __FILE__ );
 	$content_mask = jwplayer_get_content_mask();
+	if ( $content_mask === JWPLAYER_CONTENT_MASK && is_ssl() ) {
+		$content_mask = 'https://' . $content_mask;
+	}
 	$nr_videos = intval( get_option( 'jwplayer_nr_videos' ) );
 	?>
 
@@ -35,6 +25,7 @@ function jwplayer_admin_head() {
 		jwplayer.plugin_url = '<?php echo esc_url( $plugin_url ); ?>';
 		jwplayer.content_mask = '<?php echo esc_url( $content_mask ); ?>';
 		jwplayer.nr_videos = <?php echo esc_js( $nr_videos ); ?>;
+		jwplayer.debug = <?php echo wp_json_encode( WP_DEBUG ); ?>;
 	</script>
 	<?php
 }
@@ -48,7 +39,7 @@ function jwplayer_admin_enqueue_scripts( $hook_suffix ) {
 		'post.php',
 		'post-new.php',
 	);
-	if ( ! in_array( $hook_suffix, $load_on_pages ) ) {
+	if ( ! in_array( $hook_suffix, $load_on_pages, true ) ) {
 		return;
 	}
 

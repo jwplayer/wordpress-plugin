@@ -1,18 +1,18 @@
-=== JW Player for Wordpress ===
+=== JW Player for WordPress ===
 Contributors: LongTail Video
 Tags: jwplayer, jw, player, jwplatform, video, media, html5
 Requires at least: 4.3
-Tested up to: 4.4.1
-Stable tag: 0.10.1 beta
+Tested up to: 4.5
+Stable tag: 1.5.2
 License: GPLv3
 
-Upload and embed videos with your JW Player account to seamlessly integrate video into your Wordpress website.
+Upload and embed videos with your JW Player account to seamlessly integrate video into your WordPress website.
 
 == Description ==
 
-**BE AWARE: The plugin is in beta. We've tested it locally, but because of the myriad of different Wordpress setups it could be possible that you run into issues. If you do run into an issue we encourage you to [report this issue in the GitHub mirror](https://github.com/jwplayer/wordpress-plugin/issues) of this plugin. Thank you for your help.**
+**If you do run into an issue we encourage you to [report this issue in the GitHub mirror](https://github.com/jwplayer/wordpress-plugin/issues) of this plugin. Thank you for your help.**
 
-This plugin will give you the power to use videos, playlists, and players from your JW Player account within Wordpress. You will also be able to track the performance of your content with JW Player’s dashboard analytics.
+This plugin will give you the power to use videos, playlists, and players from your JW Player account within WordPress. You will also be able to track the performance of your content with JW Player’s dashboard analytics.
 
 
 = Key Features =
@@ -27,7 +27,7 @@ This plugin will give you the power to use videos, playlists, and players from y
     - Allow you to create or manage players or media objects from within the plugin (these actions happen within the JW Player dashboard)
 
 * Additional features:
-    - You may also sync Wordpress-hosted media to your JW Player account (as externally-hosted media)
+    - You may also sync WordPress-hosted media to your JW Player account (as externally-hosted media)
 
 [Sign up for a free JW Player account!](http://www.jwplayer.com/pricing/)
 
@@ -44,12 +44,15 @@ If you have any questions, comments, problems or suggestions please post on our
 
 This plugin is open source and we strongly encourage users to contribute to the plugin's development. If you find a bug or another issue, please [report it on the plugin's GitHub mirror](https://github.com/jwplayer/wordpress-plugin/issues) and if you would like to suggest improvements feel free to open a pull request.
 
+* Known Issues:
+    - In some cases the posts list in your admin may appear empty after activating this plugin. [Please help us fix this issue](https://github.com/jwplayer/wordpress-plugin/issues/17).
+
 
 == Installation ==
 
 1. Unpack the zip-file and put the resulting folder in the wp-content/plugins
-   directory of your Wordpress install.
-2. Login as Wordpress admin.
+   directory of your WordPress install.
+2. Login as WordPress admin.
 3. Go the the plugins page, the JW Player plugin should be visible.
    Click "activate" to enable the plugin.
 4. Click the "authorize plugin" link in the notification to authorize your
@@ -69,7 +72,7 @@ This plugin is open source and we strongly encourage users to contribute to the 
 
 == Frequently Asked Questions ==
 
-= Does this plugin replace the old JW Player Plugin for Wordpress? =
+= Does this plugin replace the old JW Player Plugin for WordPress? =
 
 Yes, it does. You cannot run both plugins at the same time. However, you can import your referenced media, your players and your playlists from the old plugin into your JW Player account.
 
@@ -92,6 +95,29 @@ We're sorry that you've found an issue. Could you [report the issue in the plugi
 That's great. Tell us about it and open a pull request on [our GitHub mirror of the plugin](https://github.com/jwplayer/wordpress-plugin/).
 
 == Changelog ==
+
+= 1.5.2 =
+
+* Issue: Small fix to make the plugin work with broken mime types.
+* Change: Use https for API by default even for server to server.
+
+= 1.5.1 =
+
+* Issue: Widget text parser was undefined
+* Issue: PHP warning for undefined variable removed
+* Issue: Signing fix for when secure embeds is enabled
+* Issue: Minor VIP fixes.
+
+= 1.5.0 =
+
+* Change: Strange version number increase to work with previous VIP plugin
+* Update: Wordpress VIP changes.
+* Update: API kit param is includes plugin version.
+
+= 0.10.2 beta =
+
+* Update: Force https upload even if API returns http protocol.
+* Issue: Force https for thumbs if content mask is the def
 
 = 0.10.1 beta =
 
@@ -116,5 +142,5 @@ That's great. Tell us about it and open a pull request on [our GitHub mirror of 
 
 == Upgrade Notice ==
 
-Please remember that this plugin replaces our old JW Platform and our old JW Player for Wordpress plugins and it should not be activated at the same time.
+Please remember that this plugin replaces our old JW Platform and our old JW Player for WordPress plugins and it should not be activated at the same time.
 
