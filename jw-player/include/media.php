@@ -78,7 +78,8 @@ function jwplayer_media_hash( $media_id, $create_if_none = true ) {
 
 
 function jwplayer_media_init_sync( $media_id, $mime_type, $title, $description ) {
-	$sourceformat = ( $mime_type ) ? preg_split( '/\//', $mime_type )[1] : 'mp4';
+  $mime_type_parts = ( $mime_type ) ? preg_split( '/\//', $mime_type ): false;
+  $sourceformat = ( count( $mime_type_parts ) > 1 ) ? $mime_type_parts[1] : 'mp4';
 	$params = array(
 		'sourcetype' => 'url',
 		'sourceurl' => wp_get_attachment_url( $media_id ),

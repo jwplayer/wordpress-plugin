@@ -12,7 +12,7 @@
  */
 
 class JWPlayer_api {
-	private $_url = 'http://api.jwplatform.com/v1';
+	private $_url = 'https://api.jwplatform.com/v1';
 	private $_library;
 
 	private $_key, $_secret, $_version;
