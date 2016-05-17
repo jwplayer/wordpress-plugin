@@ -416,7 +416,7 @@ JWPlayerUpload.prototype = {
 	 * in jwplayer_admin_head function in include/admin.php.
 	 */
 	_log:function( msg ){
-		if( jwplayer.debug && typeof(console) !== 'undefined' ){
+		if( jwplayerwp.debug && typeof(console) !== 'undefined' ){
 			if( console.log ){
 				console.log( msg );
 			}
