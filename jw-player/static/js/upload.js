@@ -32,7 +32,7 @@ function JWPlayerUpload( link, resumableSession, redirect, id ){
 	this._redirect = redirect;
 
 	// Build the URL
-	this._url = link.protocol + '://' + link.address + link.path
+	this._url = '//' + link.address + link.path
 	+ '?api_format=json&key=' + link.query.key;
 
 	// Add the upload token or set the session id
@@ -76,7 +76,7 @@ function JWPlayerUpload( link, resumableSession, redirect, id ){
 	// If we are not in resumable mode, also generate the URL for polling
 	// the upload progress.
 	if( ! this._resumable ){
-		this._progressUrl = link.protocol + '://' + link.address + '/progress?token=' + link.query.token + '&callback=' + id + '_poll';
+		this._progressUrl = '//' + link.address + '/progress?token=' + link.query.token + '&callback=' + id + '_poll';
 	}
 }
 
@@ -416,7 +416,7 @@ JWPlayerUpload.prototype = {
 	 * in jwplayer_admin_head function in include/admin.php.
 	 */
 	_log:function( msg ){
-		if( jwplayer.debug && typeof(console) !== 'undefined' ){
+		if( jwplayerwp.debug && typeof(console) !== 'undefined' ){
 			if( console.log ){
 				console.log( msg );
 			}

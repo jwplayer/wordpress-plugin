@@ -22,10 +22,10 @@ function jwplayer_admin_head() {
 	?>
 
 	<script type="text/javascript">
-		jwplayer.plugin_url = '<?php echo esc_url( $plugin_url ); ?>';
-		jwplayer.content_mask = '<?php echo esc_url( $content_mask ); ?>';
-		jwplayer.nr_videos = <?php echo esc_js( $nr_videos ); ?>;
-		jwplayer.debug = <?php echo wp_json_encode( WP_DEBUG ); ?>;
+		jwplayerwp.plugin_url = '<?php echo esc_url( $plugin_url ); ?>';
+		jwplayerwp.content_mask = '<?php echo esc_url( $content_mask ); ?>';
+		jwplayerwp.nr_videos = <?php echo esc_js( $nr_videos ); ?>;
+		jwplayerwp.debug = <?php echo wp_json_encode( WP_DEBUG ); ?>;
 	</script>
 	<?php
 }
