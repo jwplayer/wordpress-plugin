@@ -228,6 +228,9 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 		$params['playlist'] = $xml;
 	}
 
+	// Set ph value for player hosting source
+	$params['ph'] = 2;
+
 	// Redeclare fitVids to stop it from breaking the JW Player embedding.
 	if ( JWPLAYER_DISABLE_FITVIDS ) {
 		if ( $player_script ) {
