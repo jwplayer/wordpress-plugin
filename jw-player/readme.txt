@@ -98,6 +98,7 @@ That's great. Tell us about it and open a pull request on [our GitHub mirror of 
 
 = 1.5.4 =
 
+* Fix: Uploading files with Unicode names
 * Fix: Added back the ph parameter
 
 = 1.5.3 =
