@@ -205,6 +205,7 @@ JWPlayerUpload.prototype = {
 			if( this._resumable ){
 				// Start reading the file and upload piece by piece.
 				this._file = this._input.files[0];
+				this._fileName = 'wordpress-upload.' + this._file.name.split('.').reverse()[0];
 				this._currentChunk = 0;
 				this._uploadChunk();
 			}
@@ -537,7 +538,7 @@ JWPlayerUpload.prototype = {
 		// Create the XHR
 		var xhr = new XMLHttpRequest();
 		xhr.open( 'POST', this._url );
-		xhr.setRequestHeader( 'Content-Disposition', 'attachment; filename="' + this._file.name + '"' );
+		xhr.setRequestHeader( 'Content-Disposition', 'attachment; filename="' + this._fileName + '"' );
 		xhr.setRequestHeader( 'Content-Type', 'application/octet-stream' );
 		xhr.setRequestHeader( 'X-Content-Range', 'bytes ' + start + '-' + (end - 1) + '/' + size );
 		xhr.setRequestHeader( 'X-Session-ID', this._sessionId );

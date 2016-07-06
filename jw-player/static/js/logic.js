@@ -600,6 +600,8 @@
 
 			if( title !== '' ){
 				data.title = title;
+			} else {
+				data.title = win.find( '.jwplayer-upload-file' ).get( 0 ).files[0].name;
 			}
 
 			$.ajax( {
