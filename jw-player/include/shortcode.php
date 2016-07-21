@@ -197,7 +197,7 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 
 	$timeout = intval( get_option( 'jwplayer_timeout' ) );
 	$js_lib = "$protocol://$content_mask/libraries/$player_hash.js";
-	$xml = "$protocol://$content_mask/jw6/$media_hash.xml";
+	$json = "$protocol://$content_mask/feeds/$media_hash.json";
 	if ( $timeout > 0 ) {
 		$api_secret = get_option( 'jwplayer_api_secret' );
 		$expires = time() + 60 * $timeout;
@@ -205,8 +205,8 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 		$js_lib_sig = md5( "libraries/$player_hash.js:" . $expires . ':' . $api_secret );
 		$js_lib = "$js_lib?exp=$expires&sig=$js_lib_sig";
 
-		$xml_sig = md5( "jw6/$media_hash.xml:" . $expires . ':' . $api_secret );
-		$xml = "$xml?exp=$expires&sig=$xml_sig";
+		$json_sig = md5( "feeds/$media_hash.json:" . $expires . ':' . $api_secret );
+		$json = "$json?exp=$expires&sig=$json_sig";
 	}
 
 	$params = jwplayer_shortcode_filter_player_params( $params );
@@ -225,7 +225,7 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 		}
 	}
 	if ( ! isset( $params['source'] ) ) {
-		$params['playlist'] = $xml;
+		$params['playlist'] = $json;
 	}
 
 	// Set ph value for player hosting source
