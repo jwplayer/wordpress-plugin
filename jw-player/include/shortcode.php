@@ -182,7 +182,7 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 	global $jwplayer_shortcode_embedded_players;
 	$player_hash = ( null === $player_hash ) ? get_option( 'jwplayer_player' ) : $player_hash;
 	$content_mask = jwplayer_get_content_mask();
-	$protocol = ( is_ssl() && BOTR_CONTENT_MASK === $content_mask ) ? 'https' : 'http';
+	$protocol = ( is_ssl() && JWPLAYER_CONTENT_MASK === $content_mask ) ? 'https' : 'http';
 
 	if ( in_array( $player_hash, $jwplayer_shortcode_embedded_players, true ) ) {
 		$player_script = '';
