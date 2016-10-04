@@ -1,5 +1,6 @@
 _ignore*
 .svnignore
 .svn*
+.DS_Store
 
 build/*
