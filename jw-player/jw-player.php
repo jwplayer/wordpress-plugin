@@ -22,7 +22,7 @@ require_once( JWPLAYER_PLUGIN_DIR . '/include/validation.php' );
 require_once( JWPLAYER_PLUGIN_DIR . '/include/utils.php' );
 
 // Default settings
-define( 'JWPLAYER_PLUGIN_VERSION', '1.5.6' );
+define( 'JWPLAYER_PLUGIN_VERSION', '1.5.7' );
 define( 'JWPLAYER_PLAYER', 'ALJ3XQCI' );
 define( 'JWPLAYER_DASHBOARD', 'https://dashboard.jwplayer.com/' );
 define( 'JWPLAYER_TIMEOUT', '0' );
