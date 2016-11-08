@@ -4,7 +4,7 @@ Plugin Name: JW Player Plugin
 Plugin URI: http://www.jwplayer.com/
 Description: This plugin allows you to easily upload and embed videos using the JW Player. The embedded video links can be signed, making it harder for viewers to steal your content.
 Author: JW Player
-Version: 1.5.7
+Version: 1.5.8
 */
 
 define( 'JWPLAYER_PLUGIN_DIR', dirname( __FILE__ ) );
@@ -22,7 +22,8 @@ require_once( JWPLAYER_PLUGIN_DIR . '/include/validation.php' );
 require_once( JWPLAYER_PLUGIN_DIR . '/include/utils.php' );
 
 // Default settings
-define( 'JWPLAYER_PLUGIN_VERSION', '1.5.7' );
+define( 'JWPLAYER_PLUGIN_VERSION', '1.5.8' );
+define( 'JWPLAYER_MINIMUM_PHP_VERSION', '5.4.0' );
 define( 'JWPLAYER_PLAYER', 'ALJ3XQCI' );
 define( 'JWPLAYER_DASHBOARD', 'https://dashboard.jwplayer.com/' );
 define( 'JWPLAYER_TIMEOUT', '0' );
@@ -98,6 +99,8 @@ if ( get_option( 'jwplayer_api_key' ) ) {
 	add_action( 'admin_head-post-new.php', 'jwplayer_admin_head' );
 	add_action( 'admin_head-media-upload-popup', 'jwplayer_admin_head' );
 	add_action( 'admin_enqueue_scripts', 'jwplayer_admin_enqueue_scripts' );
+} else if ( version_compare( PHP_VERSION, JWPLAYER_MINIMUM_PHP_VERSION, '<' ) ) {
+	add_action( 'admin_notices', 'jwplayer_admin_show_version_notice' );
 } else {
 	add_action( 'admin_notices', 'jwplayer_admin_show_login_notice' );
 }
