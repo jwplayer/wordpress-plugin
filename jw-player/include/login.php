@@ -45,7 +45,14 @@ function jwplayer_login_page() {
 	$api_verified = jwplayer_login_verify_api_key_secret( $api_key, $api_secret );
 
 	if ( null === $api_verified ) {
-		jwplayer_login_print_error( 'Communications with the JW Player API failed. Please try again later.' );
+		$login_error = 'Communications with the JW Player API failed';
+		if ( version_compare( PHP_VERSION, JWPLAYER_MINIMUM_PHP_VERSION, '<' ) ) {
+			$login_error .= ', because you are using PHP version ' . esc_html( PHP_VERSION ) . '. ';
+			$login_error .= 'You need at least version ' . esc_html( JWPLAYER_MINIMUM_PHP_VERSION ) . 'to use the JW Player plugin.';
+		} else {
+			$login_error .= '. Please try again later.';
+		}
+		jwplayer_login_print_error( $login_error );
 		jwplayer_login_form();
 	} elseif ( false === $api_verified ) {
 		jwplayer_login_print_error( 'Your API credentials were not accepted. Please try again.' );
