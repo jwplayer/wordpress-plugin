@@ -1,5 +1,13 @@
 <?php
 
+// Show PHP version compatibility warning
+function jwplayer_admin_show_version_notice() {
+	echo '<div class="error fade">';
+	echo '<p>You are using PHP version <strong>' . esc_html( PHP_VERSION ) . '</strong>. ';
+	echo 'You need at least version <strong>' . esc_html( JWPLAYER_MINIMUN_PHP_VERSION ) . '</strong> to use the JW Player plugin.<p>';
+	echo '</div>';
+}
+
 // Show the login notice in the admin area if necessary
 function jwplayer_admin_show_login_notice() {
 	if ( isset( $_GET['page'] ) && 'jwplayer_login_page' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) { // Input var okay
