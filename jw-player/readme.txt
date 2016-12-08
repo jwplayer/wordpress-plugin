@@ -2,7 +2,7 @@
 Contributors: LongTail Video
 Tags: jwplayer, jw, player, jwplatform, video, media, html5
 Requires at least: 4.3
-Tested up to: 4.6.1
+Tested up to: 4.7.0
 Stable tag: 1.6.0
 License: GPLv3
 
@@ -99,6 +99,8 @@ That's great. Tell us about it and open a pull request on [our GitHub mirror of 
 = 1.6.0 =
 
 * Feature: Added option to disable syncing local content to your JW Player account.
+* Update: Show Widget by default
+* Update: Tested for compatibility with Wordpress 4.7
 
 = 1.5.8 =
 

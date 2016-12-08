@@ -30,7 +30,7 @@ define( 'JWPLAYER_TIMEOUT', '0' );
 define( 'JWPLAYER_CONTENT_MASK', 'content.jwplatform.com' );
 define( 'JWPLAYER_NR_VIDEOS', '5' );
 define( 'JWPLAYER_CUSTOM_SHORTCODE_OPTIONS', wp_json_encode( array( 'content', 'excerpt', 'strip' ) ) );
-define( 'JWPLAYER_SHOW_WIDGET', false );
+define( 'JWPLAYER_SHOW_WIDGET', true );
 define( 'JWPLAYER_ENABLE_SYNC', true );
 define( 'JWPLAYER_CUSTOM_SHORTCODE_PARSER', false );
 define( 'JWPLAYER_CUSTOM_SHORTCODE_FILTER', 'content' );

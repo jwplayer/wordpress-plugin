@@ -153,7 +153,7 @@ function jwplayer_setting_player() {
 
 // The setting which determines whether we show the widget on the authoring page (or only in the "Add media" window)
 function jwplayer_setting_show_widget() {
-	$show_widget = get_option( 'jwplayer_show_widget' );
+	$show_widget = get_option( 'jwplayer_show_widget', JWPLAYER_SHOW_WIDGET );
 	echo '<input name="jwplayer_show_widget" id="jwplayer_show_widget" type="checkbox" ';
 	checked( true, $show_widget );
 	echo ' value="true" /> ';
