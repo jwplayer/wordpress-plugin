@@ -4,25 +4,29 @@
 // Add the JW Player settings to the media page in the admin panel
 function jwplayer_settings_init() {
 	add_options_page( 'JW Player Plugin Settings', 'JW Player', 'manage_options', 'jwplayer_settings', 'jwplayer_settings_page' );
-	add_settings_section( 'jwplayer_setting_section', null, '__return_true', 'jwplayer_settings' );
+	add_settings_section( 'jwplayer_setting_basic_section', null, '__return_true', 'jwplayer_settings' );
 
 	if ( get_option( 'jwplayer_api_key' ) ) {
-		add_settings_field( 'jwplayer_logout_link', 'Authorization', 'jwplayer_setting_logout_link', 'jwplayer_settings', 'jwplayer_setting_section' );
-		add_settings_field( 'jwplayer_player', 'Default player', 'jwplayer_setting_player', 'jwplayer_settings', 'jwplayer_setting_section' );
-		add_settings_field( 'jwplayer_show_widget', 'Authoring page widget', 'jwplayer_setting_show_widget', 'jwplayer_settings', 'jwplayer_setting_section' );
-		add_settings_field( 'jwplayer_nr_videos', 'Videos in widget', 'jwplayer_setting_nr_videos', 'jwplayer_settings', 'jwplayer_setting_section' );
-		add_settings_field( 'jwplayer_timeout', 'Timeout for signed links', 'jwplayer_setting_timeout', 'jwplayer_settings', 'jwplayer_setting_section' );
-		add_settings_field( 'jwplayer_content_mask', 'Content DNS mask', 'jwplayer_setting_content_mask', 'jwplayer_settings', 'jwplayer_setting_section' );
-		add_settings_field( 'jwplayer_custom_shortcode_parser', 'Custom shortcode parser', 'jwplayer_setting_custom_shortcode', 'jwplayer_settings', 'jwplayer_setting_section' );
+		add_settings_field( 'jwplayer_logout_link', 'Authorization', 'jwplayer_setting_logout_link', 'jwplayer_settings', 'jwplayer_setting_basic_section' );
+		add_settings_field( 'jwplayer_player', 'Default player', 'jwplayer_setting_player', 'jwplayer_settings', 'jwplayer_setting_basic_section' );
+		add_settings_field( 'jwplayer_show_widget', 'Authoring page widget', 'jwplayer_setting_show_widget', 'jwplayer_settings', 'jwplayer_setting_basic_section' );
+		add_settings_field( 'jwplayer_nr_videos', 'Videos in widget', 'jwplayer_setting_nr_videos', 'jwplayer_settings', 'jwplayer_setting_basic_section' );
+
+		add_settings_section( 'jwplayer_setting_advanced_section', 'Advanced Settings', 'jwplayer_settings_advanced', 'jwplayer_settings' );
+		add_settings_field( 'jwplayer_timeout', 'Timeout for signed links', 'jwplayer_setting_timeout', 'jwplayer_settings', 'jwplayer_setting_advanced_section' );
+		add_settings_field( 'jwplayer_content_mask', 'Content DNS mask', 'jwplayer_setting_content_mask', 'jwplayer_settings', 'jwplayer_setting_advanced_section' );
+		add_settings_field( 'jwplayer_enable_sync', 'Enable JW Sync', 'jwplayer_setting_enable_sync', 'jwplayer_settings', 'jwplayer_setting_advanced_section' );
+		add_settings_field( 'jwplayer_custom_shortcode_parser', 'Custom shortcode parser', 'jwplayer_setting_custom_shortcode', 'jwplayer_settings', 'jwplayer_setting_advanced_section' );
 
 		register_setting( 'jwplayer_settings', 'jwplayer_nr_videos', 'absint' );
 		register_setting( 'jwplayer_settings', 'jwplayer_timeout', 'absint' );
 		register_setting( 'jwplayer_settings', 'jwplayer_content_mask', 'jwplayer_validate_content_mask' );
 		register_setting( 'jwplayer_settings', 'jwplayer_player', 'jwplayer_validate_player' );
 		register_setting( 'jwplayer_settings', 'jwplayer_show_widget', 'jwplayer_validate_boolean' );
+		register_setting( 'jwplayer_settings', 'jwplayer_enable_sync', 'jwplayer_validate_boolean' );
 		register_setting( 'jwplayer_settings', 'jwplayer_custom_shortcode_parser', 'jwplayer_validate_boolean' );
 	} else {
-		add_settings_field( 'jwplayer_login_link', 'Authorization', 'jwplayer_setting_login_link', 'jwplayer_settings', 'jwplayer_setting_section' );
+		add_settings_field( 'jwplayer_login_link', 'Authorization', 'jwplayer_setting_login_link', 'jwplayer_settings', 'jwplayer_setting_basic_section' );
 	}
 
 	if ( get_option( 'jwplayer_api_key' ) && get_option( 'jwplayer_custom_shortcode_parser' ) ) {
@@ -73,6 +77,11 @@ function jwplayer_setting_nr_videos() {
 	$nr_videos = absint( get_option( 'jwplayer_nr_videos', JWPLAYER_NR_VIDEOS ) );
 
 	echo 'Show <input name="jwplayer_nr_videos" id="jwplayer_nr_videos" type="text" size="2" value="' . esc_attr( $nr_videos ) . '" /> videos.';
+}
+
+// Adds the Advanced Settings submenu intro
+function jwplayer_settings_advanced() {
+	echo '<p>Please make sure to read the documentation before changing any of the settings below. If these settings are used incorrectly, your plugin or Wordpress site might not function properly.</p>';
 }
 
 // The setting for the signed player timeout
@@ -150,6 +159,17 @@ function jwplayer_setting_show_widget() {
 	echo ' value="true" /> ';
 	echo '<label for="jwplayer_show_widget">Show</label>';
 	echo '<p class="description"><strong>Note:</strong> The widget is always accessible from the <em>Add media</em> window.</p>';
+}
+
+// The settings which determines if external media is imported into the JW Player account or left as is.
+function jwplayer_setting_enable_sync() {
+	$enable_sync = get_option( 'jwplayer_enable_sync', JWPLAYER_ENABLE_SYNC );
+	echo '<input name="jwplayer_enable_sync" id="jwplayer_enable_sync" type="checkbox" ';
+	checked( true, $enable_sync );
+	echo ' value="1" /> ';
+	echo '<label for="jwplayer_enable_sync">Sync media to JW Player</label>';
+	echo '<p class="description">Enabling this setting will make it possible to sync your local media files to your JW Player account.</p>';
+	echo '<p class="description">For synced media you can manage metadata and see video statistics inside the JW Player dashboard.</p>';
 }
 
 // The setting which determines whether we use the built-in shortcode parser or our own filters.
