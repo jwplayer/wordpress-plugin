@@ -99,6 +99,7 @@ That's great. Tell us about it and open a pull request on [our GitHub mirror of 
 = 1.6.0 =
 
 * Feature: Added option to disable syncing local content to your JW Player account.
+* Feature: Added a filter hook for generated JS embed code. Thanks to [@nirarazi](https://github.com/nirarazi)
 * Update: Show Widget by default
 * Update: Tested for compatibility with Wordpress 4.7
 
