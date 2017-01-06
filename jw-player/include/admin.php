@@ -4,7 +4,7 @@
 function jwplayer_admin_show_version_notice() {
 	echo '<div class="error fade">';
 	echo '<p>You are using PHP version <strong>' . esc_html( PHP_VERSION ) . '</strong>. ';
-	echo 'You need at least version <strong>' . esc_html( JWPLAYER_MINIMUN_PHP_VERSION ) . '</strong> to use the JW Player plugin.<p>';
+	echo 'You need at least version <strong>' . esc_html( JWPLAYER_MINIMUM_PHP_VERSION ) . '</strong> to use the JW Player plugin.<p>';
 	echo '</div>';
 }
 

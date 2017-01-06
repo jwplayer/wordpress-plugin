@@ -23,7 +23,7 @@ require_once( JWPLAYER_PLUGIN_DIR . '/include/utils.php' );
 
 // Default settings
 define( 'JWPLAYER_PLUGIN_VERSION', '1.5.8' );
-define( 'JWPLAYER_MINIMUN_PHP_VERSION', '5.4.0' );
+define( 'JWPLAYER_MINIMUM_PHP_VERSION', '5.4.0' );
 define( 'JWPLAYER_PLAYER', 'ALJ3XQCI' );
 define( 'JWPLAYER_DASHBOARD', 'https://dashboard.jwplayer.com/' );
 define( 'JWPLAYER_TIMEOUT', '0' );
