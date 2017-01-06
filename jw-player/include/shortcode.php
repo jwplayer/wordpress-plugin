@@ -14,13 +14,12 @@ function jwplayer_shortcode_handle( $atts ) {
 		return '';
 	}
 	$keys = array_keys( $atts );
-	$r    = '/(?P<media>[0-9a-z]{8})(?:[-_])?(?P<player>[0-9a-z]{8})?/i';
-	$m    = array();
+	$r = '/(?P<media>[0-9a-z]{8})(?:[-_])?(?P<player>[0-9a-z]{8})?/i';
+	$m = array();
 	if ( count( $keys ) > 0 && 0 === $keys[0] && preg_match( $r, $atts[0], $m ) ) {
 		unset( $atts[0] );
 		$player = ( isset( $m['player'] ) ) ? $m['player'] : null;
-
-		return apply_filters( 'jwplayer_js_embed', jwplayer_shortcode_create_js_embed( $m['media'], $player, $atts ) );
+		return jwplayer_shortcode_create_js_embed( $m['media'], $player, $atts );
 	} else {
 		// Legacy shortcode
 		return jwplayer_shortcode_handle_legacy( $atts );
@@ -61,19 +60,19 @@ function jwplayer_shortcode_filter( $filter_type = 'content', $content = '' ) {
 }
 
 function jwplayer_shortcode_widget_text_filter( $content = '' ) {
-	$tag_regex = '/(.?)\[(jwplayer)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s';
-	$content   = preg_replace_callback( $tag_regex, 'jwplayer_shortcode_parser', $content );
-	return $content;
+    $tag_regex = '/(.?)\[(jwplayer)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s';
+    $content = preg_replace_callback( $tag_regex, 'jwplayer_shortcode_parser', $content );
+    return $content;
 }
 
 function jwplayer_shortcode_parser( $matches ) {
 	if ( '[' === $matches[1] && ']' === $matches[6] ) {
-		return substr( $matches[0], 1, - 1 );
+		return substr( $matches[0], 1, -1 );
 	}
 	$param_regex = '/([\w.]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w.]+)\s*=\s*\'([^\']*)\'(?:\s|$)|([\w.]+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
-	$text        = preg_replace( "/[\x{00a0}\x{200b}]+/u", ' ', $matches[3] );
-	$text        = preg_replace( '/&#8221;|&#8243;/', '"', preg_replace( '/&#8217;|&#8242;/', "'", $text ) );
-	$atts        = array();
+	$text = preg_replace( "/[\x{00a0}\x{200b}]+/u", ' ', $matches[3] );
+	$text = preg_replace( '/&#8221;|&#8243;/', '"', preg_replace( '/&#8217;|&#8242;/', "'", $text ) );
+	$atts = array();
 	if ( preg_match_all( $param_regex, $text, $match, PREG_SET_ORDER ) ) {
 		foreach ( $match as $p_match ) {
 			if ( ! empty( $p_match[1] ) ) {
@@ -96,7 +95,7 @@ function jwplayer_shortcode_parser( $matches ) {
 
 function jwplayer_shortcode_stripper( $matches ) {
 	if ( '[' === $matches[1] && ']' === $matches[6] ) {
-		return substr( $matches[0], 1, - 1 );
+		return substr( $matches[0], 1, -1 );
 	}
 	return $matches[1] . $matches[6];
 }
@@ -115,7 +114,7 @@ function jwplayer_shortcode_handle_legacy( $atts ) {
 		// };
 	} elseif ( isset( $atts['file'] ) ) {
 		$title = ( isset( $atts['title'] ) ) ? $atts['title'] : null;
-		$hash  = jwplayer_media_legacy_external_source( $atts['file'], $title );
+		$hash = jwplayer_media_legacy_external_source( $atts['file'], $title );
 		unset( $atts['file'] );
 	} elseif ( isset( $atts['playlistid'] ) ) {
 		$imported_playlists = get_option( 'jwplayer_imported_playlists' );
@@ -134,14 +133,14 @@ function jwplayer_shortcode_handle_legacy( $atts ) {
 	}
 	// Return the old stuff
 	if ( isset( $hash ) ) {
-		return apply_filters( 'jwplayer_js_embed', jwplayer_shortcode_create_js_embed( $hash, $player_hash, $atts ) );
+		return jwplayer_shortcode_create_js_embed( $hash, $player_hash, $atts );
 	}
 	return '<!-- ERROR PARSING SHORTCODE -->';
 }
 
 function jwplayer_shortcode_filter_player_params( $atts ) {
-	$params    = array();
-	$strip     = array( 'file', 'mediaid', 'playlist', 'playlistid' );
+	$params = array();
+	$strip = array( 'file', 'mediaid', 'playlist', 'playlistid' );
 	$translate = array(
 		'true'  => true,
 		'false' => false,
@@ -158,9 +157,9 @@ function jwplayer_shortcode_filter_player_params( $atts ) {
 		}
 		$value = ( array_key_exists( strval( $value ), $translate ) ) ? $translate[ $value ] : $value;
 		if ( strpos( $param, '__' ) ) {
-			$parts     = explode( '__', $param );
+			$parts = explode( '__', $param );
 			$last_part = end( $parts );
-			$a         = &$params;
+			$a = &$params;
 			foreach ( $parts as $part ) {
 				if ( $part === $last_part ) {
 					$a[ $part ] = $value;
@@ -181,33 +180,33 @@ function jwplayer_shortcode_filter_player_params( $atts ) {
 // Create the JS embed code for the jwplayer player
 function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $params = array() ) {
 	global $jwplayer_shortcode_embedded_players;
-	$player_hash  = ( null === $player_hash ) ? get_option( 'jwplayer_player' ) : $player_hash;
+	$player_hash = ( null === $player_hash ) ? get_option( 'jwplayer_player' ) : $player_hash;
 	$content_mask = jwplayer_get_content_mask();
-	$protocol     = ( is_ssl() && JWPLAYER_CONTENT_MASK === $content_mask ) ? 'https' : 'http';
+	$protocol = ( is_ssl() && JWPLAYER_CONTENT_MASK === $content_mask ) ? 'https' : 'http';
 
 	if ( in_array( $player_hash, $jwplayer_shortcode_embedded_players, true ) ) {
 		$player_script = '';
 	} else {
 		// Injecting script tag because there's no way to properly enqueue a javascript
 		// at this point in the process :'-(
-		$player_script                         = true;
+		$player_script = true;
 		$jwplayer_shortcode_embedded_players[] = $player_hash;
 	}
 
 	$element_id = "jwplayer_{$media_hash}_{$player_hash}_div";
 
 	$timeout = intval( get_option( 'jwplayer_timeout' ) );
-	$js_lib  = "$protocol://$content_mask/libraries/$player_hash.js";
-	$json    = "$protocol://$content_mask/feeds/$media_hash.json";
+	$js_lib = "$protocol://$content_mask/libraries/$player_hash.js";
+	$json = "$protocol://$content_mask/feeds/$media_hash.json";
 	if ( $timeout > 0 ) {
 		$api_secret = get_option( 'jwplayer_api_secret' );
-		$expires    = time() + 60 * $timeout;
+		$expires = time() + 60 * $timeout;
 
 		$js_lib_sig = md5( "libraries/$player_hash.js:" . $expires . ':' . $api_secret );
-		$js_lib     = "$js_lib?exp=$expires&sig=$js_lib_sig";
+		$js_lib = "$js_lib?exp=$expires&sig=$js_lib_sig";
 
 		$json_sig = md5( "feeds/$media_hash.json:" . $expires . ':' . $api_secret );
-		$json     = "$json?exp=$expires&sig=$json_sig";
+		$json = "$json?exp=$expires&sig=$json_sig";
 	}
 
 	$params = jwplayer_shortcode_filter_player_params( $params );
@@ -216,10 +215,10 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 		foreach ( array( 'sources', 'tracks' ) as $option ) {
 			if ( isset( $params[ $option ] ) ) {
 				$json = '[' . $params[ $option ] . ']';
-				$obj  = json_decode( preg_replace( '/[{, ]{1}(\w+):/i', '"\1":', $json ) );
+				$obj = json_decode( preg_replace( '/[{, ]{1}(\w+):/i', '"\1":', $json ) );
 				if ( null === $obj ) {
-					$json = str_replace( array( '"', "'" ), array( '\"', '"' ), $json );
-					$obj  = json_decode( preg_replace( '/[{, ]{1}(\w+):/i', '"\1":', $json ) );
+					$json = str_replace( array( '"',  "'" ), array( '\"', '"' ), $json );
+					$obj = json_decode( preg_replace( '/[{, ]{1}(\w+):/i', '"\1":', $json ) );
 				}
 				$params[ $option ] = $obj;
 			}
