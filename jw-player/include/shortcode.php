@@ -101,21 +101,27 @@ function jwplayer_shortcode_stripper( $matches ) {
 }
 
 function jwplayer_shortcode_handle_legacy( $atts ) {
+	$jw_sync = get_option( 'jwplayer_enable_sync', JWPLAYER_ENABLE_SYNC );
 	// Try to get media
 	if ( isset( $atts['mediaid'] ) ) {
-		$hash = jwplayer_media_hash( intval( $atts['mediaid'] ) );
+		$hash = jwplayer_media_hash( intval( $atts['mediaid'] ), $jw_sync );
 		if ( ! isset( $atts['image'] ) ) {
 			$thumb = get_post_meta( $atts['mediaid'], 'jwplayermodule_thumbnail', true );
 			if ( $thumb ) {
 				$atts['image'] = $thumb;
 			}
 		}
+		if ( ! $hash ) {
+			$atts['file'] = wp_get_attachment_url( $atts['mediaid'] );
+			$hash = 'local';
+		}
 		unset( $atts['mediaid'] );
-		// };
-	} elseif ( isset( $atts['file'] ) ) {
+	} elseif ( isset( $atts['file'] ) && $jw_sync ) {
 		$title = ( isset( $atts['title'] ) ) ? $atts['title'] : null;
 		$hash = jwplayer_media_legacy_external_source( $atts['file'], $title );
 		unset( $atts['file'] );
+	} elseif ( isset( $atts['file'] ) ) {
+		$hash = 'local';
 	} elseif ( isset( $atts['playlistid'] ) ) {
 		$imported_playlists = get_option( 'jwplayer_imported_playlists' );
 		if ( $imported_playlists && array_key_exists( $atts['playlistid'], $imported_playlists ) ) {
@@ -140,7 +146,7 @@ function jwplayer_shortcode_handle_legacy( $atts ) {
 
 function jwplayer_shortcode_filter_player_params( $atts ) {
 	$params = array();
-	$strip = array( 'file', 'mediaid', 'playlist', 'playlistid' );
+	$strip = array( 'mediaid', 'playlist', 'playlistid' );
 	$translate = array(
 		'true'  => true,
 		'false' => false,
@@ -193,11 +199,15 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 		$jwplayer_shortcode_embedded_players[] = $player_hash;
 	}
 
-	$element_id = "jwplayer_{$media_hash}_{$player_hash}_div";
+	if ( 'local' == $media_hash ) {
+		$element_id = "jwplayer_" . wp_generate_password( 12, false ) . "_div";
+	} else {
+		$element_id = "jwplayer_{$media_hash}_{$player_hash}_div";
+	}
 
 	$timeout = intval( get_option( 'jwplayer_timeout' ) );
 	$js_lib = "$protocol://$content_mask/libraries/$player_hash.js";
-	$json = "$protocol://$content_mask/feeds/$media_hash.json";
+	$json_feed = "$protocol://$content_mask/feeds/$media_hash.json";
 	if ( $timeout > 0 ) {
 		$api_secret = get_option( 'jwplayer_api_secret' );
 		$expires = time() + 60 * $timeout;
@@ -206,7 +216,7 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 		$js_lib = "$js_lib?exp=$expires&sig=$js_lib_sig";
 
 		$json_sig = md5( "feeds/$media_hash.json:" . $expires . ':' . $api_secret );
-		$json = "$json?exp=$expires&sig=$json_sig";
+		$json_feed = "$json_feed?exp=$expires&sig=$json_sig";
 	}
 
 	$params = jwplayer_shortcode_filter_player_params( $params );
@@ -224,8 +234,8 @@ function jwplayer_shortcode_create_js_embed( $media_hash, $player_hash = null, $
 			}
 		}
 	}
-	if ( ! isset( $params['source'] ) ) {
-		$params['playlist'] = $json;
+	if ( ! isset( $params['source'] ) && 'local' != $media_hash ) {
+		$params['playlist'] = $json_feed;
 	}
 
 	// Set ph value for player hosting source

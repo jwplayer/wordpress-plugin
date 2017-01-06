@@ -84,14 +84,12 @@ class JWPlayer_api {
 		$url = $this->call_url( $call, $args );
 
 		$response = null;
-		switch ( $this->_library ) {
-			case 'wpvip':
-				$response = vip_safe_wp_remote_get( $url );
-				break;
-			case 'wp':
-			default:
-				$response = wp_remote_get( $url );
-			break;
+		if ( 'wpvip' == $this->_library ) {
+			$response = vip_safe_wp_remote_get( $url );
+		} else {
+			$response = wp_remote_get( $url, array(
+				'timeout' => 15
+			) );
 		}
 
 		if ( is_wp_error( $response ) ) {

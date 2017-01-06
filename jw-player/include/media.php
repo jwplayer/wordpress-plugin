@@ -166,7 +166,7 @@ function jwplayer_media_handle() {
 
 // Add the video widget to the authoring page, if enabled in the settings
 function jwplayer_media_add_video_box() {
-	if ( get_option( 'jwplayer_show_widget' ) && get_option( 'jwplayer_api_key' ) ) {
+	if ( get_option( 'jwplayer_show_widget', JWPLAYER_SHOW_WIDGET ) && get_option( 'jwplayer_api_key' ) ) {
 		add_meta_box( 'jwplayer-video-box', 'Insert media with JW Player', 'jwplayer_media_widget_body', 'post', 'side', 'high' );
 		add_meta_box( 'jwplayer-video-box', 'Insert media with JW Player', 'jwplayer_media_widget_body', 'page', 'side', 'high' );
 	}

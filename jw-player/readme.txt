@@ -2,8 +2,8 @@
 Contributors: LongTail Video
 Tags: jwplayer, jw, player, jwplatform, video, media, html5
 Requires at least: 4.3
-Tested up to: 4.6.1
-Stable tag: 1.5.8
+Tested up to: 4.7.0
+Stable tag: 1.6.0
 License: GPLv3
 
 Upload and embed videos with your JW Player account to seamlessly integrate video into your WordPress website.
@@ -95,6 +95,13 @@ We're sorry that you've found an issue. Could you [report the issue in the plugi
 That's great. Tell us about it and open a pull request on [our GitHub mirror of the plugin](https://github.com/jwplayer/wordpress-plugin/).
 
 == Changelog ==
+
+= 1.6.0 =
+
+* Feature: Added option to disable syncing local content to your JW Player account.
+* Feature: Added a filter hook for generated JS embed code. Thanks to [@nirarazi](https://github.com/nirarazi)
+* Update: Show Widget by default
+* Update: Tested for compatibility with Wordpress 4.7
 
 = 1.5.8 =
 
