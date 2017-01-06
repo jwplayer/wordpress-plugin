@@ -19,7 +19,7 @@ function jwplayer_shortcode_handle( $atts ) {
 	if ( count( $keys ) > 0 && 0 === $keys[0] && preg_match( $r, $atts[0], $m ) ) {
 		unset( $atts[0] );
 		$player = ( isset( $m['player'] ) ) ? $m['player'] : null;
-		return jwplayer_shortcode_create_js_embed( $m['media'], $player, $atts );
+		return apply_filters( 'jwplayer_js_embed', jwplayer_shortcode_create_js_embed( $m['media'], $player, $atts ) );
 	} else {
 		// Legacy shortcode
 		return jwplayer_shortcode_handle_legacy( $atts );
@@ -139,7 +139,7 @@ function jwplayer_shortcode_handle_legacy( $atts ) {
 	}
 	// Return the old stuff
 	if ( isset( $hash ) ) {
-		return jwplayer_shortcode_create_js_embed( $hash, $player_hash, $atts );
+		return apply_filters( 'jwplayer_js_embed', jwplayer_shortcode_create_js_embed( $hash, $player_hash, $atts ) );
 	}
 	return '<!-- ERROR PARSING SHORTCODE -->';
 }
