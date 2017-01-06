@@ -99,10 +99,10 @@ if ( get_option( 'jwplayer_api_key' ) ) {
 	add_action( 'admin_head-post-new.php', 'jwplayer_admin_head' );
 	add_action( 'admin_head-media-upload-popup', 'jwplayer_admin_head' );
 	add_action( 'admin_enqueue_scripts', 'jwplayer_admin_enqueue_scripts' );
-} else if ( version_compare( PHP_VERSION, JWPLAYER_MINIMUN_PHP_VERSION, '>=' ) ) {
-	add_action( 'admin_notices', 'jwplayer_admin_show_login_notice' );
-} else {
+} else if ( version_compare( PHP_VERSION, JWPLAYER_MINIMUM_PHP_VERSION, '<' ) ) {
 	add_action( 'admin_notices', 'jwplayer_admin_show_version_notice' );
+} else {
+	add_action( 'admin_notices', 'jwplayer_admin_show_login_notice' );
 }
 
 // Initialize the login and logout pages:

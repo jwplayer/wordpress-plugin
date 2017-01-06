@@ -46,9 +46,9 @@ function jwplayer_login_page() {
 
 	if ( null === $api_verified ) {
 		$login_error = 'Communications with the JW Player API failed';
-		if ( version_compare( PHP_VERSION, JWPLAYER_MINIMUN_PHP_VERSION, '<' ) ) {
+		if ( version_compare( PHP_VERSION, JWPLAYER_MINIMUM_PHP_VERSION, '<' ) ) {
 			$login_error .= ', because you are using PHP version ' . esc_html( PHP_VERSION ) . '. ';
-			$login_error .= 'You need at least version ' . esc_html( JWPLAYER_MINIMUN_PHP_VERSION ) . 'to use the JW Player plugin.';
+			$login_error .= 'You need at least version ' . esc_html( JWPLAYER_MINIMUM_PHP_VERSION ) . 'to use the JW Player plugin.';
 		} else {
 			$login_error .= '. Please try again later.';
 		}

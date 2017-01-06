@@ -1,4 +1,4 @@
-## Warning!
+## Please Note.
 
 This is the GitHub mirror of the official JW Player Plugin for WordPress.
 
