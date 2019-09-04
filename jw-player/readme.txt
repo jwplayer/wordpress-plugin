@@ -2,15 +2,15 @@
 Contributors: LongTail Video
 Tags: jwplayer, jw, player, jwplatform, video, media, html5
 Requires at least: 4.3
-Tested up to: 4.8.2
-Stable tag: 1.6.1
+Tested up to: 4.9.8
+Stable tag: 1.6.2
 License: GPLv3
 
 Upload and embed videos with your JW Player account to seamlessly integrate video into your WordPress website.
 
 == Description ==
 
-**If you do run into an issue we encourage you to [report this issue in the GitHub mirror](https://github.com/jwplayer/wordpress-plugin/issues) of this plugin. Thank you for your help.**
+**This plugin is no longer in active development, you can use the [JW Player for WordPress plugin](https://wordpress.org/plugins/jw-player-7-for-wp/) instead.**
 
 This plugin will give you the power to use videos, playlists, and players from your JW Player account within WordPress. You will also be able to track the performance of your content with JW Player’s dashboard analytics.
 
@@ -86,15 +86,11 @@ go to Settings > JW Player and set the signing timeout to 0.
 
 Yes, you can. In order to do this, simply write "pl:" (without the quotes) in front of your search query in the widget.
 
-= I've found an issue with the plugin, what should I do? =
-
-We're sorry that you've found an issue. Could you [report the issue in the plugin's the GitHub mirror](https://github.com/jwplayer/wordpress-plugin/issues).
-
-= I have a suggestion to make the plugin better. =
-
-That's great. Tell us about it and open a pull request on [our GitHub mirror of the plugin](https://github.com/jwplayer/wordpress-plugin/).
-
 == Changelog ==
+
+= 1.6.2 =
+
+* Update: Wordpress VIP changes.
 
 = 1.6.1 =
 
