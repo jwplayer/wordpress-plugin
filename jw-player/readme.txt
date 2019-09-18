@@ -2,18 +2,19 @@
 Contributors: LongTail Video
 Tags: jwplayer, jw, player, jwplatform, video, media, html5
 Requires at least: 4.3
-Tested up to: 4.9.8
-Stable tag: 1.6.2
+Tested up to: 4.8.2
+Stable tag: 1.6.1
 License: GPLv3
 
-Upload and embed videos with your JW Player account to seamlessly integrate video into your WordPress website.
+This plugin is no longer supported. JW Player endorses the ilGhera plugin available here: https://wordpress.org/plugins/jw-player-7-for-wp/
 
 == Description ==
 
-**This plugin is no longer in active development, you can use the [JW Player for WordPress plugin](https://wordpress.org/plugins/jw-player-7-for-wp/) instead.**
+**This plugin is no longer supported. JW Player endorses the ilGhera plugin available here: https://wordpress.org/plugins/jw-player-7-for-wp/**
 
 This plugin will give you the power to use videos, playlists, and players from your JW Player account within WordPress. You will also be able to track the performance of your content with JW Player’s dashboard analytics.
 
+This plugin is no longer supported. JW Player endorses the ilGhera plugin available here: https://wordpress.org/plugins/jw-player-7-for-wp/
 
 = Key Features =
 
@@ -42,7 +43,7 @@ If you have any questions, comments, problems or suggestions please post on our
 
 = Issues & Contributions =
 
-This plugin is open source and we strongly encourage users to contribute to the plugin's development. If you find a bug or another issue, please [report it on the plugin's GitHub mirror](https://github.com/jwplayer/wordpress-plugin/issues) and if you would like to suggest improvements feel free to open a pull request.
+This plugin is no longer supported. JW Player endorses the ilGhera plugin available here: https://wordpress.org/plugins/jw-player-7-for-wp/
 
 * Known Issues:
     - In some cases the posts list in your admin may appear empty after activating this plugin. [Please help us fix this issue](https://github.com/jwplayer/wordpress-plugin/issues/17).
@@ -50,17 +51,7 @@ This plugin is open source and we strongly encourage users to contribute to the 
 
 == Installation ==
 
-1. Unpack the zip-file and put the resulting folder in the wp-content/plugins
-   directory of your WordPress install.
-2. Login as WordPress admin.
-3. Go the the plugins page, the JW Player plugin should be visible.
-   Click "activate" to enable the plugin.
-4. Click the "authorize plugin" link in the notification to authorize your
-   plugin.
-5. Change the settings to your liking. Don't forget to enable secure content in
-   your JW Platform account if you want to make use of the signed links.
-   It is also possible to enable the widget as a box inside the authoring
-   environment, in addition to the "Add media" window.
+1. Do not install for new Wordpress installations. This plugin is no longer supported. Please look at https://wordpress.org/plugins/jw-player-7-for-wp/ 
 
 
 == Screenshots ==
@@ -72,25 +63,16 @@ This plugin is open source and we strongly encourage users to contribute to the 
 
 == Frequently Asked Questions ==
 
-= Does this plugin replace the old JW Player Plugin for WordPress? =
+= I'm still using this plugin, can I keep using it? =
 
-Yes, it does. You cannot run both plugins at the same time. However, you can import your referenced media, your players and your playlists from the old plugin into your JW Player account.
+Yes, you can, but be advised that this plugin is no longer supported. We recommend you switch over to another plugin (https://wordpress.org/plugins/jw-player-7-for-wp/) whenever you can.
 
-= Does this plugin work with caching solutions like WP-Supercache? =
-
-Yes, it does. However, you should disable the signing functionality of the
-plugin, since the caching might interfere with the signing timeout logic. Simply
-go to Settings > JW Player and set the signing timeout to 0.
-
-= Can I search through only my playlists? =
-
-Yes, you can. In order to do this, simply write "pl:" (without the quotes) in front of your search query in the widget.
 
 == Changelog ==
 
 = 1.6.2 =
 
-* Update: Wordpress VIP changes.
+* Update: Updated the readme to communicate that this plugin is no longer supported.
 
 = 1.6.1 =
 
