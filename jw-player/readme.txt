@@ -3,7 +3,7 @@ Contributors: LongTail Video
 Tags: jwplayer, jw, player, jwplatform, video, media, html5
 Requires at least: 4.3
 Tested up to: 4.8.2
-Stable tag: 1.6.1
+Stable tag: 1.6.2
 License: GPLv3
 
 This plugin is no longer supported. JW Player endorses the ilGhera plugin available here: https://wordpress.org/plugins/jw-player-7-for-wp/
